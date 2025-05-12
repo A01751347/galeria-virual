@@ -3,7 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import Layout from '../components/layout/Layout';
 import Button from '../components/common/Button';
-import { useArtworkDetail } from '../hooks/useArtwork';
+import { useArtworkDetail } from '../hooks/useArtworks';
 import { formatCurrency } from '../utils/formatters';
 
 const ArtworkDetailPage: React.FC = () => {

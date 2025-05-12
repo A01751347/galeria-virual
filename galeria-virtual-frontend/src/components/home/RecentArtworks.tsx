@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Artwork } from '../../types/artwork';
-import ArtworkCard from '../artwork/ArtWorkCard';
+import ArtworkCard from '../artwork/ArtworkCard';
 import Button from '../common/Button';
 
 interface RecentArtworksProps {

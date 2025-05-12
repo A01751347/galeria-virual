@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import Layout from '../components/layout/Layout';
-import ArtworkGrid from '../components/artwork/ArtWorkGrid';
-import ArtworkFilter from '../components/artwork/ArtWorkFilter';
-import { useArtworks } from '../hooks/useArtwork';
+import ArtworkGrid from '../components/artwork/ArtworkGrid';
+import ArtworkFilter from '../components/artwork/ArtworkFilter';
+import { useArtworks } from '../hooks/useArtworks';
 import { ArtworkFilters } from '../types/artwork';
 import { motion } from 'framer-motion';
 

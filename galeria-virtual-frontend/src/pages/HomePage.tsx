@@ -4,7 +4,7 @@ import Hero from '../components/home/Hero';
 import CategorySection from '../components/home/CategorySection';
 import RecentArtworks from '../components/home/RecentArtworks';
 import FeaturedArtists from '../components/home/FeaturedArtists';
-import { useFeaturedArtworks, useArtworks } from '../hooks/useArtwork';
+import { useFeaturedArtworks, useArtworks } from '../hooks/useArtworks';
 import { useCategories } from '../hooks/useCategories';
 import { useArtists } from '../hooks/useArtists';
 

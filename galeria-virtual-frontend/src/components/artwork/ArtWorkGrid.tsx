@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Artwork } from '../../types/artwork';
-import ArtworkCard from './ArtWorkCard';
+import ArtworkCard from './ArtworkCard';
 
 interface ArtworkGridProps {
   artworks: Artwork[];
