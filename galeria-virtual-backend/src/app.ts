@@ -6,7 +6,7 @@ import path from 'path';
 import dotenv from 'dotenv';
 import { logger } from './utils/logger';
 import db from './config/database';
-//import routes from './routes';
+import routes from './routes';
 import errorMiddleware from './middleware/error';
 
 // Cargar variables de entorno
@@ -27,7 +27,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, '../public')));
 
 // Rutas API
-//app.use('/api', routes);
+app.use('/api', routes);
 
 // Manejo de errores
 app.use(errorMiddleware);

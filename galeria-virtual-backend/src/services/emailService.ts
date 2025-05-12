@@ -75,3 +75,33 @@ export const enviarRespuestaConsulta = async (consulta: Consulta, respuesta: str
     throw error;
   }
 };
+
+// Enviar confirmación de venta
+export const enviarConfirmacionVenta = async (venta: Venta): Promise<void> => {
+  try {
+    await transporter.sendMail({
+      from: process.env.EMAIL_FROM || '',
+      to: venta.email_comprador,
+      subject: 'Confirmación de Compra - Galería Virtual',
+      html: `
+        <h2>Confirmación de Compra</h2>
+        <p>Estimado/a ${venta.nombre_comprador || venta.email_comprador},</p>
+        <p>¡Gracias por su compra! Nos complace confirmarle que su adquisición de obra de arte ha sido registrada exitosamente.</p>
+        <p><strong>Detalles de la compra:</strong></p>
+        <ul>
+          <li><strong>Obra:</strong> ${venta.titulo_obra || `ID: ${venta.id_obra}`}</li>
+          <li><strong>Precio:</strong> $${venta.precio_venta.toLocaleString()}</li>
+          <li><strong>Método de pago:</strong> ${venta.metodo_pago || 'No especificado'}</li>
+          <li><strong>Referencia de pago:</strong> ${venta.referencia_pago || 'No especificado'}</li>
+          <li><strong>Estado:</strong> ${venta.estado.charAt(0).toUpperCase() + venta.estado.slice(1)}</li>
+        </ul>
+        <p>En breve nos pondremos en contacto con usted para coordinar la entrega de la obra.</p>
+        <p>Saludos cordiales,</p>
+        <p>Equipo de Galería Virtual</p>
+      `
+    });
+  } catch (error) {
+    logger.error('Error al enviar confirmación de venta:', error);
+    throw error;
+  }
+};
