@@ -1,24 +1,27 @@
+// src/services/artistService.ts
 import api from './api';
 import { Artist, ArtistDetailResponse, ArtistFilters } from '../types/artist';
+import { adaptArtist, adaptArtwork } from '../utils/dataAdapter';
 
 const artistService = {
   // Obtener todos los artistas con filtros opcionales
   getArtists: async (filters?: ArtistFilters): Promise<Artist[]> => {
     const response = await api.get('/artistas', { params: filters });
-    return response.data.data;
+    return response.data.data.map(adaptArtist);
   },
   
   // Obtener detalle de un artista
   getArtistDetail: async (id: number): Promise<ArtistDetailResponse> => {
     const response = await api.get(`/artistas/${id}`);
-    const artist = response.data.data;
+    const artist = adaptArtist(response.data.data);
     
     // Obtener las obras del artista
     const artworksResponse = await api.get(`/obras/artista/${id}`);
+    const artworks = artworksResponse.data.data.map(adaptArtwork);
     
     return {
       artist,
-      artworks: artworksResponse.data.data
+      artworks
     };
   },
   
