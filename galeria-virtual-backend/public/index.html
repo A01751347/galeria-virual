@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Galería Virtual - API</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            background-color: #f7f7f7;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        header {
+            background: linear-gradient(to right, #6a11cb, #2575fc);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+            border-radius: 0 0 10px 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            margin: 0;
+            font-size: 2.5rem;
+        }
+        h2 {
+            color: #6a11cb;
+            margin-top: 2rem;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 0.5rem;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            background-color: white;
+            margin-bottom: 1rem;
+            padding: 1rem;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+        .method {
+            display: inline-block;
+            padding: 0.2rem 0.5rem;
+            border-radius: 3px;
+            color: white;
+            font-size: 0.8rem;
+            font-weight: bold;
+            margin-right: 0.5rem;
+        }
+        .get { background-color: #61affe; }
+        .post { background-color: #49cc90; }
+        .put { background-color: #fca130; }
+        .delete { background-color: #f93e3e; }
+        .path {
+            font-family: monospace;
+            font-weight: bold;
+        }
+        footer {
+            text-align: center;
+            margin-top: 2rem;
+            color: #777;
+        }
+        .notice {
+            background-color: #e8f4fd;
+            border-left: 4px solid #2575fc;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 0 5px 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>API de Galería Virtual</h1>
+        <p>Backend para la plataforma de galería de arte virtual</p>
+    </header>
+    
+    <div class="container">
+        <div class="notice">
+            <p>Esta es la página de inicio de la API. Para ver la documentación completa, póngase en contacto con el administrador.</p>
+        </div>
+        
+        <h2>Rutas Principales</h2>
+        <ul>
+            <li>
+                <span class="method get">GET</span>
+                <span class="path">/api/obras</span> - Lista de obras
+            </li>
+            <li>
+                <span class="method get">GET</span>
+                <span class="path">/api/obras/destacadas</span> - Obras destacadas
+            </li>
+            <li>
+                <span class="method get">GET</span>
+                <span class="path">/api/obras/:id</span> - Detalle de obra
+            </li>
+            <li>
+                <span class="method get">GET</span>
+                <span class="path">/api/categorias</span> - Lista de categorías
+            </li>
+            <li>
+                <span class="method get">GET</span>
+                <span class="path">/api/artistas</span> - Lista de artistas
+            </li>
+            <li>
+                <span class="method post">POST</span>
+                <span class="path">/api/auth/login</span> - Iniciar sesión
+            </li>
+            <li>
+                <span class="method post">POST</span>
+                <span class="path">/api/auth/register</span> - Registrarse
+            </li>
+            <li>
+                <span class="method post">POST</span>
+                <span class="path">/api/consultas</span> - Enviar consulta/oferta
+            </li>
+        </ul>
+        
+        <h2>Rutas Protegidas</h2>
+        <p>Las siguientes rutas requieren autenticación mediante token JWT:</p>
+        <ul>
+            <li>
+                <span class="method get">GET</span>
+                <span class="path">/api/auth/me</span> - Información del usuario autenticado
+            </li>
+            <li>
+                <span class="method post">POST</span>
+                <span class="path">/api/obras</span> - Crear nueva obra
+            </li>
+            <li>
+                <span class="method put">PUT</span>
+                <span class="path">/api/obras/:id</span> - Actualizar obra
+            </li>
+            <li>
+                <span class="method delete">DELETE</span>
+                <span class="path">/api/obras/:id</span> - Eliminar obra
+            </li>
+        </ul>
+        
+        <h2>Estado de la API</h2>
+        <ul>
+            <li>
+                <strong>Estado:</strong> <span style="color: green;">Activo</span>
+            </li>
+            <li>
+                <strong>Versión:</strong> 1.0.0
+            </li>
+            <li>
+                <strong>Entorno:</strong> <span id="environment">Cargando...</span>
+            </li>
+        </ul>
+        
+        <footer>
+            <p>Galería Virtual © 2025. Todos los derechos reservados.</p>
+        </footer>
+    </div>
+
+    <script>
+        // Obtener entorno actual
+        fetch('/api/status')
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('environment').textContent = data.environment || 'development';
+            })
+            .catch(error => {
+                document.getElementById('environment').textContent = 'No disponible';
+            });
+    </script>
+</body>
+</html>

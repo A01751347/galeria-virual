@@ -3,9 +3,9 @@ import mysql from 'mysql2/promise';
 import { logger } from '../utils/logger';
 
 const {
-  DB_HOST = 'localhost',
-  DB_USER = 'usuario_galeria',
-  DB_PASS = 'password_segura',
+  DB_HOST = 'database-2.c7uwe4okm9f3.us-east-2.rds.amazonaws.com',
+  DB_USER = 'admin',
+  DB_PASS = 'Bolo12tres.',
   DB_NAME = 'galeria_virtual',
   DB_PORT = '3306'
 } = process.env;

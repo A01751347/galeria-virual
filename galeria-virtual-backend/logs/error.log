@@ -1,0 +1,16 @@
+2025-05-11 21:21:15 error: Error al conectar a la base de datos: Access denied for user 'usuario_galeria'@'localhost' (using password: YES)
+2025-05-11 21:22:39 error: Error al conectar a la base de datos: Unknown database 'galeria_virtual'
+2025-05-11 21:24:29 error: Error al ejecutar procedimiento sp_obtener_detalle_obra: Cannot add or update a child row: a foreign key constraint fails (`galeria_virtual`.`visitas`, CONSTRAINT `visitas_ibfk_1` FOREIGN KEY (`id_obra`) REFERENCES `obras` (`id`))
+2025-05-11 21:24:29 error: Error al obtener detalle de obra :id: Cannot add or update a child row: a foreign key constraint fails (`galeria_virtual`.`visitas`, CONSTRAINT `visitas_ibfk_1` FOREIGN KEY (`id_obra`) REFERENCES `obras` (`id`))
+2025-05-11 21:24:29 error: Error 500: Cannot add or update a child row: a foreign key constraint fails (`galeria_virtual`.`visitas`, CONSTRAINT `visitas_ibfk_1` FOREIGN KEY (`id_obra`) REFERENCES `obras` (`id`))
+2025-05-11 21:24:29 error: Error: Cannot add or update a child row: a foreign key constraint fails (`galeria_virtual`.`visitas`, CONSTRAINT `visitas_ibfk_1` FOREIGN KEY (`id_obra`) REFERENCES `obras` (`id`))
+    at PromisePool.execute (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/mysql2/promise.js:359:22)
+    at Object.procedure (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/src/config/database.ts:53:31)
+    at Object.obtenerDetalleObra (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/src/services/obraService.ts:82:32)
+    at getDetalleObra (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/src/controllers/obraController.ts:70:36)
+    at Layer.handle [as handle_request] (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/layer.js:95:5)
+    at next (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/route.js:149:13)
+    at Route.dispatch (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/route.js:119:3)
+    at Layer.handle [as handle_request] (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/layer.js:95:5)
+    at /Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/index.js:284:15
+    at param (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/index.js:365:14)
