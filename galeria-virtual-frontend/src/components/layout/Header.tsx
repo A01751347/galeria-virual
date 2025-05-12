@@ -27,15 +27,19 @@ const Header: React.FC = () => {
 
   // Clases para el header
   const headerClasses = `fixed w-full z-50 transition-all duration-300 ${
-    isScrolled || !isHomePage
-      ? 'bg-white shadow-md py-2'
-      : 'bg-transparent py-4'
-  }`;
+  isScrolled || !isHomePage
+    ? 'backdrop-blur-md bg-white/30 border-b border-white/20 shadow-md py-2'  // cuando haces scroll
+    : 'backdrop-blur-sm bg-gray-800/40 border-b border-gray-700 py-4'         // cuando estás arriba
+}`;
+
+
+
 
   // Clases para links de navegación
-  const navLinkClasses = `font-medium transition-colors hover:text-primary ${
-    isScrolled || !isHomePage ? 'text-neutral-darkest' : 'text-white'
-  }`;
+ const navLinkClasses = `font-medium transition-colors hover:text-primary ${
+  isScrolled || !isHomePage ? 'text-gray-700' : 'text-gray-100'
+}`;
+
 
   // Toggle para menú móvil
   const toggleMenu = () => {
@@ -186,12 +190,13 @@ const Header: React.FC = () => {
       <AnimatePresence>
         {menuOpen && (
           <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.3 }}
-            className="md:hidden bg-white shadow-md"
-          >
+  initial={{ opacity: 0, height: 0 }}
+  animate={{ opacity: 1, height: 'auto' }}
+  exit={{ opacity: 0, height: 0 }}
+  transition={{ duration: 0.3 }}
+  className="md:hidden bg-gray-900/90 backdrop-blur-md border-t border-gray-700 shadow-md"
+>
+
             <div className="container mx-auto px-4 py-4">
               <nav className="flex flex-col gap-4">
                 <Link
