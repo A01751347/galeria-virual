@@ -87,7 +87,7 @@ const CategorySection: React.FC<CategorySectionProps> = ({ categories, loading =
         </p>
       </div>
 
-      <motion.div 
+      <motion.div
         className="grid grid-cols-1 md:grid-cols-3 gap-6"
         variants={containerVariants}
         initial="hidden"
@@ -110,8 +110,12 @@ const CategorySection: React.FC<CategorySectionProps> = ({ categories, loading =
                     {category.name}
                   </h3>
                   <p className="text-neutral-dark text-sm line-clamp-2">
-                    {category.description || `Explora nuestra colección de ${category.name.toLowerCase()} de artistas excepcionales`}
+                    {category.description ||
+                      (category.name
+                        ? `Explora nuestra colección de ${category.name.toLowerCase()} de artistas excepcionales`
+                        : 'Explora nuestra colección de obras de artistas excepcionales')}
                   </p>
+
                 </div>
               </Card>
             </Link>
@@ -121,8 +125,8 @@ const CategorySection: React.FC<CategorySectionProps> = ({ categories, loading =
 
       {categories.length > 6 && (
         <div className="text-center mt-10">
-          <Link 
-            to="/categorias" 
+          <Link
+            to="/categorias"
             className="inline-block text-primary font-medium hover:underline"
           >
             Ver todas las categorías

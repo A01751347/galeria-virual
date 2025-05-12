@@ -18,3 +18,7 @@
     at Layer.handle [as handle_request] (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/layer.js:95:5)
     at /Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/index.js:284:15
     at param (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/index.js:365:14)
+2025-05-12 01:08:47 info: Conexión a la base de datos establecida correctamente
+2025-05-12 01:08:47 info: Servidor escuchando en el puerto 3000
+2025-05-12 01:08:47 info: Ambiente: development
+2025-05-12 01:08:47 info: URL del servidor: http://localhost:3000
