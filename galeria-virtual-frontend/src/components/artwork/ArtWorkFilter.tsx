@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArtworkFilters } from '../../types/artwork';
 import Button from '../common/Button';
@@ -19,57 +19,84 @@ const ArtworkFilter: React.FC<ArtworkFilterProps> = ({
   className = '',
 }) => {
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
-  const { data: categories } = useCategories();
-  const { data: techniques } = useTechniques();
-  const { data: artists } = useArtists();
+  const [localFilters, setLocalFilters] = useState<ArtworkFilters>(filters);
+  
+  // Cargar opciones para los filtros
+  const { data: categories, isLoading: categoriesLoading } = useCategories();
+  const { data: techniques, isLoading: techniquesLoading } = useTechniques();
+  const { data: artists, isLoading: artistsLoading } = useArtists();
+
+  // Memorizar la representación JSON de filtros para comparaciones
+  const filtersJson = JSON.stringify(filters);
+
+  // Actualizar filtros locales cuando cambien los props
+  useEffect(() => {
+    const newFilters = JSON.parse(filtersJson);
+    // Solo actualizar si realmente hay cambios
+    if (JSON.stringify(localFilters) !== filtersJson) {
+      setLocalFilters(newFilters);
+    }
+  }, [filtersJson]);
 
   const toggleMobileFilters = () => {
     setMobileFiltersOpen(!mobileFiltersOpen);
   };
 
-  const handleSelectChange = (
+  // Manejar cambios en los selectores
+  const handleSelectChange = useCallback((
     e: React.ChangeEvent<HTMLSelectElement>,
     filterName: keyof ArtworkFilters
   ) => {
     const value = e.target.value;
-    onChange({
-      ...filters,
+    setLocalFilters(prev => ({
+      ...prev,
       [filterName]: value === '' ? undefined : parseInt(value),
-    });
-  };
+    }));
+  }, []);
 
-  const handleCheckboxChange = (
+  // Manejar cambios en los checkboxes
+  const handleCheckboxChange = useCallback((
     e: React.ChangeEvent<HTMLInputElement>,
     filterName: keyof ArtworkFilters
   ) => {
-    onChange({
-      ...filters,
+    setLocalFilters(prev => ({
+      ...prev,
       [filterName]: e.target.checked,
-    });
-  };
+    }));
+  }, []);
 
-  const handleSortChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    onChange({
-      ...filters,
+  // Manejar cambios en el ordenamiento
+  const handleSortChange = useCallback((e: React.ChangeEvent<HTMLSelectElement>) => {
+    setLocalFilters(prev => ({
+      ...prev,
       sort_by: e.target.value === '' ? undefined : e.target.value as ArtworkFilters['sort_by'],
-    });
-  };
+    }));
+  }, []);
 
-  const handlePriceChange = (e: React.ChangeEvent<HTMLInputElement>, filterName: 'min_price' | 'max_price') => {
+  // Manejar cambios en campos numéricos
+  const handleNumberChange = useCallback((
+    e: React.ChangeEvent<HTMLInputElement>, 
+    filterName: 'min_price' | 'max_price' | 'year_from' | 'year_to'
+  ) => {
     const value = e.target.value;
-    onChange({
-      ...filters,
+    setLocalFilters(prev => ({
+      ...prev,
       [filterName]: value === '' ? undefined : parseInt(value),
-    });
-  };
+    }));
+  }, []);
 
-  const handleYearChange = (e: React.ChangeEvent<HTMLInputElement>, filterName: 'year_from' | 'year_to') => {
-    const value = e.target.value;
-    onChange({
-      ...filters,
-      [filterName]: value === '' ? undefined : parseInt(value),
-    });
-  };
+  // Aplicar filtros
+  const applyFilters = useCallback(() => {
+    onChange(localFilters);
+    setMobileFiltersOpen(false);
+  }, [localFilters, onChange]);
+
+  // Restablecer filtros
+  const resetFilters = useCallback(() => {
+    setLocalFilters({});
+    onReset();
+    setMobileFiltersOpen(false);
+  }, [onReset]);
 
   return (
     <div className={`bg-white rounded-lg shadow-card overflow-hidden ${className}`}>
@@ -80,19 +107,26 @@ const ArtworkFilter: React.FC<ArtworkFilterProps> = ({
           className="flex items-center justify-between w-full"
         >
           <span className="font-medium">Filtros</span>
-          <svg
-            className={`h-5 w-5 transform transition-transform ${mobileFiltersOpen ? 'rotate-180' : ''}`}
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M19 9l-7 7-7-7"
-            />
-          </svg>
+          <div className="flex items-center">
+            {Object.keys(filters).length > 0 && (
+              <span className="bg-primary text-white rounded-full w-5 h-5 inline-flex items-center justify-center text-xs mr-2">
+                {Object.keys(filters).length}
+              </span>
+            )}
+            <svg
+              className={`h-5 w-5 transform transition-transform ${mobileFiltersOpen ? 'rotate-180' : ''}`}
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M19 9l-7 7-7-7"
+              />
+            </svg>
+          </div>
         </button>
       </div>
 
@@ -114,12 +148,13 @@ const ArtworkFilter: React.FC<ArtworkFilterProps> = ({
                 <label className="block font-medium mb-2">Categoría</label>
                 <select
                   className="w-full border border-neutral-light rounded p-2"
-                  value={filters.category_id || ''}
+                  value={localFilters.category_id?.toString() || ''}
                   onChange={(e) => handleSelectChange(e, 'category_id')}
+                  disabled={categoriesLoading}
                 >
                   <option value="">Todas las categorías</option>
                   {categories?.map((category) => (
-                    <option key={category.id} value={category.id}>
+                    <option key={category.id} value={category.id.toString()}>
                       {category.name}
                     </option>
                   ))}
@@ -131,12 +166,13 @@ const ArtworkFilter: React.FC<ArtworkFilterProps> = ({
                 <label className="block font-medium mb-2">Artista</label>
                 <select
                   className="w-full border border-neutral-light rounded p-2"
-                  value={filters.artist_id || ''}
+                  value={localFilters.artist_id?.toString() || ''}
                   onChange={(e) => handleSelectChange(e, 'artist_id')}
+                  disabled={artistsLoading}
                 >
                   <option value="">Todos los artistas</option>
                   {artists?.map((artist) => (
-                    <option key={artist.id} value={artist.id}>
+                    <option key={artist.id} value={artist.id.toString()}>
                       {artist.name} {artist.last_name}
                     </option>
                   ))}
@@ -148,12 +184,13 @@ const ArtworkFilter: React.FC<ArtworkFilterProps> = ({
                 <label className="block font-medium mb-2">Técnica</label>
                 <select
                   className="w-full border border-neutral-light rounded p-2"
-                  value={filters.technique_id || ''}
+                  value={localFilters.technique_id?.toString() || ''}
                   onChange={(e) => handleSelectChange(e, 'technique_id')}
+                  disabled={techniquesLoading}
                 >
                   <option value="">Todas las técnicas</option>
                   {techniques?.map((technique) => (
-                    <option key={technique.id} value={technique.id}>
+                    <option key={technique.id} value={technique.id.toString()}>
                       {technique.name}
                     </option>
                   ))}
@@ -168,15 +205,17 @@ const ArtworkFilter: React.FC<ArtworkFilterProps> = ({
                     type="number"
                     placeholder="Mín"
                     className="w-full border border-neutral-light rounded p-2"
-                    value={filters.min_price || ''}
-                    onChange={(e) => handlePriceChange(e, 'min_price')}
+                    value={localFilters.min_price || ''}
+                    onChange={(e) => handleNumberChange(e, 'min_price')}
+                    min="0"
                   />
                   <input
                     type="number"
                     placeholder="Máx"
                     className="w-full border border-neutral-light rounded p-2"
-                    value={filters.max_price || ''}
-                    onChange={(e) => handlePriceChange(e, 'max_price')}
+                    value={localFilters.max_price || ''}
+                    onChange={(e) => handleNumberChange(e, 'max_price')}
+                    min={localFilters.min_price || 0}
                   />
                 </div>
               </div>
@@ -189,15 +228,19 @@ const ArtworkFilter: React.FC<ArtworkFilterProps> = ({
                     type="number"
                     placeholder="Desde"
                     className="w-full border border-neutral-light rounded p-2"
-                    value={filters.year_from || ''}
-                    onChange={(e) => handleYearChange(e, 'year_from')}
+                    value={localFilters.year_from || ''}
+                    onChange={(e) => handleNumberChange(e, 'year_from')}
+                    min="1000"
+                    max={new Date().getFullYear()}
                   />
                   <input
                     type="number"
                     placeholder="Hasta"
                     className="w-full border border-neutral-light rounded p-2"
-                    value={filters.year_to || ''}
-                    onChange={(e) => handleYearChange(e, 'year_to')}
+                    value={localFilters.year_to || ''}
+                    onChange={(e) => handleNumberChange(e, 'year_to')}
+                    min={localFilters.year_from || 1000}
+                    max={new Date().getFullYear()}
                   />
                 </div>
               </div>
@@ -209,7 +252,7 @@ const ArtworkFilter: React.FC<ArtworkFilterProps> = ({
                     id="available-only"
                     type="checkbox"
                     className="h-4 w-4 text-primary focus:ring-primary border-neutral-light rounded"
-                    checked={filters.available_only || false}
+                    checked={localFilters.available_only || false}
                     onChange={(e) => handleCheckboxChange(e, 'available_only')}
                   />
                   <label htmlFor="available-only" className="ml-2 block font-medium">
@@ -223,7 +266,7 @@ const ArtworkFilter: React.FC<ArtworkFilterProps> = ({
                 <label className="block font-medium mb-2">Ordenar por</label>
                 <select
                   className="w-full border border-neutral-light rounded p-2"
-                  value={filters.sort_by || ''}
+                  value={localFilters.sort_by || ''}
                   onChange={handleSortChange}
                 >
                   <option value="">Relevancia</option>
@@ -241,14 +284,14 @@ const ArtworkFilter: React.FC<ArtworkFilterProps> = ({
                 <Button
                   variant="outline"
                   fullWidth
-                  onClick={onReset}
+                  onClick={resetFilters}
                 >
                   Restablecer
                 </Button>
                 <Button
                   variant="primary"
                   fullWidth
-                  onClick={() => setMobileFiltersOpen(false)}
+                  onClick={applyFilters}
                 >
                   Aplicar filtros
                 </Button>
@@ -261,4 +304,4 @@ const ArtworkFilter: React.FC<ArtworkFilterProps> = ({
   );
 };
 
-export default ArtworkFilter;
+export default React.memo(ArtworkFilter);

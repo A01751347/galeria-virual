@@ -1,8 +1,81 @@
-// src/services/artworkService.ts
 import api from './api';
 import { Artwork, ArtworkDetailResponse, ArtworkFilters } from '../types/artwork';
 import { adaptArtwork } from '../utils/dataAdapter';
 
+// Función para adaptar los filtros del frontend al formato esperado por la API
+const adaptFiltersToAPI = (filters?: ArtworkFilters): Record<string, any> => {
+  if (!filters) return {};
+  
+  const apiParams: Record<string, any> = {};
+  
+  // Solo enviar parámetros no undefined
+  Object.entries(filters).forEach(([key, value]) => {
+    if (value !== undefined) {
+      // Adaptar nombres de parámetros de frontend a backend
+      switch (key) {
+        case 'category_id':
+          apiParams.id_categoria = value;
+          break;
+        case 'artist_id':
+          apiParams.id_artista = value;
+          break;
+        case 'technique_id':
+          apiParams.id_tecnica = value;
+          break;
+        case 'min_price':
+          apiParams.precio_min = value;
+          break;
+        case 'max_price':
+          apiParams.precio_max = value;
+          break;
+        case 'year_from':
+          apiParams.anio_desde = value;
+          break;
+        case 'year_to':
+          apiParams.anio_hasta = value;
+          break;
+        case 'available_only':
+          apiParams.disponibles = value;
+          break;
+        case 'search_term':
+          apiParams.termino = value;
+          break;
+        case 'sort_by':
+          switch (value) {
+            case 'newest':
+              apiParams.ordenar = 'fecha_desc';
+              break;
+            case 'oldest':
+              apiParams.ordenar = 'fecha_asc';
+              break;
+            case 'price_asc':
+              apiParams.ordenar = 'precio_asc';
+              break;
+            case 'price_desc':
+              apiParams.ordenar = 'precio_desc';
+              break;
+            case 'title_asc':
+              apiParams.ordenar = 'titulo_asc';
+              break;
+            case 'title_desc':
+              apiParams.ordenar = 'titulo_desc';
+              break;
+            default:
+              // No incluir si no es un valor válido
+              break;
+          }
+          break;
+        default:
+          // Para otros parámetros, usar el mismo nombre
+          apiParams[key] = value;
+      }
+    }
+  });
+  
+  return apiParams;
+};
+
+// Función para obtener imágenes realistas de obras (fallback)
 const getRealisticArtworkImages = () => {
   return [
     'https://images.metmuseum.org/CRDImages/ep/original/DT1567.jpg',
@@ -22,87 +95,186 @@ const getRealisticArtworkImages = () => {
 };
 
 const artworkService = {
+  // Obtener todas las obras con filtros opcionales
   getArtworks: async (filters?: ArtworkFilters): Promise<Artwork[]> => {
-    const response = await api.get('/obras', { params: filters });
-    return response.data.data.map(adaptArtwork);
-  },
-
-  getFeaturedArtworks: async (): Promise<Artwork[]> => {
-    const response = await api.get('/obras/destacadas');
-    return response.data.data.map(adaptArtwork);
-  },
-
-  getArtworksByCategory: async (categoryId: number, onlyAvailable: boolean = false): Promise<Artwork[]> => {
-    const response = await api.get(`/obras/categoria/${categoryId}`, {
-      params: { disponibles: onlyAvailable }
-    });
-    return response.data.data.map(adaptArtwork);
-  },
-
-  getArtworksByArtist: async (artistId: number, onlyAvailable: boolean = false): Promise<Artwork[]> => {
-    const response = await api.get(`/obras/artista/${artistId}`, {
-      params: { disponibles: onlyAvailable }
-    });
-    return response.data.data.map(adaptArtwork);
-  },
-
-  searchArtworks: async (term: string, onlyAvailable: boolean = false): Promise<Artwork[]> => {
-    const response = await api.get(`/obras/buscar`, {
-      params: { termino: term, disponibles: onlyAvailable }
-    });
-    return response.data.data.map(adaptArtwork);
-  },
-
-  getArtworkDetail: async (id: number): Promise<ArtworkDetailResponse> => {
-    const response = await api.get(`/obras/${id}`);
-    const artwork = adaptArtwork(response.data.data);
-    const relatedArtworks = response.data.data.related_artworks
-      ? response.data.data.related_artworks.map(adaptArtwork)
-      : undefined;
-
-    return {
-      artwork,
-      related_artworks: relatedArtworks
-    };
-  },
-
-  getArtworkByQR: async (qrCode: string): Promise<ArtworkDetailResponse> => {
-    const response = await api.get(`/obras/${qrCode}`, {
-      params: { tipo: 'qr' }
-    });
-    return response.data.data;
-  },
-
-  createArtwork: async (artworkData: FormData): Promise<Artwork> => {
-    if (!artworkData.get('imagen') && !artworkData.get('url_imagen_principal')) {
-      const realisticImages = getRealisticArtworkImages();
-      const randomImage = realisticImages[Math.floor(Math.random() * realisticImages.length)];
-      artworkData.append('url_imagen_principal', randomImage);
+    try {
+      // Adaptar filtros al formato de la API
+      const apiParams = adaptFiltersToAPI(filters);
+      
+      // Log para depuración
+      console.log('Enviando solicitud con parámetros:', apiParams);
+      
+      const response = await api.get('/obras', { params: apiParams });
+      
+      // Verificar si la respuesta tiene la estructura esperada
+      if (!response.data || !response.data.data) {
+        console.error('Respuesta inesperada de la API:', response);
+        return [];
+      }
+      
+      return response.data.data.map(adaptArtwork);
+    } catch (error) {
+      console.error('Error al obtener obras:', error);
+      throw error;
     }
-
-    const response = await api.post('/obras', artworkData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    });
-    return adaptArtwork(response.data.data);
   },
 
+  // Obtener obras destacadas
+  getFeaturedArtworks: async (): Promise<Artwork[]> => {
+    try {
+      const response = await api.get('/obras/destacadas');
+      return response.data.data.map(adaptArtwork);
+    } catch (error) {
+      console.error('Error al obtener obras destacadas:', error);
+      throw error;
+    }
+  },
+
+  // Obtener obras por categoría
+  getArtworksByCategory: async (categoryId: number, onlyAvailable: boolean = false): Promise<Artwork[]> => {
+    try {
+      const response = await api.get(`/obras/categoria/${categoryId}`, {
+        params: { disponibles: onlyAvailable }
+      });
+      return response.data.data.map(adaptArtwork);
+    } catch (error) {
+      console.error(`Error al obtener obras de categoría ${categoryId}:`, error);
+      throw error;
+    }
+  },
+
+  // Obtener obras por artista
+  getArtworksByArtist: async (artistId: number, onlyAvailable: boolean = false): Promise<Artwork[]> => {
+    try {
+      const response = await api.get(`/obras/artista/${artistId}`, {
+        params: { disponibles: onlyAvailable }
+      });
+      return response.data.data.map(adaptArtwork);
+    } catch (error) {
+      console.error(`Error al obtener obras del artista ${artistId}:`, error);
+      throw error;
+    }
+  },
+
+  // Buscar obras por término
+  searchArtworks: async (term: string, onlyAvailable: boolean = false): Promise<Artwork[]> => {
+    try {
+      const response = await api.get(`/obras/buscar`, {
+        params: { termino: term, disponibles: onlyAvailable }
+      });
+      return response.data.data.map(adaptArtwork);
+    } catch (error) {
+      console.error(`Error al buscar obras con término "${term}":`, error);
+      throw error;
+    }
+  },
+
+  // Obtener detalle de una obra
+  getArtworkDetail: async (id: number): Promise<ArtworkDetailResponse> => {
+    try {
+      const response = await api.get(`/obras/${id}`);
+      
+      // Verificar respuesta
+      if (!response.data || !response.data.data) {
+        throw new Error('Respuesta inesperada al obtener detalle de obra');
+      }
+      
+      const artwork = adaptArtwork(response.data.data);
+      const relatedArtworks = response.data.data.related_artworks
+        ? response.data.data.related_artworks.map(adaptArtwork)
+        : [];
+
+      return {
+        artwork,
+        related_artworks: relatedArtworks
+      };
+    } catch (error) {
+      console.error(`Error al obtener detalle de obra ${id}:`, error);
+      throw error;
+    }
+  },
+
+  // Obtener obra por código QR
+  getArtworkByQR: async (qrCode: string): Promise<ArtworkDetailResponse> => {
+    try {
+      const response = await api.get(`/obras/${qrCode}`, {
+        params: { tipo: 'qr' }
+      });
+      
+      const artwork = adaptArtwork(response.data.data);
+      const relatedArtworks = response.data.data.related_artworks
+        ? response.data.data.related_artworks.map(adaptArtwork)
+        : [];
+        
+      return {
+        artwork,
+        related_artworks: relatedArtworks
+      };
+    } catch (error) {
+      console.error(`Error al obtener obra por QR ${qrCode}:`, error);
+      throw error;
+    }
+  },
+
+  // Crear una nueva obra
+  createArtwork: async (artworkData: FormData): Promise<Artwork> => {
+    try {
+      // Si no hay imagen, usar una imagen realista de ejemplo
+      if (!artworkData.get('imagen') && !artworkData.get('url_imagen_principal')) {
+        const realisticImages = getRealisticArtworkImages();
+        const randomImage = realisticImages[Math.floor(Math.random() * realisticImages.length)];
+        artworkData.append('url_imagen_principal', randomImage);
+      }
+
+      const response = await api.post('/obras', artworkData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      
+      return adaptArtwork(response.data.data);
+    } catch (error) {
+      console.error('Error al crear obra:', error);
+      throw error;
+    }
+  },
+
+  // Actualizar una obra existente
   updateArtwork: async (id: number, artworkData: FormData): Promise<Artwork> => {
-    const response = await api.put(`/obras/${id}`, artworkData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    });
-    return response.data.data;
+    try {
+      const response = await api.put(`/obras/${id}`, artworkData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      
+      return adaptArtwork(response.data.data);
+    } catch (error) {
+      console.error(`Error al actualizar obra ${id}:`, error);
+      throw error;
+    }
   },
 
-  updateArtworkStatus: async (id: number, disponible?: boolean, destacado?: boolean): Promise<void> => {
-    await api.patch(`/obras/${id}/estado`, { disponible, destacado });
+  // Actualizar el estado de disponibilidad y destacado de una obra
+  updateArtworkStatus: async (id: number, disponible?: boolean, destacado?: boolean): Promise<boolean> => {
+    try {
+      const response = await api.patch(`/obras/${id}/estado`, { disponible, destacado });
+      return response.data.success || false;
+    } catch (error) {
+      console.error(`Error al actualizar estado de obra ${id}:`, error);
+      throw error;
+    }
   },
 
-  deleteArtwork: async (id: number): Promise<void> => {
-    await api.delete(`/obras/${id}`);
+  // Eliminar una obra (soft delete)
+  deleteArtwork: async (id: number): Promise<boolean> => {
+    try {
+      const response = await api.delete(`/obras/${id}`);
+      return response.data.success || false;
+    } catch (error) {
+      console.error(`Error al eliminar obra ${id}:`, error);
+      throw error;
+    }
   }
 };
 

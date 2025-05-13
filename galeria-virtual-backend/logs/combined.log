@@ -26,3 +26,83 @@
 2025-05-12 01:53:25 info: Servidor escuchando en el puerto 3000
 2025-05-12 01:53:25 info: Ambiente: development
 2025-05-12 01:53:25 info: URL del servidor: http://localhost:3000
+2025-05-12 10:33:32 error: Error al conectar a la base de datos: Access denied for user ''@'localhost' (using password: NO) Access denied for user ''@'localhost' (using password: NO)
+2025-05-12 10:34:49 error: Error al conectar a la base de datos: Access denied for user ''@'localhost' (using password: NO) Access denied for user ''@'localhost' (using password: NO)
+2025-05-12 10:37:49 info: Conexión a la base de datos establecida correctamente
+2025-05-12 10:37:49 info: Servidor escuchando en el puerto 3000
+2025-05-12 10:37:49 info: Ambiente: development
+2025-05-12 10:37:49 info: URL del servidor: http://localhost:3000
+2025-05-12 10:42:01 info: Conexión a la base de datos establecida correctamente
+2025-05-12 10:42:01 info: Servidor escuchando en el puerto 3000
+2025-05-12 10:42:01 info: Ambiente: development
+2025-05-12 10:42:01 info: URL del servidor: http://localhost:3000
+2025-05-12 10:42:24 info: Conexión a la base de datos establecida correctamente
+2025-05-12 10:42:24 info: Servidor escuchando en el puerto 3000
+2025-05-12 10:42:24 info: Ambiente: development
+2025-05-12 10:42:24 info: URL del servidor: http://localhost:3000
+2025-05-12 10:46:23 info: Conexión a la base de datos establecida correctamente
+2025-05-12 10:46:23 info: Servidor escuchando en el puerto 3000
+2025-05-12 10:46:23 info: Ambiente: development
+2025-05-12 10:46:23 info: URL del servidor: http://localhost:3000
+2025-05-12 10:48:28 info: Conexión a la base de datos establecida correctamente
+2025-05-12 10:48:28 info: Servidor escuchando en el puerto 3000
+2025-05-12 10:48:28 info: Ambiente: development
+2025-05-12 10:48:28 info: URL del servidor: http://localhost:3000
+2025-05-12 11:19:12 info: Conexión a la base de datos establecida correctamente
+2025-05-12 11:19:12 info: Servidor escuchando en el puerto 3000
+2025-05-12 11:19:12 info: Ambiente: development
+2025-05-12 11:19:12 info: URL del servidor: http://localhost:3000
+2025-05-12 13:14:20 info: Conexión a la base de datos establecida correctamente
+2025-05-12 13:14:20 info: Servidor escuchando en el puerto 3000
+2025-05-12 13:14:20 info: Ambiente: development
+2025-05-12 13:14:20 info: URL del servidor: http://localhost:3000
+2025-05-12 14:09:53 error: Error al ejecutar consulta SQL: read EADDRNOTAVAIL
+2025-05-12 14:09:53 error: Error al obtener artistas: read EADDRNOTAVAIL
+2025-05-12 14:09:53 error: Error 500: read EADDRNOTAVAIL
+2025-05-12 14:09:53 error: Error: read EADDRNOTAVAIL
+    at PromisePool.execute (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/mysql2/promise.js:359:22)
+    at Object.query (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/src/config/database.ts:43:31)
+    at Object.getArtistas (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/src/services/artistaService.ts:9:21)
+    at getArtistas (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/src/controllers/artistaController.ts:9:43)
+    at Layer.handle [as handle_request] (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/layer.js:95:5)
+    at next (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/route.js:149:13)
+    at Route.dispatch (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/route.js:119:3)
+    at Layer.handle [as handle_request] (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/layer.js:95:5)
+    at /Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/index.js:284:15
+    at Function.process_params (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/index.js:346:12)
+2025-05-12 14:09:53 error: Error al ejecutar consulta SQL: read EADDRNOTAVAIL
+2025-05-12 14:09:53 error: Error al obtener obras destacadas: read EADDRNOTAVAIL
+2025-05-12 14:09:53 error: Error 500: read EADDRNOTAVAIL
+2025-05-12 14:09:53 error: Error: read EADDRNOTAVAIL
+    at PromisePool.execute (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/mysql2/promise.js:359:22)
+    at Object.query (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/src/config/database.ts:43:31)
+    at Object.obtenerObrasDestacadas (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/src/services/obraService.ts:42:21)
+    at getObrasDestacadas (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/src/controllers/obraController.ts:21:37)
+    at Layer.handle [as handle_request] (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/layer.js:95:5)
+    at next (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/route.js:149:13)
+    at Route.dispatch (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/route.js:119:3)
+    at Layer.handle [as handle_request] (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/layer.js:95:5)
+    at /Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/index.js:284:15
+    at Function.process_params (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/index.js:346:12)
+2025-05-12 14:09:53 error: Error al ejecutar consulta SQL: read EADDRNOTAVAIL
+2025-05-12 14:09:53 error: Error al obtener obras: read EADDRNOTAVAIL
+2025-05-12 14:09:53 error: Error 500: read EADDRNOTAVAIL
+2025-05-12 14:09:53 error: Error: read EADDRNOTAVAIL
+    at PromisePool.execute (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/mysql2/promise.js:359:22)
+    at Object.query (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/src/config/database.ts:43:31)
+    at Object.obtenerObras (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/src/services/obraService.ts:20:21)
+    at getObras (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/src/controllers/obraController.ts:11:37)
+    at Layer.handle [as handle_request] (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/layer.js:95:5)
+    at next (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/route.js:149:13)
+    at Route.dispatch (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/route.js:119:3)
+    at Layer.handle [as handle_request] (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/layer.js:95:5)
+    at /Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/index.js:284:15
+    at Function.process_params (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/index.js:346:12)
+2025-05-12 18:20:54 info: Conexión a la base de datos establecida correctamente
+2025-05-12 18:20:54 info: Servidor escuchando en el puerto 3000
+2025-05-12 18:20:54 info: Ambiente: development
+2025-05-12 18:20:54 info: URL del servidor: http://localhost:3000
+2025-05-12 18:55:29 info: Conexión a la base de datos establecida correctamente
+2025-05-12 18:55:29 info: Servidor escuchando en el puerto 3000
+2025-05-12 18:55:29 info: Ambiente: development
+2025-05-12 18:55:29 info: URL del servidor: http://localhost:3000

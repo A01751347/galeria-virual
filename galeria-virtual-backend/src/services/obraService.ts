@@ -1,11 +1,12 @@
 import db from '../config/database';
-import { Obra, ObraDetalle } from '../models/tipos';
+import { ImagenObra, Obra, ObraDetalle } from '../models/tipos';
 import { logger } from '../utils/logger';
 
 // Obtener todas las obras
-export const obtenerObras = async (soloDisponibles: boolean = false): Promise<Obra[]> => {
+export const obtenerObras = async (params: any = {}): Promise<Obra[]> => {
   try {
-    const query = `
+    // Construir la consulta base
+    let query = `
       SELECT o.*, a.nombre AS nombre_artista, a.apellidos AS apellidos_artista,
              c.nombre AS nombre_categoria, t.nombre AS nombre_tecnica
       FROM obras o
@@ -13,11 +14,102 @@ export const obtenerObras = async (soloDisponibles: boolean = false): Promise<Ob
       JOIN categorias c ON o.id_categoria = c.id
       JOIN tecnicas t ON o.id_tecnica = t.id
       WHERE o.activo = TRUE
-        ${soloDisponibles ? 'AND o.disponible = TRUE' : ''}
-      ORDER BY o.destacado DESC, o.fecha_creacion DESC
     `;
     
-    return await db.query<Obra[]>(query);
+    const queryParams: any[] = [];
+    
+    // Filtro por categoría
+    if (params.id_categoria) {
+      query += ` AND o.id_categoria = ?`;
+      queryParams.push(params.id_categoria);
+    }
+    
+    // Filtro por artista
+    if (params.id_artista) {
+      query += ` AND o.id_artista = ?`;
+      queryParams.push(params.id_artista);
+    }
+    
+    // Filtro por técnica
+    if (params.id_tecnica) {
+      query += ` AND o.id_tecnica = ?`;
+      queryParams.push(params.id_tecnica);
+    }
+    
+    // Filtro por disponibilidad
+    if (params.disponibles) {
+      query += ` AND o.disponible = TRUE`;
+    }
+    
+    // Filtro por rango de precio
+    if (params.precio_min !== undefined) {
+      query += ` AND o.precio >= ?`;
+      queryParams.push(params.precio_min);
+    }
+    
+    if (params.precio_max !== undefined) {
+      query += ` AND o.precio <= ?`;
+      queryParams.push(params.precio_max);
+    }
+    
+    // Filtro por rango de años
+    if (params.anio_desde !== undefined) {
+      query += ` AND o.anio_creacion >= ?`;
+      queryParams.push(params.anio_desde);
+    }
+    
+    if (params.anio_hasta !== undefined) {
+      query += ` AND o.anio_creacion <= ?`;
+      queryParams.push(params.anio_hasta);
+    }
+    
+    // Filtro por término de búsqueda
+    if (params.termino) {
+      query += ` AND (
+        o.titulo LIKE ? OR
+        o.descripcion LIKE ? OR
+        a.nombre LIKE ? OR
+        a.apellidos LIKE ? OR
+        c.nombre LIKE ? OR
+        t.nombre LIKE ?
+      )`;
+      
+      const term = `%${params.termino}%`;
+      queryParams.push(term, term, term, term, term, term);
+    }
+    
+    // Ordenamiento
+    let orderBy = ' ORDER BY o.destacado DESC, o.fecha_creacion DESC';
+    
+    if (params.ordenar) {
+      switch (params.ordenar) {
+        case 'fecha_desc':
+          orderBy = ' ORDER BY o.fecha_creacion DESC';
+          break;
+        case 'fecha_asc':
+          orderBy = ' ORDER BY o.fecha_creacion ASC';
+          break;
+        case 'precio_asc':
+          orderBy = ' ORDER BY o.precio ASC';
+          break;
+        case 'precio_desc':
+          orderBy = ' ORDER BY o.precio DESC';
+          break;
+        case 'titulo_asc':
+          orderBy = ' ORDER BY o.titulo ASC';
+          break;
+        case 'titulo_desc':
+          orderBy = ' ORDER BY o.titulo DESC';
+          break;
+        default:
+          break;
+      }
+    }
+    
+    query += orderBy;
+    
+    // Ejecutar la consulta
+    return await db.query<Obra[]>(query, queryParams);
   } catch (error) {
     logger.error('Error al obtener obras:', error);
     throw error;
@@ -79,13 +171,56 @@ export const buscarObras = async (termino: string, soloDisponibles: boolean = fa
 // Obtener detalle de una obra
 export const obtenerDetalleObra = async (identificador: string, esCodigoQr: boolean = false): Promise<ObraDetalle | null> => {
   try {
-    const resultado = await db.procedure<ObraDetalle[]>('sp_obtener_detalle_obra', [identificador, esCodigoQr]);
+    // Verificar primero si la obra existe antes de intentar registrar visita
+    let obraId: number;
     
-    if (resultado.length === 0) {
-      return null;
+    if (esCodigoQr) {
+      const query = "SELECT id FROM obras WHERE codigo_qr = ? AND activo = TRUE";
+      const obras = await db.query<Obra[]>(query, [identificador]);
+      if (obras.length === 0) return null;
+      obraId = obras[0].id!;
+    } else {
+      obraId = parseInt(identificador);
+      const query = "SELECT id FROM obras WHERE id = ? AND activo = TRUE";
+      const obras = await db.query<Obra[]>(query, [obraId]);
+      if (obras.length === 0) return null;
     }
     
-    return resultado[0];
+    // Incrementar contador de visitas sin registrar en la tabla visitas
+    const updateQuery = "UPDATE obras SET visitas = visitas + 1 WHERE id = ?";
+    await db.query(updateQuery, [obraId]);
+    
+    // Obtener detalles de la obra
+    const detalleQuery = `
+      SELECT o.*,
+             a.nombre AS nombre_artista,
+             a.apellidos AS apellidos_artista,
+             a.biografia AS biografia_artista,
+             c.nombre AS nombre_categoria,
+             t.nombre AS nombre_tecnica,
+             o.visitas AS total_visitas
+      FROM obras o
+      JOIN artistas a ON o.id_artista = a.id
+      JOIN categorias c ON o.id_categoria = c.id
+      JOIN tecnicas t ON o.id_tecnica = t.id
+      WHERE o.id = ? AND o.activo = TRUE
+    `;
+    
+    const obras = await db.query<ObraDetalle[]>(detalleQuery, [obraId]);
+    
+    if (obras.length === 0) return null;
+    
+    // Obtener imágenes adicionales
+    const imagenesQuery = `
+      SELECT * FROM imagenes_obras 
+      WHERE id_obra = ? AND activo = TRUE
+      ORDER BY es_principal DESC, fecha_creacion ASC
+    `;
+    
+    const imagenes = await db.query<ImagenObra[]>(imagenesQuery, [obraId]);
+    obras[0].imagenes = imagenes;
+    
+    return obras[0];
   } catch (error) {
     logger.error(`Error al obtener detalle de obra ${identificador}:`, error);
     throw error;
@@ -206,6 +341,36 @@ export const actualizarEstadoObra = async (obraId: number, disponible?: boolean,
   } catch (error) {
     logger.error(`Error al actualizar estado de obra ${obraId}:`, error);
     throw error;
+  }
+};
+
+export const registrarVisita = async (obraId: number, ipVisitante?: string): Promise<boolean> => {
+  try {
+    // Primero verificar si la obra existe
+    const query = "SELECT id FROM obras WHERE id = ? AND activo = TRUE";
+    const obras = await db.query<Obra[]>(query, [obraId]);
+    
+    if (obras.length === 0) {
+      return false;
+    }
+    
+    // Incrementar contador en obras
+    const updateQuery = "UPDATE obras SET visitas = visitas + 1 WHERE id = ?";
+    await db.query(updateQuery, [obraId]);
+    
+    // Intentar registrar en tabla visitas
+    try {
+      const insertQuery = "INSERT INTO visitas (id_obra, ip_visitante) VALUES (?, ?)";
+      await db.query(insertQuery, [obraId, ipVisitante || null]);
+    } catch (error) {
+      // Si falla la inserción en visitas, solo lo registramos pero no interrumpimos
+      logger.warn(`No se pudo registrar en tabla visitas para obra ${obraId}:`, error);
+    }
+    
+    return true;
+  } catch (error) {
+    logger.error(`Error al registrar visita para obra ${obraId}:`, error);
+    return false;
   }
 };
 

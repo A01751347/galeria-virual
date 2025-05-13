@@ -1,6 +1,8 @@
+
 import axios from 'axios';
 
-const API_URL =  import.meta.env.VITE_API_URL;
+// Asegurarse de que se use la variable de entorno correctamente
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000/api';
 
 // Crear instancia de axios con configuración base
 const api = axios.create({
@@ -14,7 +16,10 @@ const api = axios.create({
 // Interceptor para añadir el token de autenticación si existe
 api.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem('token');
+    // Usar el prefijo de almacenamiento desde las variables de entorno
+    const storagePrefix = import.meta.env.VITE_STORAGE_PREFIX || 'galeria_';
+    const token = localStorage.getItem(`${storagePrefix}token`);
+    
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -28,11 +33,12 @@ api.interceptors.response.use(
   (response) => response,
   async (error) => {
     const originalRequest = error.config;
+    const storagePrefix = import.meta.env.VITE_STORAGE_PREFIX || 'galeria_';
     
     // Si el error es 401 (no autorizado) y no estamos intentando hacer login
     if (error.response?.status === 401 && !originalRequest._retry && !originalRequest.url.includes('auth/login')) {
       // Eliminar token y redirigir a login
-      localStorage.removeItem('token');
+      localStorage.removeItem(`${storagePrefix}token`);
       window.location.href = '/login';
     }
     

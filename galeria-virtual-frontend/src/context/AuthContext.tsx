@@ -29,28 +29,33 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   // Efecto para cargar usuario al iniciar o cambiar token
   useEffect(() => {
-    const loadUser = async () => {
-      if (!token) {
-        setIsLoading(false);
-        return;
-      }
+  const loadUser = async () => {
+    // Usar el token del servicio que ya utiliza el prefijo
+    const storedToken = authService.getToken();
+    
+    if (!storedToken) {
+      setIsLoading(false);
+      return;
+    }
 
-      try {
-        const userData = await authService.getCurrentUser();
-        setUser(userData);
-        setIsAuthenticated(true);
-      } catch (error) {
-        console.error('Error loading user:', error);
-        setUser(null);
-        setIsAuthenticated(false);
-        authService.logout();
-      } finally {
-        setIsLoading(false);
-      }
-    };
+    try {
+      const userData = await authService.getCurrentUser();
+      setUser(userData);
+      setToken(storedToken);
+      setIsAuthenticated(true);
+    } catch (error) {
+      console.error('Error loading user:', error);
+      setUser(null);
+      setToken(null);
+      setIsAuthenticated(false);
+      authService.logout();
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
-    loadUser();
-  }, [token]);
+  loadUser();
+}, []);
 
   // Función para iniciar sesión
   const login = async (credentials: LoginCredentials) => {

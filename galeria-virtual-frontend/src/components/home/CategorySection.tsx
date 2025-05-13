@@ -7,12 +7,9 @@ import Card from '../common/Card';
 // Mapeo de imágenes de ejemplo para categorías
 // En producción, estas imágenes deberían venir de la API
 const categoryImages: Record<string, string> = {
-  'Pintura': 'https://images.unsplash.com/photo-1541961017774-22349e4a1262?auto=format&fit=crop&q=80&w=1000',
-  'Escultura': 'https://images.unsplash.com/photo-1638624269877-1f8b55da3e71?auto=format&fit=crop&q=80&w=1000',
-  'Fotografía': 'https://images.unsplash.com/photo-1542038784456-1ea8e935640e?auto=format&fit=crop&q=80&w=1000',
-  'Dibujo': 'https://images.unsplash.com/photo-1618331835746-25ce196e28d6?auto=format&fit=crop&q=80&w=1000',
-  'Arte Digital': 'https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&q=80&w=1000',
-  'Grabado': 'https://images.unsplash.com/photo-1629196914168-38a49483fa9b?auto=format&fit=crop&q=80&w=1000',
+  'Pintura': 'https://static.wixstatic.com/media/95c79b_a6e15a18c31e47f29aef688ace611950~mv2.jpg/v1/fit/w_854,h_534,q_90,enc_avif,quality_auto/95c79b_a6e15a18c31e47f29aef688ace611950~mv2.jpg?auto=format&fit=crop&q=80&w=1000',
+  'Escultura': 'https://s1.img.bidsquare.com/item/xl/1118/11188304.jpeg?t=1NmaoA&__hstc=69329359.c52a128b6febfb07f2b4a6a6057cc8fa.1747094294690.1747094294690.1747094294690.1&__hssc=69329359.1.1747094294690&__hsfp=2223985451?auto=format&fit=crop&q=80&w=1000',
+  'Litografías': 'https://zervinarte.com/cdn/shop/files/litografia-premium-z02litografia-premium-z02-416588.jpg?auto=format&fit=crop&q=80&w=1000',
 };
 
 interface CategorySectionProps {
@@ -102,7 +99,7 @@ const CategorySection: React.FC<CategorySectionProps> = ({ categories, loading =
                   <img
                     src={category.image_url || categoryImages[category.name] || categoryImages['Pintura']}
                     alt={category.name}
-                    className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                    className="w-full h-full object-cover object-[center_30%] transition-transform duration-300 group-hover:scale-105"
                   />
                 </div>
                 <div className="p-4">

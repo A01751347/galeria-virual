@@ -52,10 +52,9 @@ export interface ArtworkFilters {
   search_term?: string;
   sort_by?: 'newest' | 'oldest' | 'price_asc' | 'price_desc' | 'title_asc' | 'title_desc';
 }
-
 export interface ArtworkQuery {
   data?: Artwork[];
   isLoading: boolean;
-  error: unknown;
+  error: Error | null;
   refetch: () => void;
 }
