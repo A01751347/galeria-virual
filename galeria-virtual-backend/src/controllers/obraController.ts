@@ -3,6 +3,7 @@ import { validationResult } from 'express-validator';
 import * as obraService from '../services/obraService';
 import { generarQR } from '../services/qrService';
 import { logger } from '../utils/logger';
+import { processUploadedFile } from '../services/uploadService';
 
 // Obtener todas las obras
 export const getObras = async (req: Request, res: Response, next: NextFunction) => {
@@ -110,10 +111,24 @@ export const crearObra = async (req: Request, res: Response, next: NextFunction)
     }
     
     // Procesar imagen si fue subida
-    let urlImagenPrincipal = req.body.url_imagen_principal;
-    if (req.file) {
-      urlImagenPrincipal = `/uploads/obras/${req.file.filename}`;
-    }
+    // En obraController.ts dentro de crearObra
+// Procesar imagen si fue subida
+let urlImagenPrincipal = req.body.url_imagen_principal;
+if (req.file) {
+  try {
+    // Importar el servicio de S3 para subir la imagen
+    const { processImageAndUploadToS3 } = require('../services/s3Service');
+    
+    // Procesar la imagen y subirla a S3
+    urlImagenPrincipal = await processImageAndUploadToS3(req.file.path, 'obras');
+  } catch (error) {
+    logger.error('Error al procesar imagen de obra:', error);
+    return res.status(500).json({
+      success: false,
+      message: 'Error al procesar la imagen'
+    });
+  }
+}
     
     // Crear obra en la base de datos
     const nuevaObra = await obraService.crearObra({

@@ -2,6 +2,9 @@ import { Request, Response, NextFunction } from 'express';
 import { validationResult } from 'express-validator';
 import * as artistaService from '../services/artistaService';
 import { logger } from '../utils/logger';
+import { processUploadedFile } from '../services/uploadService';
+
+
 
 // Obtener todos los artistas
 export const getArtistas = async (req: Request, res: Response, next: NextFunction) => {
@@ -43,11 +46,20 @@ export const crearArtista = async (req: Request, res: Response, next: NextFuncti
       });
     }
     
-    // Procesar imagen si fue subida
-    let urlImagen = null;
-    if (req.file) {
-      urlImagen = `/uploads/artistas/${req.file.filename}`;
-    }
+// En artistaController.ts dentro de la función crearArtista
+// Procesar imagen si fue subida
+let urlImagen: string | undefined;
+if (req.file) {
+  try {
+    urlImagen = await processUploadedFile(req.file, 'artistas');
+  } catch (error) {
+    logger.error('Error al procesar imagen de artista:', error);
+    return res.status(500).json({
+      success: false,
+      message: 'Error al procesar la imagen'
+    });
+  }
+}
     
     const { nombre, apellidos, biografia, email, telefono, sitio_web, fecha_nacimiento, nacionalidad } = req.body;
     
@@ -60,7 +72,7 @@ export const crearArtista = async (req: Request, res: Response, next: NextFuncti
       sitio_web,
       fecha_nacimiento,
       nacionalidad,
-      url_imagen: urlImagen,
+      url_imagen: urlImagen, 
       activo: true
     });
     

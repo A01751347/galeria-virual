@@ -40,6 +40,7 @@ export interface Artista {
   nacionalidad?: string;
   fecha_creacion?: Date;
   fecha_actualizacion?: Date;
+  url_imagen?: string; 
   activo: boolean;
 }
 

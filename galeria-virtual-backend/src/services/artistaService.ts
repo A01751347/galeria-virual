@@ -26,31 +26,60 @@ export const getArtista = async (id: number): Promise<Artista | null> => {
 };
 
 // Crear artista
+// src/services/artistaService.ts
+
 export const crearArtista = async (artista: Partial<Artista>): Promise<Artista> => {
   try {
     const query = `
-      INSERT INTO artistas (nombre, apellidos, biografia, email, telefono, sitio_web, fecha_nacimiento, nacionalidad, activo)
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?, TRUE)
+      INSERT INTO artistas (
+        nombre,
+        apellidos,
+        biografia,
+        email,
+        telefono,
+        sitio_web,
+        fecha_nacimiento,
+        url_imagen,
+        nacionalidad,
+        activo
+      )
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, TRUE)
     `;
     
     const result = await db.query(query, [
       artista.nombre,
       artista.apellidos,
-      artista.biografia || null,
-      artista.email || null,
-      artista.telefono || null,
-      artista.sitio_web || null,
+      artista.biografia  || null,
+      artista.email      || null,
+      artista.telefono   || null,
+      artista.sitio_web  || null,
       artista.fecha_nacimiento || null,
+      artista.url_imagen || null,   // ← aquí reingresamos la URL
       artista.nacionalidad || null
     ]);
     
     const id = (result as any).insertId;
-    return { id, ...artista, activo: true } as Artista;
+    return {
+      id,
+      nombre: artista.nombre!,
+      apellidos: artista.apellidos!,
+      biografia: artista.biografia   || '',
+      email: artista.email           || '',
+      telefono: artista.telefono     || '',
+      sitio_web: artista.sitio_web   || '',
+      fecha_nacimiento: artista.fecha_nacimiento || null,
+      url_imagen: artista.url_imagen || '',
+      nacionalidad: artista.nacionalidad || '',
+      activo: true,
+      fecha_creacion: new Date(),
+      fecha_actualizacion: new Date()
+    } as Artista;
   } catch (error) {
     logger.error('Error al crear artista:', error);
     throw error;
   }
 };
+
 
 // Actualizar artista
 export const actualizarArtista = async (id: number, datos: Partial<Artista>): Promise<Artista | null> => {

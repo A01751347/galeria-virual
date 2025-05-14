@@ -1,35 +1,22 @@
+// src/middleware/upload.ts
 import multer from 'multer';
 import path from 'path';
 import fs from 'fs';
 import { Request } from 'express';
 import { v4 as uuidv4 } from 'uuid';
 
-// Asegurar que los directorios existen
-const createDirectoryIfNotExists = (dirPath: string) => {
-  if (!fs.existsSync(dirPath)) {
-    fs.mkdirSync(dirPath, { recursive: true });
-  }
-};
+// Directorio temporal para subidas
+const TEMP_UPLOAD_DIR = path.join(__dirname, '../../temp');
 
-// Configuración para obras
-const obraStorage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    const uploadPath = path.join(__dirname, '../../public/uploads/obras');
-    createDirectoryIfNotExists(uploadPath);
-    cb(null, uploadPath);
-  },
-  filename: (req, file, cb) => {
-    const uniqueName = `${Date.now()}-${uuidv4()}${path.extname(file.originalname)}`;
-    cb(null, uniqueName);
-  }
-});
+// Asegurar que el directorio temporal existe
+if (!fs.existsSync(TEMP_UPLOAD_DIR)) {
+  fs.mkdirSync(TEMP_UPLOAD_DIR, { recursive: true });
+}
 
-// Configuración para artistas
-const artistaStorage = multer.diskStorage({
+// Configuración para almacenamiento temporal
+const tempStorage = multer.diskStorage({
   destination: (req, file, cb) => {
-    const uploadPath = path.join(__dirname, '../../public/uploads/artistas');
-    createDirectoryIfNotExists(uploadPath);
-    cb(null, uploadPath);
+    cb(null, TEMP_UPLOAD_DIR);
   },
   filename: (req, file, cb) => {
     const uniqueName = `${Date.now()}-${uuidv4()}${path.extname(file.originalname)}`;
@@ -54,5 +41,5 @@ const limits = {
 };
 
 // Middleware para subida de archivos
-export const uploadObra = multer({ storage: obraStorage, fileFilter, limits });
-export const uploadArtista = multer({ storage: artistaStorage, fileFilter, limits });
+export const uploadObra = multer({ storage: tempStorage, fileFilter, limits });
+export const uploadArtista = multer({ storage: tempStorage, fileFilter, limits });
