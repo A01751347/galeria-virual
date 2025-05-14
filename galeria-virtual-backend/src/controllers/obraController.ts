@@ -145,9 +145,20 @@ export const actualizarObra = async (req: Request, res: Response, next: NextFunc
   try {
     const obraId = parseInt(req.params.id);
     
+    // Logging para debugging
+    logger.info(`[DEBUG] Petición de actualización para obra ID: ${obraId}`);
+    logger.info(`[DEBUG] Cabeceras de petición: ${JSON.stringify(req.headers)}`);
+    logger.info(`[DEBUG] Cuerpo de petición: ${JSON.stringify(req.body)}`);
+    logger.info(`[DEBUG] Usuario autenticado: ${JSON.stringify(req.usuario)}`);
+    
+    if (req.file) {
+      logger.info(`[DEBUG] Archivo recibido: ${req.file.filename}`);
+    }
+    
     // Validar request
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
+      logger.warn(`[DEBUG] Errores de validación: ${JSON.stringify(errors.array())}`);
       return res.status(400).json({ 
         success: false, 
         errors: errors.array() 
@@ -157,23 +168,32 @@ export const actualizarObra = async (req: Request, res: Response, next: NextFunc
     // Procesar imagen si fue subida
     if (req.file) {
       req.body.url_imagen_principal = `/uploads/obras/${req.file.filename}`;
+      logger.info(`[DEBUG] URL de imagen asignada: ${req.body.url_imagen_principal}`);
     }
     
     // Actualizar obra
+    logger.info(`[DEBUG] Intentando actualizar obra con datos: ${JSON.stringify(req.body)}`);
     const obraActualizada = await obraService.actualizarObra(obraId, req.body);
     
     if (!obraActualizada) {
+      logger.warn(`[DEBUG] No se encontró la obra con ID: ${obraId}`);
       return res.status(404).json({ 
         success: false, 
         message: 'Obra no encontrada' 
       });
     }
     
+    logger.info(`[DEBUG] Obra actualizada exitosamente: ${JSON.stringify(obraActualizada)}`);
     res.json({ 
       success: true, 
       data: obraActualizada 
     });
   } catch (error) {
+    logger.error(`[DEBUG] Error al actualizar obra: ${error}`);
+    if (error instanceof Error) {
+      logger.error(`[DEBUG] Mensaje de error: ${error.message}`);
+      logger.error(`[DEBUG] Stack de error: ${error.stack}`);
+    }
     next(error);
   }
 };
