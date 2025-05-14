@@ -187,7 +187,7 @@ const handleSubmit = async (e: React.FormEvent) => {
 
     // Imagen
     if (mainImage) {
-      form.append('imagen', mainImage);
+  form.append('imagen', mainImage);
     }
 
     if (isEditing) {
@@ -442,7 +442,7 @@ const handleSubmit = async (e: React.FormEvent) => {
                         <span>Subir imagen</span>
                         <input
                           id="image-upload"
-                          name="image"
+                          name="imagen"
                           type="file"
                           className="sr-only"
                           accept="image/*"

@@ -11,15 +11,9 @@ import corsMiddleware from './config/cors';
 import { createUploadDirs } from './services/uploadService';
 import { apiLimiter, authLimiter } from './middleware/rateLimit';
 
-
-// Cargar variables de entorno
 dotenv.config();
-
-// Crear aplicación Express
 const app = express();
 const PORT = process.env.PORT || 3000;
-
-// Middlewares
 
 app.use(helmet());
 app.use(corsMiddleware);
@@ -27,45 +21,39 @@ app.use(compression());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Servir archivos estáticos
+// Servir archivos estáticos (tu frontend en /public, p.ej. index.html, CSS, JS, etc.)
 app.use(express.static(path.join(__dirname, '../public')));
 
-// Rutas API
+// —————> Aquí exponemos la carpeta de subidas de Multer
+app.use(
+  '/uploads',
+  express.static(path.join(__dirname, '../uploads'))
+);
+
+// Limites y rutas
 app.use('/api', apiLimiter);
 app.use('/api/auth', authLimiter);
 app.use('/api', routes);
 
-// Ruta para verificar el estado de la API
-app.get('/api/status', (req, res) => {
+app.get('/api/status', (_req, res) => {
   res.json({
     status: 'active',
     version: '1.0.0',
     environment: process.env.NODE_ENV || 'development',
-    timestamp: new Date().toISOString()
+    timestamp: new Date().toISOString(),
   });
 });
 
-// Ruta para manejar peticiones no encontradas
-app.use('*', (req, res) => {
-  res.status(404).json({
-    success: false,
-    message: 'Recurso no encontrado'
-  });
+app.use('*', (_req, res) => {
+  res.status(404).json({ success: false, message: 'Recurso no encontrado' });
 });
 
-// Manejo de errores
 app.use(errorMiddleware);
 
-// Iniciar servidor
 const startServer = async () => {
   try {
-    // Crear directorios de carga si no existen
     createUploadDirs();
-    
-    // Verificar conexión a la base de datos
     await db.testConnection();
-    
-    // Iniciar servidor
     app.listen(PORT, () => {
       logger.info(`Servidor escuchando en el puerto ${PORT}`);
       logger.info(`Ambiente: ${process.env.NODE_ENV}`);

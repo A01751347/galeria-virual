@@ -3,6 +3,7 @@ import { ImagenObra, Obra, ObraDetalle } from '../models/tipos';
 import { logger } from '../utils/logger';
 
 // Obtener todas las obras
+// Obtener todas las obras
 export const obtenerObras = async (params: any = {}): Promise<Obra[]> => {
   try {
     // Construir la consulta base
@@ -18,52 +19,38 @@ export const obtenerObras = async (params: any = {}): Promise<Obra[]> => {
     
     const queryParams: any[] = [];
     
-    // Filtro por categoría
+    // Filtros dinámicos
     if (params.category_id || params.id_categoria) {
       query += ` AND o.id_categoria = ?`;
       queryParams.push(params.category_id || params.id_categoria);
     }
-    
-    // Filtro por artista
     if (params.artist_id || params.id_artista) {
       query += ` AND o.id_artista = ?`;
       queryParams.push(params.artist_id || params.id_artista);
     }
-    
-    // Filtro por técnica
     if (params.technique_id || params.id_tecnica) {
       query += ` AND o.id_tecnica = ?`;
       queryParams.push(params.technique_id || params.id_tecnica);
     }
-    
-    // Filtro por disponibilidad
     if (params.available_only || params.disponibles) {
       query += ` AND o.disponible = TRUE`;
     }
-    
-    // Filtro por rango de precio
     if (params.min_price || params.precio_min) {
       query += ` AND o.precio >= ?`;
       queryParams.push(params.min_price || params.precio_min);
     }
-    
     if (params.max_price || params.precio_max) {
       query += ` AND o.precio <= ?`;
       queryParams.push(params.max_price || params.precio_max);
     }
-    
-    // Filtro por rango de años
     if (params.year_from || params.anio_desde) {
       query += ` AND o.anio_creacion >= ?`;
       queryParams.push(params.year_from || params.anio_desde);
     }
-    
     if (params.year_to || params.anio_hasta) {
       query += ` AND o.anio_creacion <= ?`;
       queryParams.push(params.year_to || params.anio_hasta);
     }
-    
-    // Filtro por término de búsqueda
     if (params.search_term || params.termino) {
       query += ` AND (
         o.titulo LIKE ? OR
@@ -73,51 +60,34 @@ export const obtenerObras = async (params: any = {}): Promise<Obra[]> => {
         c.nombre LIKE ? OR
         t.nombre LIKE ?
       )`;
-      
       const term = `%${params.search_term || params.termino}%`;
       queryParams.push(term, term, term, term, term, term);
     }
     
     // Ordenamiento
     let orderBy = ' ORDER BY o.destacado DESC, o.fecha_creacion DESC';
-    
     if (params.sort_by || params.ordenar) {
       const sortValue = params.sort_by || params.ordenar;
       switch (sortValue) {
         case 'newest':
-        case 'fecha_desc':
-          orderBy = ' ORDER BY o.fecha_creacion DESC';
-          break;
+        case 'fecha_desc': orderBy = ' ORDER BY o.fecha_creacion DESC'; break;
         case 'oldest':
-        case 'fecha_asc':
-          orderBy = ' ORDER BY o.fecha_creacion ASC';
-          break;
+        case 'fecha_asc':  orderBy = ' ORDER BY o.fecha_creacion ASC';  break;
         case 'price_asc':
-        case 'precio_asc':
-          orderBy = ' ORDER BY o.precio ASC';
-          break;
+        case 'precio_asc': orderBy = ' ORDER BY o.precio ASC';         break;
         case 'price_desc':
-        case 'precio_desc':
-          orderBy = ' ORDER BY o.precio DESC';
-          break;
+        case 'precio_desc':orderBy = ' ORDER BY o.precio DESC';        break;
         case 'title_asc':
-        case 'titulo_asc':
-          orderBy = ' ORDER BY o.titulo ASC';
-          break;
+        case 'titulo_asc': orderBy = ' ORDER BY o.titulo ASC';         break;
         case 'title_desc':
-        case 'titulo_desc':
-          orderBy = ' ORDER BY o.titulo DESC';
-          break;
-        default:
-          break;
+        case 'titulo_desc':orderBy = ' ORDER BY o.titulo DESC';        break;
+        default: break;
       }
     }
-    
     query += orderBy;
     
-    // Ejecutar la consulta
-    console.log('SQL Query:', query);
-    console.log('SQL Params:', queryParams);
+    console.debug('SQL Query:', query);
+    console.debug('SQL Params:', queryParams);
     
     return await db.query<Obra[]>(query, queryParams);
   } catch (error) {
@@ -140,7 +110,6 @@ export const obtenerObrasDestacadas = async (): Promise<Obra[]> => {
       ORDER BY o.fecha_creacion DESC
       LIMIT 10
     `;
-    
     return await db.query<Obra[]>(query);
   } catch (error) {
     logger.error('Error al obtener obras destacadas:', error);
@@ -289,43 +258,52 @@ export const actualizarQRObra = async (obraId: number, qrUrl: string): Promise<b
   }
 };
 
-// Actualizar una obra
-export const actualizarObra = async (obraId: number, datosObra: Partial<Obra>): Promise<Obra | null> => {
+export const actualizarObra = async (
+  obraId: number,
+  datosObra: Partial<Obra>
+): Promise<Obra | null> => {
   try {
-    // Primero verificar si la obra existe
-    const obraExistente = await obtenerDetalleObra(obraId.toString());
-    
-    if (!obraExistente) {
-      return null;
+    // Verificar existencia
+    const existing = await obtenerDetalleObra(obraId.toString());
+    if (!existing) return null;
+
+    // Excluir estos campos siempre
+    const excluded = ['id', 'codigo_qr', 'fecha_creacion', 'fecha_actualizacion', 'activo'];
+
+    // Filtrar entradas definidas y no excluidas
+    const entries = Object.entries(datosObra).filter(
+      ([key, val]) => val !== undefined && !excluded.includes(key)
+    );
+
+    if (entries.length === 0) {
+      return existing;
     }
+
+    const fields = entries.map(([key]) => `${key} = ?`);
+    const params = entries.map(([, val]) => val);
     
-    // Construir la consulta dinámica
-    let query = 'UPDATE obras SET ';
-    const params = [];
-    
-    // Agregar cada campo a actualizar
-    Object.entries(datosObra).forEach(([key, value], index) => {
-      // Omitir campos que no se deben actualizar directamente
-      if (!['id', 'codigo_qr', 'fecha_creacion', 'fecha_actualizacion', 'activo'].includes(key)) {
-        query += `${key} = ?${index < Object.keys(datosObra).length - 1 ? ', ' : ''}`;
-        params.push(value);
-      }
-    });
-    
-    // Agregar condición WHERE y fecha de actualización
-    query += ', fecha_actualizacion = CURRENT_TIMESTAMP WHERE id = ?';
+    // Agregar timestamp y condicion
     params.push(obraId);
-    
-    // Ejecutar la actualización
-    await db.query(query, params);
-    
-    // Devolver la obra actualizada
-    return await obtenerDetalleObra(obraId.toString()) as ObraDetalle;
+    const query = `
+      UPDATE obras SET
+      ${fields.join(', ')},
+      fecha_actualizacion = CURRENT_TIMESTAMP
+      WHERE id = ?
+    `;
+
+    console.debug('Update Query:', query.trim());
+    console.debug('Params:', params);
+
+    const result: any = await db.query(query, params);
+    if (result.affectedRows === 0) return null;
+
+    return await obtenerDetalleObra(obraId.toString());
   } catch (error) {
     logger.error(`Error al actualizar obra ${obraId}:`, error);
     throw error;
   }
 };
+
 
 // Actualizar estado de disponibilidad/destacado
 export const actualizarEstadoObra = async (obraId: number, disponible?: boolean, destacado?: boolean): Promise<boolean> => {

@@ -181,27 +181,25 @@ const artworkService = {
   },
 
   // Crear una nueva obra
-  createArtwork: async (artworkData: FormData): Promise<Artwork> => {
-    try {
-      // Si no hay imagen, usar una imagen realista de ejemplo
-      if (!artworkData.get('imagen') && !artworkData.get('url_imagen_principal')) {
-        const realisticImages = getRealisticArtworkImages();
-        const randomImage = realisticImages[Math.floor(Math.random() * realisticImages.length)];
-        artworkData.append('url_imagen_principal', randomImage);
-      }
+ // Dentro de artworkService:
+createArtwork: async (formData: FormData): Promise<Artwork> => {
+  // Si no se envió archivo 'imagen' ni url_imagen_principal, añadir fallback
+  if (!formData.get('imagen') && !formData.get('url_imagen_principal')) {
+    const imgs = getRealisticArtworkImages();
+    const randomImg = imgs[Math.floor(Math.random() * imgs.length)];
+    formData.append('url_imagen_principal', randomImg);
+  }
 
-      const response = await api.post('/obras', artworkData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
-      
-      return adaptArtwork(response.data.data);
-    } catch (error) {
-      console.error('Error al crear obra:', error);
-      throw error;
-    }
-  },
+  const response = await api.post('/obras', formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  });
+
+  // Se asume que response.data.data contiene la nueva obra
+  return adaptArtwork(response.data.data);
+},
+
 
   // Actualizar una obra existente
 // Actualizar una obra existente
