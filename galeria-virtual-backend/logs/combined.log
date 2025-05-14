@@ -106,3 +106,45 @@
 2025-05-12 18:55:29 info: Servidor escuchando en el puerto 3000
 2025-05-12 18:55:29 info: Ambiente: development
 2025-05-12 18:55:29 info: URL del servidor: http://localhost:3000
+2025-05-13 10:21:08 info: Conexión a la base de datos establecida correctamente
+2025-05-13 10:21:08 info: Servidor escuchando en el puerto 3000
+2025-05-13 10:21:08 info: Ambiente: development
+2025-05-13 10:21:08 info: URL del servidor: http://localhost:3000
+2025-05-13 10:24:16 info: Conexión a la base de datos establecida correctamente
+2025-05-13 10:24:16 info: Servidor escuchando en el puerto 3000
+2025-05-13 10:24:16 info: Ambiente: development
+2025-05-13 10:24:16 info: URL del servidor: http://localhost:3000
+2025-05-13 10:24:50 info: Conexión a la base de datos establecida correctamente
+2025-05-13 10:24:50 info: Servidor escuchando en el puerto 3000
+2025-05-13 10:24:50 info: Ambiente: development
+2025-05-13 10:24:50 info: URL del servidor: http://localhost:3000
+2025-05-13 10:25:24 info: Conexión a la base de datos establecida correctamente
+2025-05-13 10:25:24 info: Servidor escuchando en el puerto 3000
+2025-05-13 10:25:24 info: Ambiente: development
+2025-05-13 10:25:24 info: URL del servidor: http://localhost:3000
+2025-05-13 10:27:09 info: Conexión a la base de datos establecida correctamente
+2025-05-13 10:27:09 info: Servidor escuchando en el puerto 3000
+2025-05-13 10:27:09 info: Ambiente: development
+2025-05-13 10:27:09 info: URL del servidor: http://localhost:3000
+2025-05-13 10:28:08 info: Conexión a la base de datos establecida correctamente
+2025-05-13 10:28:08 info: Servidor escuchando en el puerto 3000
+2025-05-13 10:28:08 info: Ambiente: development
+2025-05-13 10:28:08 info: URL del servidor: http://localhost:3000
+2025-05-13 10:28:15 info: Conexión a la base de datos establecida correctamente
+2025-05-13 10:28:15 info: Servidor escuchando en el puerto 3000
+2025-05-13 10:28:15 info: Ambiente: development
+2025-05-13 10:28:15 info: URL del servidor: http://localhost:3000
+2025-05-13 11:18:48 error: Error al ejecutar consulta SQL: read ETIMEDOUT
+2025-05-13 11:18:48 error: Error al obtener obras: read ETIMEDOUT
+2025-05-13 11:18:48 error: Error 500: read ETIMEDOUT
+2025-05-13 11:18:48 error: Error: read ETIMEDOUT
+    at PromisePool.execute (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/mysql2/promise.js:359:22)
+    at Object.query (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/src/config/database.ts:43:31)
+    at Object.obtenerObras (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/src/services/obraService.ts:122:21)
+    at getObras (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/src/controllers/obraController.ts:26:37)
+    at Layer.handle [as handle_request] (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/layer.js:95:5)
+    at next (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/route.js:149:13)
+    at Route.dispatch (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/route.js:119:3)
+    at Layer.handle [as handle_request] (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/layer.js:95:5)
+    at /Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/index.js:284:15
+    at Function.process_params (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/index.js:346:12)

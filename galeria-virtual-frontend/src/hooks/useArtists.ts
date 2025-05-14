@@ -1,6 +1,6 @@
 import { useQuery } from 'react-query';
 import artistService from '../services/artistService';
-import { ArtistFilters, ArtistQuery } from '../types/artist';
+import { Artist, ArtistFilters, ArtistQuery, ArtworkPreview } from '../types/artist';
 
 // Hook para obtener todos los artistas
 export function useArtists(filters?: ArtistFilters): ArtistQuery {
@@ -16,9 +16,8 @@ export function useArtists(filters?: ArtistFilters): ArtistQuery {
   return { data, isLoading, error, refetch };
 }
 
-// Hook para obtener detalle de un artista y sus obras
 export function useArtistDetail(id: number) {
-  return useQuery(
+  return useQuery<{artist: Artist, artworks: ArtworkPreview[]}, Error>(
     ['artistDetail', id],
     () => artistService.getArtistDetail(id),
     {

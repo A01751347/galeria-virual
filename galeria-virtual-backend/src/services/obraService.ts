@@ -19,52 +19,52 @@ export const obtenerObras = async (params: any = {}): Promise<Obra[]> => {
     const queryParams: any[] = [];
     
     // Filtro por categoría
-    if (params.id_categoria) {
+    if (params.category_id || params.id_categoria) {
       query += ` AND o.id_categoria = ?`;
-      queryParams.push(params.id_categoria);
+      queryParams.push(params.category_id || params.id_categoria);
     }
     
     // Filtro por artista
-    if (params.id_artista) {
+    if (params.artist_id || params.id_artista) {
       query += ` AND o.id_artista = ?`;
-      queryParams.push(params.id_artista);
+      queryParams.push(params.artist_id || params.id_artista);
     }
     
     // Filtro por técnica
-    if (params.id_tecnica) {
+    if (params.technique_id || params.id_tecnica) {
       query += ` AND o.id_tecnica = ?`;
-      queryParams.push(params.id_tecnica);
+      queryParams.push(params.technique_id || params.id_tecnica);
     }
     
     // Filtro por disponibilidad
-    if (params.disponibles) {
+    if (params.available_only || params.disponibles) {
       query += ` AND o.disponible = TRUE`;
     }
     
     // Filtro por rango de precio
-    if (params.precio_min !== undefined) {
+    if (params.min_price || params.precio_min) {
       query += ` AND o.precio >= ?`;
-      queryParams.push(params.precio_min);
+      queryParams.push(params.min_price || params.precio_min);
     }
     
-    if (params.precio_max !== undefined) {
+    if (params.max_price || params.precio_max) {
       query += ` AND o.precio <= ?`;
-      queryParams.push(params.precio_max);
+      queryParams.push(params.max_price || params.precio_max);
     }
     
     // Filtro por rango de años
-    if (params.anio_desde !== undefined) {
+    if (params.year_from || params.anio_desde) {
       query += ` AND o.anio_creacion >= ?`;
-      queryParams.push(params.anio_desde);
+      queryParams.push(params.year_from || params.anio_desde);
     }
     
-    if (params.anio_hasta !== undefined) {
+    if (params.year_to || params.anio_hasta) {
       query += ` AND o.anio_creacion <= ?`;
-      queryParams.push(params.anio_hasta);
+      queryParams.push(params.year_to || params.anio_hasta);
     }
     
     // Filtro por término de búsqueda
-    if (params.termino) {
+    if (params.search_term || params.termino) {
       query += ` AND (
         o.titulo LIKE ? OR
         o.descripcion LIKE ? OR
@@ -74,30 +74,37 @@ export const obtenerObras = async (params: any = {}): Promise<Obra[]> => {
         t.nombre LIKE ?
       )`;
       
-      const term = `%${params.termino}%`;
+      const term = `%${params.search_term || params.termino}%`;
       queryParams.push(term, term, term, term, term, term);
     }
     
     // Ordenamiento
     let orderBy = ' ORDER BY o.destacado DESC, o.fecha_creacion DESC';
     
-    if (params.ordenar) {
-      switch (params.ordenar) {
+    if (params.sort_by || params.ordenar) {
+      const sortValue = params.sort_by || params.ordenar;
+      switch (sortValue) {
+        case 'newest':
         case 'fecha_desc':
           orderBy = ' ORDER BY o.fecha_creacion DESC';
           break;
+        case 'oldest':
         case 'fecha_asc':
           orderBy = ' ORDER BY o.fecha_creacion ASC';
           break;
+        case 'price_asc':
         case 'precio_asc':
           orderBy = ' ORDER BY o.precio ASC';
           break;
+        case 'price_desc':
         case 'precio_desc':
           orderBy = ' ORDER BY o.precio DESC';
           break;
+        case 'title_asc':
         case 'titulo_asc':
           orderBy = ' ORDER BY o.titulo ASC';
           break;
+        case 'title_desc':
         case 'titulo_desc':
           orderBy = ' ORDER BY o.titulo DESC';
           break;
@@ -109,6 +116,9 @@ export const obtenerObras = async (params: any = {}): Promise<Obra[]> => {
     query += orderBy;
     
     // Ejecutar la consulta
+    console.log('SQL Query:', query);
+    console.log('SQL Params:', queryParams);
+    
     return await db.query<Obra[]>(query, queryParams);
   } catch (error) {
     logger.error('Error al obtener obras:', error);

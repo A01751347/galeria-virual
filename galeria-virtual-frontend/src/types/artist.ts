@@ -18,11 +18,6 @@ export interface Artist {
   artworks_count?: number;
 }
 
-export interface ArtistDetailResponse {
-  artist: Artist;
-  artworks: ArtworkPreview[];
-}
-
 export interface ArtworkPreview {
   id: number;
   title: string;
@@ -30,6 +25,11 @@ export interface ArtworkPreview {
   price: number;
   available: boolean;
   year_created?: number;
+}
+
+export interface ArtistDetailResponse {
+  artist: Artist;
+  artworks: ArtworkPreview[];
 }
 
 export interface ArtistFilters {

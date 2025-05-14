@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import Layout from '../components/layout/Layout';
 import ArtworkGrid from '../components/artwork/ArtworkGrid';
@@ -11,7 +11,7 @@ import Button from '../components/common/Button';
 const GalleryPage: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   
-  // Función memoizada para leer los filtros desde la URL
+  // Función para leer los filtros desde la URL
   const getFiltersFromURL = useCallback((): ArtworkFilters => {
     return {
       category_id: searchParams.get('categoria') ? parseInt(searchParams.get('categoria') as string) : undefined,
@@ -27,63 +27,67 @@ const GalleryPage: React.FC = () => {
     };
   }, [searchParams]);
   
-  // Estado para filtros - inicializado con los valores de la URL
+  // Estado para filtros
   const [filters, setFilters] = useState<ArtworkFilters>(getFiltersFromURL());
-  
-  // Memoizar la representación JSON de los filtros para evitar re-renderizaciones innecesarias
-  const filtersJSON = useMemo(() => JSON.stringify(filters), [filters]);
   
   // Estado para controlar visualización de filtros en móvil
   const [isMobileFilterVisible, setIsMobileFilterVisible] = useState(false);
   
   // Obtener obras con filtros aplicados
-  const { data: artworks, isLoading, error } = useArtworks(filters);
-  
-  // Actualizar URL cuando cambien los filtros
-  useEffect(() => {
-    const params = new URLSearchParams();
-    
-    // Solo añadir parámetros para filtros definidos
-    if (filters.category_id) params.set('categoria', filters.category_id.toString());
-    if (filters.artist_id) params.set('artista', filters.artist_id.toString());
-    if (filters.technique_id) params.set('tecnica', filters.technique_id.toString());
-    if (filters.min_price) params.set('precio_min', filters.min_price.toString());
-    if (filters.max_price) params.set('precio_max', filters.max_price.toString());
-    if (filters.year_from) params.set('anio_desde', filters.year_from.toString());
-    if (filters.year_to) params.set('anio_hasta', filters.year_to.toString());
-    if (filters.available_only) params.set('disponibles', 'true');
-    if (filters.search_term) params.set('buscar', filters.search_term);
-    if (filters.sort_by) params.set('ordenar', filters.sort_by);
-    
-    // Comparar parámetros actuales con los nuevos para evitar actualizaciones innecesarias
-    const currentParamsStr = searchParams.toString();
-    const newParamsStr = params.toString();
-    
-    if (currentParamsStr !== newParamsStr) {
-      setSearchParams(params);
-    }
-  }, [filtersJSON, setSearchParams]);
-  
-  // Actualizar los filtros cuando cambia la URL externamente
-  useEffect(() => {
-    const urlFilters = getFiltersFromURL();
-    const urlFiltersStr = JSON.stringify(urlFilters);
-    
-    // Solo actualizar si realmente cambiaron los filtros
-    if (urlFiltersStr !== filtersJSON) {
-      setFilters(urlFilters);
-    }
-  }, [searchParams, getFiltersFromURL, filtersJSON]);
+  const { data: artworks, isLoading, error, refetch } = useArtworks(filters);
   
   // Manejar cambios en los filtros
   const handleFilterChange = useCallback((newFilters: ArtworkFilters) => {
+    // Actualizar los filtros
     setFilters(newFilters);
-  }, []);
+    
+    // Actualizar la URL
+    const params = new URLSearchParams();
+    Object.entries(newFilters).forEach(([key, value]) => {
+      if (value !== undefined) {
+        switch (key) {
+          case 'category_id':
+            if (value) params.set('categoria', value.toString());
+            break;
+          case 'artist_id':
+            if (value) params.set('artista', value.toString());
+            break;
+          case 'technique_id':
+            if (value) params.set('tecnica', value.toString());
+            break;
+          case 'min_price':
+            if (value) params.set('precio_min', value.toString());
+            break;
+          case 'max_price':
+            if (value) params.set('precio_max', value.toString());
+            break;
+          case 'year_from':
+            if (value) params.set('anio_desde', value.toString());
+            break;
+          case 'year_to':
+            if (value) params.set('anio_hasta', value.toString());
+            break;
+          case 'available_only':
+            if (value) params.set('disponibles', 'true');
+            break;
+          case 'search_term':
+            if (value) params.set('buscar', value);
+            break;
+          case 'sort_by':
+            if (value) params.set('ordenar', value);
+            break;
+        }
+      }
+    });
+    
+    setSearchParams(params);
+  }, [setSearchParams]);
   
   // Resetear filtros
   const handleResetFilters = useCallback(() => {
     setFilters({});
-  }, []);
+    setSearchParams(new URLSearchParams());
+  }, [setSearchParams]);
   
   // Toggle filtros en móvil
   const toggleMobileFilters = useCallback(() => {
@@ -93,7 +97,7 @@ const GalleryPage: React.FC = () => {
   // Contar número de filtros activos
   const activeFiltersCount = useMemo(() => 
     Object.values(filters).filter(value => value !== undefined).length,
-    [filtersJSON]
+    [filters]
   );
 
   return (
@@ -190,48 +194,20 @@ const GalleryPage: React.FC = () => {
                     Limpiar filtros
                   </Button>
                 )}
+                {/* Botón para forzar refetch */}
+                <Button 
+                  variant="text" 
+                  size="sm"
+                  onClick={() => refetch()}
+                  className="text-xs"
+                >
+                  Actualizar
+                </Button>
               </div>
               
-              {/* Selector de vista (grid, lista) - podría implementarse en el futuro */}
+              {/* Selector de vista */}
               <div className="hidden md:flex gap-2">
-                <button
-                  className="p-2 rounded-md bg-white border border-neutral-light text-primary"
-                  aria-label="Vista de cuadrícula"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-5 w-5"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"
-                    />
-                  </svg>
-                </button>
-                <button
-                  className="p-2 rounded-md bg-white border border-neutral-light"
-                  aria-label="Vista de lista"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-5 w-5"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M4 6h16M4 12h16M4 18h16"
-                    />
-                  </svg>
-                </button>
+                {/* Controles de vista */}
               </div>
             </div>
             

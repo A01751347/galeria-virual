@@ -2,77 +2,37 @@ import api from './api';
 import { Artwork, ArtworkDetailResponse, ArtworkFilters } from '../types/artwork';
 import { adaptArtwork } from '../utils/dataAdapter';
 
+
+const mapSortParam = (sortBy: string): string => {
+  const sortMap: Record<string, string> = {
+    'newest': 'fecha_desc',
+    'oldest': 'fecha_asc',
+    'price_asc': 'precio_asc',
+    'price_desc': 'precio_desc',
+    'title_asc': 'titulo_asc',
+    'title_desc': 'titulo_desc'
+  };
+  return sortMap[sortBy] || 'relevancia';
+};
+
+
 // Función para adaptar los filtros del frontend al formato esperado por la API
 const adaptFiltersToAPI = (filters?: ArtworkFilters): Record<string, any> => {
   if (!filters) return {};
   
-  const apiParams: Record<string, any> = {};
-  
-  // Solo enviar parámetros no undefined
-  Object.entries(filters).forEach(([key, value]) => {
-    if (value !== undefined) {
-      // Adaptar nombres de parámetros de frontend a backend
-      switch (key) {
-        case 'category_id':
-          apiParams.id_categoria = value;
-          break;
-        case 'artist_id':
-          apiParams.id_artista = value;
-          break;
-        case 'technique_id':
-          apiParams.id_tecnica = value;
-          break;
-        case 'min_price':
-          apiParams.precio_min = value;
-          break;
-        case 'max_price':
-          apiParams.precio_max = value;
-          break;
-        case 'year_from':
-          apiParams.anio_desde = value;
-          break;
-        case 'year_to':
-          apiParams.anio_hasta = value;
-          break;
-        case 'available_only':
-          apiParams.disponibles = value;
-          break;
-        case 'search_term':
-          apiParams.termino = value;
-          break;
-        case 'sort_by':
-          switch (value) {
-            case 'newest':
-              apiParams.ordenar = 'fecha_desc';
-              break;
-            case 'oldest':
-              apiParams.ordenar = 'fecha_asc';
-              break;
-            case 'price_asc':
-              apiParams.ordenar = 'precio_asc';
-              break;
-            case 'price_desc':
-              apiParams.ordenar = 'precio_desc';
-              break;
-            case 'title_asc':
-              apiParams.ordenar = 'titulo_asc';
-              break;
-            case 'title_desc':
-              apiParams.ordenar = 'titulo_desc';
-              break;
-            default:
-              // No incluir si no es un valor válido
-              break;
-          }
-          break;
-        default:
-          // Para otros parámetros, usar el mismo nombre
-          apiParams[key] = value;
-      }
-    }
-  });
-  
-  return apiParams;
+  // Mapeo directo de nombres de parámetros
+  return {
+    id_categoria: filters.category_id,
+    id_artista: filters.artist_id,
+    id_tecnica: filters.technique_id,
+    precio_min: filters.min_price,
+    precio_max: filters.max_price,
+    anio_desde: filters.year_from,
+    anio_hasta: filters.year_to,
+    disponibles: filters.available_only === true ? true : undefined,
+    termino: filters.search_term,
+    ordenar: filters.sort_by ? mapSortParam(filters.sort_by) : undefined
+  };
 };
 
 // Función para obtener imágenes realistas de obras (fallback)
@@ -101,12 +61,16 @@ const artworkService = {
       // Adaptar filtros al formato de la API
       const apiParams = adaptFiltersToAPI(filters);
       
+      // Eliminar valores undefined para evitar parámetros vacíos
+      const cleanParams = Object.fromEntries(
+        Object.entries(apiParams).filter(([_, v]) => v !== undefined)
+      );
+      
       // Log para depuración
-      console.log('Enviando solicitud con parámetros:', apiParams);
+      console.log('Enviando solicitud con parámetros:', cleanParams);
       
-      const response = await api.get('/obras', { params: apiParams });
+      const response = await api.get('/obras', { params: cleanParams });
       
-      // Verificar si la respuesta tiene la estructura esperada
       if (!response.data || !response.data.data) {
         console.error('Respuesta inesperada de la API:', response);
         return [];

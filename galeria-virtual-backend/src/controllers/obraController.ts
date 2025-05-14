@@ -7,8 +7,23 @@ import { logger } from '../utils/logger';
 // Obtener todas las obras
 export const getObras = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const soloDisponibles = req.query.disponibles === 'true';
-    const obras = await obraService.obtenerObras(soloDisponibles);
+    // Unificar nombres de parámetros para compatibilidad con el frontend
+    const params = {
+      id_categoria: req.query.category_id || req.query.id_categoria,
+      id_artista: req.query.artist_id || req.query.id_artista,
+      id_tecnica: req.query.technique_id || req.query.id_tecnica,
+      precio_min: req.query.min_price || req.query.precio_min,
+      precio_max: req.query.max_price || req.query.precio_max,
+      anio_desde: req.query.year_from || req.query.anio_desde,
+      anio_hasta: req.query.year_to || req.query.anio_hasta,
+      disponibles: req.query.available_only === 'true' || req.query.disponibles === 'true',
+      termino: req.query.search_term || req.query.termino,
+      ordenar: req.query.sort_by || req.query.ordenar
+    };
+    
+    console.log('Parámetros de filtrado:', params);
+    
+    const obras = await obraService.obtenerObras(params);
     res.json({ success: true, data: obras });
   } catch (error) {
     next(error);

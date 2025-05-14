@@ -58,3 +58,17 @@
     at Layer.handle [as handle_request] (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/layer.js:95:5)
     at /Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/index.js:284:15
     at Function.process_params (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/index.js:346:12)
+2025-05-13 11:18:48 error: Error al ejecutar consulta SQL: read ETIMEDOUT
+2025-05-13 11:18:48 error: Error al obtener obras: read ETIMEDOUT
+2025-05-13 11:18:48 error: Error 500: read ETIMEDOUT
+2025-05-13 11:18:48 error: Error: read ETIMEDOUT
+    at PromisePool.execute (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/mysql2/promise.js:359:22)
+    at Object.query (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/src/config/database.ts:43:31)
+    at Object.obtenerObras (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/src/services/obraService.ts:122:21)
+    at getObras (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/src/controllers/obraController.ts:26:37)
+    at Layer.handle [as handle_request] (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/layer.js:95:5)
+    at next (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/route.js:149:13)
+    at Route.dispatch (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/route.js:119:3)
+    at Layer.handle [as handle_request] (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/layer.js:95:5)
+    at /Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/index.js:284:15
+    at Function.process_params (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/index.js:346:12)

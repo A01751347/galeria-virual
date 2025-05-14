@@ -26,17 +26,10 @@ const ArtworkFilter: React.FC<ArtworkFilterProps> = ({
   const { data: techniques, isLoading: techniquesLoading } = useTechniques();
   const { data: artists, isLoading: artistsLoading } = useArtists();
 
-  // Memorizar la representación JSON de filtros para comparaciones
-  const filtersJson = JSON.stringify(filters);
-
   // Actualizar filtros locales cuando cambien los props
   useEffect(() => {
-    const newFilters = JSON.parse(filtersJson);
-    // Solo actualizar si realmente hay cambios
-    if (JSON.stringify(localFilters) !== filtersJson) {
-      setLocalFilters(newFilters);
-    }
-  }, [filtersJson]);
+    setLocalFilters(filters);
+  }, [filters]);
 
   const toggleMobileFilters = () => {
     setMobileFiltersOpen(!mobileFiltersOpen);
@@ -87,6 +80,7 @@ const ArtworkFilter: React.FC<ArtworkFilterProps> = ({
 
   // Aplicar filtros
   const applyFilters = useCallback(() => {
+    console.log("Aplicando filtros:", localFilters);
     onChange(localFilters);
     setMobileFiltersOpen(false);
   }, [localFilters, onChange]);

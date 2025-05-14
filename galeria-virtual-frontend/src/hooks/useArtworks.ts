@@ -1,29 +1,29 @@
 import { useQuery } from 'react-query';
 import artworkService from '../services/artworkService';
 import { ArtworkFilters, ArtworkQuery } from '../types/artwork';
+import { useEffect } from 'react';
 
 // Hook para obtener todas las obras con filtros opcionales
 export function useArtworks(filters?: ArtworkFilters): ArtworkQuery {
-  // Usar JSON.stringify para asegurar que la clave de caché sea estable
-  // Esto evita refetches innecesarios cuando los filtros no han cambiado realmente
-  const queryKey = ['artworks', JSON.stringify(filters)];
-  
+  // Usar objetos directamente como dependencias para los query keys
   const { data, isLoading, error, refetch } = useQuery(
-    queryKey,
+    ['artworks', filters], // React Query detectará cambios en el objeto filters
     () => artworkService.getArtworks(filters),
     {
-      keepPreviousData: true, // Mantener datos anteriores mientras se carga
-      staleTime: 1000 * 60 * 5, // 5 minutos antes de considerar datos obsoletos
-      // Reintentar hasta 2 veces en caso de error
+      keepPreviousData: true,
+      staleTime: 1000 * 60 * 5, // 5 minutos
       retry: 2,
-      // No refrescar al recuperar el foco de la ventana
       refetchOnWindowFocus: false,
     }
   );
   
+  useEffect(() => {
+    // Forzar refetch cuando cambien los filtros
+    refetch();
+  }, [filters, refetch]);
+  
   return { data, isLoading, error, refetch };
 }
-
 // Hook para obtener obras destacadas
 export function useFeaturedArtworks(): ArtworkQuery {
   const { data, isLoading, error, refetch } = useQuery(
