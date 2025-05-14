@@ -110,3 +110,65 @@ export const deleteFile = (filePath: string): boolean => {
     return false;
   }
 };
+export const processMultipleImages = async (
+  filePaths: string[],
+  options: {
+    width?: number;
+    height?: number;
+    quality?: number;
+    format?: 'jpeg' | 'png' | 'webp';
+  } = {}
+): Promise<string[]> => {
+  const promises = filePaths.map(filePath => processImage(filePath, options));
+  return Promise.all(promises);
+};
+
+/**
+ * Generate image variations (thumbnail, medium, large)
+ */
+export const generateImageVariations = async (
+  originalPath: string,
+  baseName: string,
+  outputDir: string
+): Promise<{
+  thumbnail: string;
+  medium: string;
+  large: string;
+  original: string;
+}> => {
+  const ext = path.extname(originalPath);
+  const fileName = path.basename(originalPath, ext);
+  
+  const thumbnailPath = path.join(outputDir, `${baseName}_thumbnail.webp`);
+  const mediumPath = path.join(outputDir, `${baseName}_medium.webp`);
+  const largePath = path.join(outputDir, `${baseName}_large.webp`);
+  const optimizedOriginalPath = path.join(outputDir, `${baseName}_original.webp`);
+  
+  await Promise.all([
+    sharp(originalPath)
+      .resize(150, 150, { fit: 'inside' })
+      .webp({ quality: 80 })
+      .toFile(thumbnailPath),
+      
+    sharp(originalPath)
+      .resize(800, 800, { fit: 'inside' })
+      .webp({ quality: 80 })
+      .toFile(mediumPath),
+      
+    sharp(originalPath)
+      .resize(1920, 1920, { fit: 'inside' })
+      .webp({ quality: 85 })
+      .toFile(largePath),
+      
+    sharp(originalPath)
+      .webp({ quality: 90 })
+      .toFile(optimizedOriginalPath)
+  ]);
+  
+  return {
+    thumbnail: `/uploads/${path.basename(thumbnailPath)}`,
+    medium: `/uploads/${path.basename(mediumPath)}`,
+    large: `/uploads/${path.basename(largePath)}`,
+    original: `/uploads/${path.basename(optimizedOriginalPath)}`
+  };
+};

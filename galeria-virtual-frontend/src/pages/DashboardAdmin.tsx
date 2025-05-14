@@ -3,13 +3,13 @@ import { Link } from 'react-router-dom';
 import {
   ChartPieIcon,
   CurrencyDollarIcon,
-  ColorSwatchIcon,
+  SwatchIcon,
   UserGroupIcon,
-  PhotographIcon,
-  ChatAlt2Icon,
+  PhotoIcon,
+  ChatBubbleBottomCenterTextIcon,
   EyeIcon,
-  HeartIcon
-} from '@heroicons/react/outline';
+  HeartIcon,
+} from '@heroicons/react/24/outline';
 import { motion } from 'framer-motion';
 import AdminLayout from '../components/layout/AdminLayout';
 import Card from '../components/common/Card';
@@ -114,7 +114,7 @@ const DashboardAdmin: React.FC = () => {
         <motion.div variants={itemVariants}>
           <Card className="flex items-center p-4">
             <div className="p-3 rounded-full bg-purple-100 text-primary mr-4">
-              <PhotographIcon className="w-6 h-6" />
+              <PhotoIcon className="w-6 h-6" />
             </div>
             <div>
               <p className="text-sm text-neutral-dark">Obras totales</p>
@@ -139,7 +139,7 @@ const DashboardAdmin: React.FC = () => {
         <motion.div variants={itemVariants}>
           <Card className="flex items-center p-4">
             <div className="p-3 rounded-full bg-yellow-100 text-yellow-600 mr-4">
-              <ChatAlt2Icon className="w-6 h-6" />
+              <ChatBubbleBottomCenterTextIcon className="w-6 h-6" />
             </div>
             <div>
               <p className="text-sm text-neutral-dark">Consultas</p>
@@ -188,7 +188,7 @@ const DashboardAdmin: React.FC = () => {
         <motion.div variants={itemVariants}>
           <Card className="flex items-center p-4">
             <div className="p-3 rounded-full bg-red-100 text-red-600 mr-4">
-              <TagIcon className="w-6 h-6" />
+              <HeartIcon className="w-6 h-6" />
             </div>
             <div>
               <p className="text-sm text-neutral-dark">Categorías</p>
@@ -200,7 +200,7 @@ const DashboardAdmin: React.FC = () => {
         <motion.div variants={itemVariants}>
           <Card className="flex items-center p-4">
             <div className="p-3 rounded-full bg-orange-100 text-orange-600 mr-4">
-              <ColorSwatchIcon className="w-6 h-6" />
+              <SwatchIcon className="w-6 h-6" />
             </div>
             <div>
               <p className="text-sm text-neutral-dark">Técnicas</p>
@@ -265,7 +265,7 @@ const DashboardAdmin: React.FC = () => {
                 {data.recentQueries.map((query) => (
                   <div key={query.id} className="flex items-start">
                     <div className="w-10 h-10 bg-neutral-light rounded-full flex items-center justify-center mr-4">
-                      <ChatAlt2Icon className="w-5 h-5 text-neutral-dark" />
+                      <ChatBubbleBottomCenterTextIcon className="w-5 h-5 text-neutral-dark" />
                     </div>
                     <div className="flex-1">
                       <h4 className="font-medium">{query.name}</h4>

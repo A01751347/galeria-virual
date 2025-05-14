@@ -1,6 +1,13 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { PlusIcon, SearchIcon, FilterIcon, PencilIcon, TrashIcon } from '@heroicons/react/outline';
+import {
+  PlusIcon,
+  MagnifyingGlassIcon,
+  FunnelIcon,
+  PencilIcon,
+  TrashIcon,
+} from '@heroicons/react/24/outline';
+
 import { motion } from 'framer-motion';
 import AdminLayout from '../components/layout/AdminLayout';
 import Button from '../components/common/Button';
@@ -54,13 +61,13 @@ const AdminArtworksPage: React.FC = () => {
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
               <div className="absolute left-3 top-1/2 transform -translate-y-1/2">
-                <SearchIcon className="w-5 h-5 text-neutral-dark" />
+                <MagnifyingGlassIcon className="w-5 h-5 text-neutral-dark" />
               </div>
             </div>
             <div>
               <Button
                 variant="outline"
-                icon={<FilterIcon className="w-5 h-5 mr-2" />}
+                icon={<FunnelIcon className="w-5 h-5 mr-2" />}
                 onClick={() => setShowFilters(!showFilters)}
               >
                 Filtros

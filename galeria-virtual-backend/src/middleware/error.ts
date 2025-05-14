@@ -1,24 +1,38 @@
+// src/middleware/error.ts
 import { Request, Response, NextFunction } from 'express';
 import { logger } from '../utils/logger';
+import { AppError } from '../utils/errorTypes';
 
-interface ApiError extends Error {
-  statusCode?: number;
-  errors?: any[];
-}
-
-export default (err: ApiError, req: Request, res: Response, next: NextFunction) => {
-  const statusCode = err.statusCode || 500;
+export default (err: Error, req: Request, res: Response, next: NextFunction) => {
+  logger.error(`Error: ${err.message}`);
   
-  // Log del error
-  logger.error(`Error ${statusCode}: ${err.message}`);
   if (err.stack) {
     logger.error(err.stack);
   }
   
-  res.status(statusCode).json({
+  // Handle specific error types
+  if (err instanceof AppError) {
+    return res.status(err.statusCode).json({
+      success: false,
+      message: err.message,
+      errors: err.errors || null,
+      ...(process.env.NODE_ENV === 'development' && { stack: err.stack })
+    });
+  }
+  
+  // Handle database errors
+  if (err.name === 'SequelizeValidationError' || err.name === 'SequelizeUniqueConstraintError') {
+    return res.status(400).json({
+      success: false,
+      message: 'Error de validación',
+      errors: err.errors?.map((e: any) => ({ field: e.path, message: e.message }))
+    });
+  }
+
+  // Default 500 error
+  return res.status(500).json({
     success: false,
-    message: statusCode === 500 ? 'Error interno del servidor' : err.message,
-    errors: err.errors || null,
-    stack: process.env.NODE_ENV === 'development' ? err.stack : undefined
+    message: 'Error interno del servidor',
+    ...(process.env.NODE_ENV === 'development' && { stack: err.stack })
   });
 };

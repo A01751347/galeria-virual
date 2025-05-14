@@ -9,6 +9,8 @@ import routes from './routes';
 import errorMiddleware from './middleware/error';
 import corsMiddleware from './config/cors';
 import { createUploadDirs } from './services/uploadService';
+import { apiLimiter, authLimiter } from './middleware/rateLimit';
+
 
 // Cargar variables de entorno
 dotenv.config();
@@ -18,6 +20,7 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Middlewares
+
 app.use(helmet());
 app.use(corsMiddleware);
 app.use(compression());
@@ -28,6 +31,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, '../public')));
 
 // Rutas API
+app.use('/api', apiLimiter);
+app.use('/api/auth', authLimiter);
 app.use('/api', routes);
 
 // Ruta para verificar el estado de la API

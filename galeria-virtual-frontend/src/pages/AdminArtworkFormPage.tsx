@@ -8,6 +8,8 @@ import Card from '../components/common/Card';
 import { useCategories, useTechniques } from '../hooks/useCategories';
 import { useArtists } from '../hooks/useArtists';
 import { useArtworkDetail } from '../hooks/useArtworks';
+import artworkService from '../services/artworkService';
+import { useQuery } from 'react-query';
 
 const AdminArtworkFormPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -42,10 +44,11 @@ const AdminArtworkFormPage: React.FC = () => {
   const { data: artists, isLoading: artistsLoading } = useArtists();
   
   // Si estamos editando, obtener datos de la obra
-  const { data: artworkData, isLoading: artworkLoading } = useArtworkDetail(
-    isEditing ? parseInt(id as string) : 0,
-    { enabled: isEditing }
-  );
+  const { data: artworkData, isLoading: artworkLoading } = useQuery(
+  ['artworkDetail', isEditing ? parseInt(id as string) : 0],
+  () => isEditing ? artworkService.getArtworkDetail(parseInt(id as string)) : null,
+  { enabled: isEditing }
+);
   
   // Cargar datos de la obra si estamos editando
   useEffect(() => {
@@ -196,7 +199,7 @@ const AdminArtworkFormPage: React.FC = () => {
       
       // Enviar a la API
       // En un caso real, aquí se enviaría a la API
-      console.log('Enviando datos:', Object.fromEntries(submitData.entries()));
+      console.log('Enviando datos:', Object.fromEntries([...(submitData as any).entries()]));
       
       // Simular una petición exitosa
       await new Promise(resolve => setTimeout(resolve, 1000));

@@ -3,18 +3,18 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import {
   HomeIcon,
-  PhotographIcon,
+  PhotoIcon,
   UserGroupIcon,
   TagIcon,
-  ColorSwatchIcon,
+  SwatchIcon,
   ChartBarIcon,
-  ChatAlt2Icon,
+  ChatBubbleBottomCenterTextIcon,
   CurrencyDollarIcon,
-  CogIcon,
-  MenuIcon,
-  XIcon,
-  LogoutIcon
-} from '@heroicons/react/outline';
+  Cog6ToothIcon,
+  Bars3Icon,
+  XMarkIcon,
+  ArrowRightOnRectangleIcon
+} from '@heroicons/react/24/outline';
 
 interface AdminLayoutProps {
   children: React.ReactNode;
@@ -33,14 +33,14 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
 
   const menuItems = [
     { path: '/admin', label: 'Dashboard', icon: HomeIcon },
-    { path: '/admin/obras', label: 'Obras', icon: PhotographIcon },
+    { path: '/admin/obras', label: 'Obras', icon: PhotoIcon },
     { path: '/admin/artistas', label: 'Artistas', icon: UserGroupIcon },
     { path: '/admin/categorias', label: 'Categorías', icon: TagIcon },
-    { path: '/admin/tecnicas', label: 'Técnicas', icon: ColorSwatchIcon },
-    { path: '/admin/consultas', label: 'Consultas', icon: ChatAlt2Icon },
+    { path: '/admin/tecnicas', label: 'Técnicas', icon: SwatchIcon },
+    { path: '/admin/consultas', label: 'Consultas', icon: ChatBubbleBottomCenterTextIcon },
     { path: '/admin/ventas', label: 'Ventas', icon: CurrencyDollarIcon },
     { path: '/admin/estadisticas', label: 'Estadísticas', icon: ChartBarIcon },
-    { path: '/admin/configuracion', label: 'Configuración', icon: CogIcon },
+    { path: '/admin/configuracion', label: 'Configuración', icon: Cog6ToothIcon },
   ];
 
   const isActiveRoute = (path: string) => {
@@ -64,7 +64,7 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
               onClick={() => setSidebarOpen(false)}
               className="p-2 text-neutral-dark rounded hover:bg-neutral-lightest"
             >
-              <XIcon className="w-6 h-6" />
+              <XMarkIcon className="w-6 h-6" />
             </button>
           </div>
           
@@ -94,7 +94,7 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
               onClick={handleLogout}
               className="flex items-center w-full p-3 rounded-lg text-red-600 hover:bg-neutral-lightest"
             >
-              <LogoutIcon className="w-5 h-5 mr-3" />
+              <ArrowRightOnRectangleIcon className="w-5 h-5 mr-3" />
               Cerrar sesión
             </button>
           </div>
@@ -135,7 +135,7 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
               onClick={handleLogout}
               className="flex items-center w-full p-3 rounded-lg text-red-600 hover:bg-neutral-lightest"
             >
-              <LogoutIcon className="w-5 h-5 mr-3" />
+              <ArrowRightOnRectangleIcon className="w-5 h-5 mr-3" />
               Cerrar sesión
             </button>
           </div>
@@ -150,7 +150,7 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
             onClick={() => setSidebarOpen(true)}
             className="md:hidden p-2 mr-4 text-neutral-dark rounded hover:bg-neutral-lightest"
           >
-            <MenuIcon className="w-6 h-6" />
+            <Bars3Icon className="w-6 h-6" />
           </button>
           
           <div className="flex-1">
