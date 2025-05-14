@@ -1,6 +1,9 @@
 import fs from 'fs';
 import path from 'path';
 import sharp from 'sharp';
+
+import { s3, BUCKET } from "../config/s3";
+import { DeleteObjectCommand, PutObjectCommand } from "@aws-sdk/client-s3";
 import { logger } from '../utils/logger';
 
 const UPLOAD_BASE_DIR = path.join(__dirname, '../../public/uploads');
@@ -26,64 +29,48 @@ export const createUploadDirs = (): void => {
  * @param filePath Ruta del archivo a procesar
  * @param options Opciones de procesamiento
  */
+
 export const processImage = async (
-  filePath: string, 
+  filePath: string,
   options: {
     width?: number;
     height?: number;
     quality?: number;
-    format?: 'jpeg' | 'png' | 'webp';
+    format?: "jpeg" | "png" | "webp";
   } = {}
 ): Promise<string> => {
+  const { width, height, quality = 80, format = "webp" } = options;
+  const parsed = path.parse(filePath);
+  const key = `uploads/${parsed.dir.split("uploads/").pop() || ""}/${parsed.name}.${format}`;
+
   try {
-    const { 
-      width, 
-      height, 
-      quality = 80, 
-      format = 'webp' 
-    } = options;
-    
-    // Definir output path
-    const parsedPath = path.parse(filePath);
-    const outputFilename = `${parsedPath.name}.${format}`;
-    const outputPath = path.join(parsedPath.dir, outputFilename);
-    
-    // Procesar con sharp
-    let sharpInstance = sharp(filePath);
-    
-    // Resize si se especificaron dimensiones
+    let img = sharp(filePath);
     if (width || height) {
-      sharpInstance = sharpInstance.resize({
-        width,
-        height,
-        fit: 'inside',
-        withoutEnlargement: true
-      });
+      img = img.resize({ width, height, fit: "inside", withoutEnlargement: true });
     }
-    
-    // Establecer formato y calidad
-    if (format === 'jpeg') {
-      sharpInstance = sharpInstance.jpeg({ quality });
-    } else if (format === 'png') {
-      sharpInstance = sharpInstance.png({ quality });
-    } else {
-      sharpInstance = sharpInstance.webp({ quality });
-    }
-    
-    // Guardar imagen procesada
-    await sharpInstance.toFile(outputPath);
-    
-    // Eliminar archivo original si es diferente
-    if (filePath !== outputPath) {
-      fs.unlinkSync(filePath);
-    }
-    
-    // Devolver ruta relativa para guardar en BD
-    const relativePath = outputPath.replace(path.join(__dirname, '../../public'), '');
-    return relativePath;
-  } catch (error) {
-    logger.error('Error al procesar imagen:', error);
-    throw error;
+    img = format === "jpeg"
+      ? img.jpeg({ quality })
+      : format === "png"
+        ? img.png({ quality })
+        : img.webp({ quality });
+
+    const buffer = await img.toBuffer();
+
+    await s3.send(new PutObjectCommand({
+      Bucket: BUCKET,
+      Key: key,
+      Body: buffer,
+      ContentType: `image/${format}`,
+      ACL: "public-read"
+    }));
+
+    // Opcional: borra el archivo local original
+    fs.unlinkSync(filePath);
+
+    return `https://${BUCKET}.s3.${process.env.AWS_REGION}.amazonaws.com/${key}`;
+  } catch (err) {
+    logger.error("Error procesando y subiendo imagen:", err);
+    throw err;
   }
 };
 
@@ -91,25 +78,20 @@ export const processImage = async (
  * Eliminar archivo del sistema
  * @param filePath Ruta relativa del archivo a eliminar
  */
-export const deleteFile = (filePath: string): boolean => {
+export const deleteFile = async (key: string): Promise<boolean> => {
   try {
-    // Convertir ruta relativa a absoluta
-    const fullPath = path.join(__dirname, '../../public', filePath);
-    
-    // Verificar si existe el archivo
-    if (fs.existsSync(fullPath)) {
-      fs.unlinkSync(fullPath);
-      logger.info(`Archivo eliminado: ${fullPath}`);
-      return true;
-    }
-    
-    logger.warn(`Archivo no encontrado para eliminar: ${fullPath}`);
-    return false;
-  } catch (error) {
-    logger.error(`Error al eliminar archivo ${filePath}:`, error);
+    await s3.send(new DeleteObjectCommand({
+      Bucket: BUCKET,
+      Key: key.replace(`https://${BUCKET}.s3.${process.env.AWS_REGION}.amazonaws.com/`, "")
+    }));
+    logger.info(`Eliminado de S3: ${key}`);
+    return true;
+  } catch (err) {
+    logger.error(`Error eliminando ${key}:`, err);
     return false;
   }
 };
+
 export const processMultipleImages = async (
   filePaths: string[],
   options: {
@@ -126,49 +108,43 @@ export const processMultipleImages = async (
 /**
  * Generate image variations (thumbnail, medium, large)
  */
+const uploadBuf = async (buffer: Buffer, key: string, contentType: string) =>
+  s3.send(new PutObjectCommand({
+    Bucket: BUCKET,
+    Key: key,
+    Body: buffer,
+    ContentType: contentType,
+    ACL: "public-read"
+  }));
+
 export const generateImageVariations = async (
-  originalPath: string,
-  baseName: string,
-  outputDir: string
-): Promise<{
-  thumbnail: string;
-  medium: string;
-  large: string;
-  original: string;
-}> => {
-  const ext = path.extname(originalPath);
-  const fileName = path.basename(originalPath, ext);
-  
-  const thumbnailPath = path.join(outputDir, `${baseName}_thumbnail.webp`);
-  const mediumPath = path.join(outputDir, `${baseName}_medium.webp`);
-  const largePath = path.join(outputDir, `${baseName}_large.webp`);
-  const optimizedOriginalPath = path.join(outputDir, `${baseName}_original.webp`);
-  
-  await Promise.all([
-    sharp(originalPath)
-      .resize(150, 150, { fit: 'inside' })
-      .webp({ quality: 80 })
-      .toFile(thumbnailPath),
-      
-    sharp(originalPath)
-      .resize(800, 800, { fit: 'inside' })
-      .webp({ quality: 80 })
-      .toFile(mediumPath),
-      
-    sharp(originalPath)
-      .resize(1920, 1920, { fit: 'inside' })
-      .webp({ quality: 85 })
-      .toFile(largePath),
-      
-    sharp(originalPath)
-      .webp({ quality: 90 })
-      .toFile(optimizedOriginalPath)
-  ]);
-  
-  return {
-    thumbnail: `/uploads/${path.basename(thumbnailPath)}`,
-    medium: `/uploads/${path.basename(mediumPath)}`,
-    large: `/uploads/${path.basename(largePath)}`,
-    original: `/uploads/${path.basename(optimizedOriginalPath)}`
+  localPath: string,
+  baseName: string
+) => {
+  const variants = [
+    { suffix: "_thumbnail.webp", resize: { width: 150, height: 150 } },
+    { suffix: "_medium.webp",   resize: { width: 800,  height: 800 } },
+    { suffix: "_large.webp",    resize: { width: 1920, height: 1920, quality: 85 } },
+    { suffix: "_original.webp", resize: {}, quality: 90 }
+  ];
+
+  const urls: Record<string,string> = {};
+  for (const v of variants) {
+    let proc = sharp(localPath);
+    if (v.resize.width || v.resize.height) {
+      proc = proc.resize({ ...v.resize, fit: "inside", withoutEnlargement: true });
+    }
+    proc = proc.webp({ quality: v.quality ?? 80 });
+    const buf = await proc.toBuffer();
+    const key = `uploads/${baseName}${v.suffix}`;
+    await uploadBuf(buf, key, "image/webp");
+    urls[v.suffix.replace(".webp","")] = `https://${BUCKET}.s3.${process.env.AWS_REGION}.amazonaws.com/${key}`;
+  }
+  // borra local si quieres...
+  return urls as {
+    thumbnail: string;
+    medium: string;
+    large: string;
+    original: string;
   };
 };
