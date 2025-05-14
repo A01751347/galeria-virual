@@ -204,20 +204,23 @@ const artworkService = {
   },
 
   // Actualizar una obra existente
-  updateArtwork: async (id: number, artworkData: FormData): Promise<Artwork> => {
-    try {
-      const response = await api.put(`/obras/${id}`, artworkData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
-      
-      return adaptArtwork(response.data.data);
-    } catch (error) {
-      console.error(`Error al actualizar obra ${id}:`, error);
-      throw error;
-    }
-  },
+// Actualizar una obra existente
+updateArtwork: async (id: number, formData: FormData): Promise<Artwork> => {
+  try {
+    // Log para depurar el FormData
+    
+    const response = await api.put(`/obras/${id}`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+    
+    return adaptArtwork(response.data.data);
+  } catch (error) {
+    console.error(`Error al actualizar obra ${id}:`, error);
+    throw error;
+  }
+},
 
   // Actualizar el estado de disponibilidad y destacado de una obra
   updateArtworkStatus: async (id: number, disponible?: boolean, destacado?: boolean): Promise<boolean> => {

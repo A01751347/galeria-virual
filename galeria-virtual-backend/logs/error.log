@@ -72,3 +72,6 @@
     at Layer.handle [as handle_request] (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/layer.js:95:5)
     at /Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/index.js:284:15
     at Function.process_params (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/index.js:346:12)
+2025-05-13 23:22:21 error: Error al conectar a la base de datos: getaddrinfo ENOTFOUND database-2.c7uwe4okm9f3.us-east-2.rds.amazonaws.com getaddrinfo ENOTFOUND database-2.c7uwe4okm9f3.us-east-2.rds.amazonaws.com
+2025-05-13 23:22:41 error: Error al conectar a la base de datos: getaddrinfo ENOTFOUND database-2.c7uwe4okm9f3.us-east-2.rds.amazonaws.com getaddrinfo ENOTFOUND database-2.c7uwe4okm9f3.us-east-2.rds.amazonaws.com
+2025-05-13 23:23:04 error: Error al conectar a la base de datos: getaddrinfo ENOTFOUND database-2.c7uwe4okm9f3.us-east-2.rds.amazonaws.com getaddrinfo ENOTFOUND database-2.c7uwe4okm9f3.us-east-2.rds.amazonaws.com

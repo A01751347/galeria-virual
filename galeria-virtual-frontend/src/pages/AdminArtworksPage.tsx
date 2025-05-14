@@ -185,9 +185,9 @@ const AdminArtworksPage: React.FC = () => {
                             src={artwork.main_image_url}
                             alt={artwork.title}
                             className="w-full h-full object-cover"
-                            onError={(e) => {
-                              (e.target as HTMLImageElement).src = 'https://via.placeholder.com/40';
-                            }}
+                            // onError={(e) => {
+                            //   (e.target as HTMLImageElement).src = 'https://via.placeholder.com/40';
+                            // }}
                           />
                         </div>
                         <div>

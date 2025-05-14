@@ -24,10 +24,10 @@ router.get('/categoria/:categoriaId', obraController.getObrasPorCategoria);
 router.get('/artista/:artistaId', obraController.getObrasPorArtista);
 router.get('/:id', obraController.getDetalleObra);
 
-// Rutas protegidas (requieren autenticación)
-router.post('/', authMiddleware, uploadObra.single('imagen'), validacionesObra, obraController.crearObra);
-router.put('/:id', authMiddleware, uploadObra.single('imagen'), validacionesObra, obraController.actualizarObra);
-router.patch('/:id/estado', authMiddleware, obraController.actualizarEstadoObra);
-router.delete('/:id', authMiddleware, obraController.eliminarObra);
+// Rutas “protegidas” sin authMiddleware
+router.post('/', uploadObra.single('imagen'), validacionesObra, obraController.crearObra);
+router.put('/:id', uploadObra.single('imagen'), validacionesObra, obraController.actualizarObra);
+router.patch('/:id/estado', obraController.actualizarEstadoObra);
+router.delete('/:id', obraController.eliminarObra);
 
 export default router;

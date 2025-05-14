@@ -9,15 +9,16 @@ import { useCategories, useTechniques } from '../hooks/useCategories';
 import { useArtists } from '../hooks/useArtists';
 import { useArtworkDetail } from '../hooks/useArtworks';
 import artworkService from '../services/artworkService';
-import { useQuery } from 'react-query';
+import ErrorMessage from '../components/common/ErrorMessage';
+import { logWithColor } from '../utils/debugHelper';
 
 const AdminArtworkFormPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const isEditing = Boolean(id);
   const navigate = useNavigate();
   
-  // Datos iniciales del formulario
-  const initialFormData = {
+  // Estados del formulario
+  const [formData, setFormData] = useState({
     title: '',
     artist_id: '',
     category_id: '',
@@ -29,26 +30,26 @@ const AdminArtworkFormPage: React.FC = () => {
     story: '',
     available: true,
     featured: false,
-    main_image: null as File | null,
-    main_image_url: '',
-  };
+  });
   
-  const [formData, setFormData] = useState(initialFormData);
+  // Estado para la imagen
+  const [mainImage, setMainImage] = useState<File | null>(null);
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
+  
+  // Estado para el proceso de envío
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
   
   // Obtener datos para los selects
   const { data: categories, isLoading: categoriesLoading } = useCategories();
   const { data: techniques, isLoading: techniquesLoading } = useTechniques();
   const { data: artists, isLoading: artistsLoading } = useArtists();
   
-  // Si estamos editando, obtener datos de la obra
-  const { data: artworkData, isLoading: artworkLoading } = useQuery(
-  ['artworkDetail', isEditing ? parseInt(id as string) : 0],
-  () => isEditing ? artworkService.getArtworkDetail(parseInt(id as string)) : null,
-  { enabled: isEditing }
-);
+  // Obtener datos de la obra si estamos editando
+  const { data: artworkData, isLoading: artworkLoading } = useArtworkDetail(
+    isEditing ? parseInt(id as string) : 0
+  );
   
   // Cargar datos de la obra si estamos editando
   useEffect(() => {
@@ -66,19 +67,20 @@ const AdminArtworkFormPage: React.FC = () => {
         story: artwork.story || '',
         available: artwork.available,
         featured: artwork.featured,
-        main_image: null,
-        main_image_url: artwork.main_image_url,
       });
       
       // Establecer preview de la imagen
-      setImagePreview(artwork.main_image_url);
+      if (artwork.main_image_url) {
+        setImagePreview(artwork.main_image_url);
+      }
     }
   }, [isEditing, artworkData]);
   
-  // Manejar cambios en los inputs
+  // Manejar cambios en los inputs de texto
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value, type } = e.target;
     
+    // Para checkboxes
     if (type === 'checkbox') {
       const checked = (e.target as HTMLInputElement).checked;
       setFormData(prev => ({ ...prev, [name]: checked }));
@@ -86,7 +88,7 @@ const AdminArtworkFormPage: React.FC = () => {
       setFormData(prev => ({ ...prev, [name]: value }));
     }
     
-    // Limpiar el error al modificar el campo
+    // Limpiar errores
     if (errors[name]) {
       setErrors(prev => {
         const newErrors = { ...prev };
@@ -99,22 +101,15 @@ const AdminArtworkFormPage: React.FC = () => {
   // Manejar cambio de imagen
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0] || null;
-    setFormData(prev => ({ ...prev, main_image: file }));
-    
-    // Generar preview de la imagen
     if (file) {
+      setMainImage(file);
+      
+      // Generar preview
       const reader = new FileReader();
       reader.onloadend = () => {
         setImagePreview(reader.result as string);
       };
       reader.readAsDataURL(file);
-    } else {
-      // Si no hay archivo y estamos editando, mantener la imagen actual
-      if (isEditing && artworkData?.artwork) {
-        setImagePreview(artworkData.artwork.main_image_url);
-      } else {
-        setImagePreview(null);
-      }
     }
   };
   
@@ -149,8 +144,8 @@ const AdminArtworkFormPage: React.FC = () => {
     }
     
     // Si es una obra nueva, la imagen es obligatoria
-    if (!isEditing && !formData.main_image) {
-      newErrors.main_image = 'La imagen es obligatoria';
+    if (!isEditing && !mainImage && !imagePreview) {
+      newErrors.image = 'La imagen es obligatoria';
     }
     
     setErrors(newErrors);
@@ -158,72 +153,71 @@ const AdminArtworkFormPage: React.FC = () => {
   };
   
   // Enviar formulario
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    if (!validateForm()) {
-      return;
+// Enviar formulario
+const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
+
+  if (!validateForm()) return;
+
+  setIsSubmitting(true);
+
+  try {
+    const form = new FormData();
+
+    // ⚠️ Cambié los keys a español:
+    form.append('titulo', formData.title);
+    form.append('id_artista', formData.artist_id);
+    form.append('id_categoria', formData.category_id);
+    form.append('id_tecnica', formData.technique_id);
+    form.append('precio', formData.price);
+    form.append('descripcion', formData.description);
+    form.append('disponible', formData.available.toString());
+    form.append('destacado', formData.featured.toString());
+
+    // Campos opcionales
+    if (formData.year_created) {
+      form.append('anio_creacion', formData.year_created);
     }
-    
-    setIsSubmitting(true);
-    
-    try {
-      // Crear FormData para enviar la imagen
-      const submitData = new FormData();
-      submitData.append('title', formData.title);
-      submitData.append('artist_id', formData.artist_id);
-      submitData.append('category_id', formData.category_id);
-      submitData.append('technique_id', formData.technique_id);
-      submitData.append('price', formData.price);
-      submitData.append('description', formData.description);
-      
-      if (formData.year_created) {
-        submitData.append('year_created', formData.year_created);
-      }
-      
-      if (formData.dimensions) {
-        submitData.append('dimensions', formData.dimensions);
-      }
-      
-      if (formData.story) {
-        submitData.append('story', formData.story);
-      }
-      
-      submitData.append('available', formData.available.toString());
-      submitData.append('featured', formData.featured.toString());
-      
-      // Agregar imagen si existe
-      if (formData.main_image) {
-        submitData.append('imagen', formData.main_image);
-      }
-      
-      // Enviar a la API
-      // En un caso real, aquí se enviaría a la API
-      console.log('Enviando datos:', Object.fromEntries([...(submitData as any).entries()]));
-      
-      // Simular una petición exitosa
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      // Redireccionar a la lista de obras
-      navigate('/admin/obras');
-    } catch (error) {
-      console.error('Error al guardar la obra:', error);
-      // Mostrar error
-    } finally {
-      setIsSubmitting(false);
+    if (formData.dimensions) {
+      form.append('dimensiones', formData.dimensions);
     }
-  };
+    if (formData.story) {
+      form.append('historia', formData.story);
+    }
+
+    // Imagen
+    if (mainImage) {
+      form.append('imagen', mainImage);
+    }
+
+    if (isEditing) {
+      await artworkService.updateArtwork(parseInt(id as string), form);
+      setSuccessMessage('¡Obra actualizada con éxito!');
+    } else {
+      await artworkService.createArtwork(form);
+      setSuccessMessage('¡Obra creada con éxito!');
+    }
+
+    setTimeout(() => navigate('/admin/obras'), 1500);
+  } catch (err: any) {
+    console.error('Error al guardar la obra:', err);
+    setErrors({ submit: 'Ha ocurrido un error. Por favor, intenta nuevamente.' });
+  } finally {
+    setIsSubmitting(false);
+  }
+};
+
   
-  // Determinar si estamos cargando datos iniciales
-  const isInitialLoading = (isEditing && artworkLoading) || categoriesLoading || techniquesLoading || artistsLoading;
+  // Verificar si estamos cargando datos iniciales
+  const isLoading = (isEditing && artworkLoading) || categoriesLoading || techniquesLoading || artistsLoading;
   
-  if (isInitialLoading) {
+  // Si estamos cargando, mostrar un skeleton
+  if (isLoading) {
     return (
       <AdminLayout>
         <div className="animate-pulse">
           <div className="h-8 bg-neutral-light rounded w-1/3 mb-4"></div>
           <div className="h-4 bg-neutral-light rounded w-1/4 mb-8"></div>
-          
           <div className="bg-white rounded-lg p-8">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {Array.from({ length: 8 }).map((_, i) => (
@@ -243,11 +237,20 @@ const AdminArtworkFormPage: React.FC = () => {
           {isEditing ? 'Editar Obra' : 'Nueva Obra'}
         </h2>
         <p className="text-neutral-dark">
-          {isEditing
-            ? 'Modifica los datos de la obra'
-            : 'Ingresa los datos para crear una nueva obra'}
+          {isEditing ? 'Modifica los datos de la obra' : 'Ingresa los detalles para crear una nueva obra'}
         </p>
       </div>
+      
+      {/* Mensajes de error o éxito */}
+      {errors.submit && (
+        <ErrorMessage message={errors.submit} className="mb-6" />
+      )}
+      
+      {successMessage && (
+        <div className="bg-green-50 border-l-4 border-green-500 text-green-700 p-4 mb-6">
+          {successMessage}
+        </div>
+      )}
       
       <Card>
         <form onSubmit={handleSubmit} className="p-6">
@@ -359,6 +362,7 @@ const AdminArtworkFormPage: React.FC = () => {
                 label="Precio *"
                 name="price"
                 type="number"
+                step="0.01"
                 value={formData.price}
                 onChange={handleChange}
                 error={errors.price}
@@ -373,7 +377,7 @@ const AdminArtworkFormPage: React.FC = () => {
                     type="checkbox"
                     className="h-4 w-4 text-primary focus:ring-primary border-neutral-light rounded"
                     checked={formData.available}
-                    onChange={(e) => handleChange(e)}
+                    onChange={(e) => setFormData(prev => ({ ...prev, available: e.target.checked }))}
                   />
                   <label htmlFor="available" className="ml-2 block font-medium">
                     Disponible para venta
@@ -389,7 +393,7 @@ const AdminArtworkFormPage: React.FC = () => {
                     type="checkbox"
                     className="h-4 w-4 text-primary focus:ring-primary border-neutral-light rounded"
                     checked={formData.featured}
-                    onChange={(e) => handleChange(e)}
+                    onChange={(e) => setFormData(prev => ({ ...prev, featured: e.target.checked }))}
                   />
                   <label htmlFor="featured" className="ml-2 block font-medium">
                     Destacada en página principal
@@ -438,7 +442,7 @@ const AdminArtworkFormPage: React.FC = () => {
                         <span>Subir imagen</span>
                         <input
                           id="image-upload"
-                          name="image-upload"
+                          name="image"
                           type="file"
                           className="sr-only"
                           accept="image/*"
@@ -451,8 +455,8 @@ const AdminArtworkFormPage: React.FC = () => {
                     </p>
                   </div>
                 </div>
-                {errors.main_image && (
-                  <p className="mt-1 text-sm text-red-600">{errors.main_image}</p>
+                {errors.image && (
+                  <p className="mt-1 text-sm text-red-600">{errors.image}</p>
                 )}
               </div>
               
