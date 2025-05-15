@@ -271,3 +271,233 @@
 2025-05-14 10:27:32 info: [DEBUG] URL de imagen asignada: /uploads/obras/1747240052189-d0b74ecb-a902-473d-9381-12f3009bb212.png
 2025-05-14 10:27:32 info: [DEBUG] Intentando actualizar obra con datos: {"titulo":"Raíces de Tiempo","id_artista":"2","id_categoria":"1","id_tecnica":"1","precio":"25000.00","descripcion":"Retrato estilizado que explora la conexión entre el pasado y el presente de la cultura mexicana.","disponible":"1","destacado":"1","anio_creacion":"2018","dimensiones":"90x120 cm","historia":"Creada durante un período de reflexión sobre la identidad nacional y personal de la artista.","url_imagen_principal":"/uploads/obras/1747240052189-d0b74ecb-a902-473d-9381-12f3009bb212.png"}
 2025-05-14 10:27:33 info: [DEBUG] Obra actualizada exitosamente: {"id":2,"titulo":"Raíces de Tiempo","id_artista":2,"id_categoria":1,"id_tecnica":1,"anio_creacion":2018,"dimensiones":"90x120 cm","precio":"25000.00","descripcion":"Retrato estilizado que explora la conexión entre el pasado y el presente de la cultura mexicana.","historia":"Creada durante un período de reflexión sobre la identidad nacional y personal de la artista.","disponible":1,"destacado":1,"url_imagen_principal":"/uploads/obras/1747240052189-d0b74ecb-a902-473d-9381-12f3009bb212.png","codigo_qr":"OBR2345BCD","visitas":4,"fecha_creacion":"2025-05-12T13:37:02.000Z","fecha_actualizacion":"2025-05-14T22:27:32.000Z","activo":1,"nombre_artista":"Frida","apellidos_artista":"Kahlo","biografia_artista":"Icónica pintora mexicana conocida por sus autorretratos y obras inspiradas en la naturaleza y cultura de México.","nombre_categoria":"Pintura","nombre_tecnica":"Óleo","total_visitas":4,"imagenes":[{"id":4,"id_obra":2,"url_imagen":"https://f5c4537feeb2b644adaf-b9c0667778661278083bed3d7c96b2f8.ssl.cf1.rackcdn.com/piezas/3817/raices-museo-amparo-puebla-20210603-121318.jpg","es_principal":1,"titulo":"Vista frontal","descripcion":"Vista principal de la obra","fecha_creacion":"2025-05-12T13:37:02.000Z","fecha_actualizacion":"2025-05-12T13:53:12.000Z","activo":1},{"id":5,"id_obra":2,"url_imagen":"https://museoamparo.com/colecciones/pieza/3817/raices","es_principal":0,"titulo":"Detalle rostro","descripcion":"Detalle del rostro del personaje principal","fecha_creacion":"2025-05-12T13:37:02.000Z","fecha_actualizacion":"2025-05-12T13:49:17.000Z","activo":1}]}
+2025-05-14 14:00:42 info: Conexión a la base de datos establecida correctamente
+2025-05-14 14:00:42 info: Servidor escuchando en el puerto 3000
+2025-05-14 14:00:42 info: Ambiente: development
+2025-05-14 14:00:42 info: URL del servidor: http://localhost:3000
+2025-05-14 14:00:51 warn: Rate limit exceeded for IP: ::1
+2025-05-14 14:00:52 warn: Rate limit exceeded for IP: ::1
+2025-05-14 14:00:54 warn: Rate limit exceeded for IP: ::1
+2025-05-14 14:00:54 warn: Rate limit exceeded for IP: ::1
+2025-05-14 14:00:55 warn: Rate limit exceeded for IP: ::1
+2025-05-14 14:00:57 warn: Rate limit exceeded for IP: ::1
+2025-05-14 14:00:57 warn: Rate limit exceeded for IP: ::1
+2025-05-14 14:00:58 warn: Rate limit exceeded for IP: ::1
+2025-05-14 14:01:00 warn: Rate limit exceeded for IP: ::1
+2025-05-14 14:01:00 warn: Rate limit exceeded for IP: ::1
+2025-05-14 14:01:00 warn: Rate limit exceeded for IP: ::1
+2025-05-14 14:01:01 warn: Rate limit exceeded for IP: ::1
+2025-05-14 14:01:09 info: Conexión a la base de datos establecida correctamente
+2025-05-14 14:01:09 info: Servidor escuchando en el puerto 3000
+2025-05-14 14:01:09 info: Ambiente: development
+2025-05-14 14:01:09 info: URL del servidor: http://localhost:3000
+2025-05-14 14:01:30 warn: Rate limit exceeded for IP: ::1
+2025-05-14 14:01:31 warn: Rate limit exceeded for IP: ::1
+2025-05-14 14:01:33 warn: Rate limit exceeded for IP: ::1
+2025-05-14 14:01:33 warn: Rate limit exceeded for IP: ::1
+2025-05-14 14:01:34 warn: Rate limit exceeded for IP: ::1
+2025-05-14 14:01:36 warn: Rate limit exceeded for IP: ::1
+2025-05-14 14:01:36 warn: Rate limit exceeded for IP: ::1
+2025-05-14 14:01:37 warn: Rate limit exceeded for IP: ::1
+2025-05-14 14:01:37 warn: Rate limit exceeded for IP: ::1
+2025-05-14 14:01:38 warn: Rate limit exceeded for IP: ::1
+2025-05-14 14:01:38 warn: Rate limit exceeded for IP: ::1
+2025-05-14 14:01:40 warn: Rate limit exceeded for IP: ::1
+2025-05-14 14:01:50 info: Conexión a la base de datos establecida correctamente
+2025-05-14 14:01:50 info: Servidor escuchando en el puerto 3000
+2025-05-14 14:01:50 info: Ambiente: development
+2025-05-14 14:01:50 info: URL del servidor: http://localhost:3000
+2025-05-14 14:04:51 info: Imagen subida a S3: https://artwork-bucket-53.s3.us-east-2.amazonaws.com/uploads/obras/1747253090344-fed52aa3-01f5-439c-b749-be6b8bddfc7c-1747253090383.jpeg
+2025-05-14 14:05:06 info: Conexión a la base de datos establecida correctamente
+2025-05-14 14:05:06 info: Servidor escuchando en el puerto 3000
+2025-05-14 14:05:06 info: Ambiente: development
+2025-05-14 14:05:06 info: URL del servidor: http://localhost:3000
+2025-05-14 16:55:06 warn: Rate limit exceeded for IP: ::1
+2025-05-14 16:55:07 warn: Rate limit exceeded for IP: ::1
+2025-05-14 16:55:09 warn: Rate limit exceeded for IP: ::1
+2025-05-14 16:55:09 warn: Rate limit exceeded for IP: ::1
+2025-05-14 16:55:10 warn: Rate limit exceeded for IP: ::1
+2025-05-14 16:55:12 warn: Rate limit exceeded for IP: ::1
+2025-05-14 16:55:12 warn: Rate limit exceeded for IP: ::1
+2025-05-14 16:55:13 warn: Rate limit exceeded for IP: ::1
+2025-05-14 16:55:15 warn: Rate limit exceeded for IP: ::1
+2025-05-14 16:55:15 warn: Rate limit exceeded for IP: ::1
+2025-05-14 16:55:16 warn: Rate limit exceeded for IP: ::1
+2025-05-14 16:55:16 warn: Rate limit exceeded for IP: ::1
+2025-05-14 16:55:18 warn: Rate limit exceeded for IP: ::1
+2025-05-14 16:57:10 info: Conexión a la base de datos establecida correctamente
+2025-05-14 16:57:10 info: Servidor escuchando en el puerto 3000
+2025-05-14 16:57:10 info: Ambiente: development
+2025-05-14 16:57:10 info: URL del servidor: http://localhost:3000
+2025-05-14 22:16:39 info: Conexión a la base de datos establecida correctamente
+2025-05-14 22:16:39 info: Servidor escuchando en el puerto 3000
+2025-05-14 22:16:39 info: Ambiente: development
+2025-05-14 22:16:39 info: URL del servidor: http://localhost:3000
+2025-05-14 22:58:02 info: Conexión a la base de datos establecida correctamente
+2025-05-14 22:58:02 info: Servidor escuchando en el puerto 3000
+2025-05-14 22:58:02 info: Ambiente: development
+2025-05-14 22:58:02 info: URL del servidor: http://localhost:3000
+2025-05-14 23:08:34 info: Eliminando archivo de S3: uploads/obras/1747253090344-fed52aa3-01f5-439c-b749-be6b8bddfc7c-1747253090383.jpeg
+2025-05-14 23:08:35 info: Archivo eliminado correctamente de S3: uploads/obras/1747253090344-fed52aa3-01f5-439c-b749-be6b8bddfc7c-1747253090383.jpeg
+2025-05-14 23:08:35 info: Imagen eliminada de S3: https://artwork-bucket-53.s3.us-east-2.amazonaws.com/uploads/obras/1747253090344-fed52aa3-01f5-439c-b749-be6b8bddfc7c-1747253090383.jpeg
+2025-05-14 23:08:37 info: Eliminando archivo de S3: uploads/obras/1747244257423-f6e2d1c6-c149-486e-bb7e-99b2fac09456-1747244257457.png
+2025-05-14 23:08:37 info: Archivo eliminado correctamente de S3: uploads/obras/1747244257423-f6e2d1c6-c149-486e-bb7e-99b2fac09456-1747244257457.png
+2025-05-14 23:08:37 info: Imagen eliminada de S3: https://artwork-bucket-53.s3.us-east-2.amazonaws.com/uploads/obras/1747244257423-f6e2d1c6-c149-486e-bb7e-99b2fac09456-1747244257457.png
+2025-05-14 23:09:19 error: Error al ejecutar consulta SQL: getaddrinfo ENOTFOUND database-2.c7uwe4okm9f3.us-east-2.rds.amazonaws.com
+2025-05-14 23:09:19 error: Error al obtener obras destacadas: getaddrinfo ENOTFOUND database-2.c7uwe4okm9f3.us-east-2.rds.amazonaws.com
+2025-05-14 23:09:19 error: Error: getaddrinfo ENOTFOUND database-2.c7uwe4okm9f3.us-east-2.rds.amazonaws.com
+2025-05-14 23:09:19 error: Error: getaddrinfo ENOTFOUND database-2.c7uwe4okm9f3.us-east-2.rds.amazonaws.com
+    at PromisePool.execute (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/mysql2/promise.js:359:22)
+    at Object.query (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/src/config/database.ts:43:31)
+    at Object.obtenerObrasDestacadas (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/src/services/obraService.ts:113:21)
+    at getObrasDestacadas (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/src/controllers/obraController.ts:37:37)
+    at Layer.handle [as handle_request] (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/layer.js:95:5)
+    at next (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/route.js:149:13)
+    at Route.dispatch (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/route.js:119:3)
+    at Layer.handle [as handle_request] (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/layer.js:95:5)
+    at /Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/index.js:284:15
+    at Function.process_params (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/index.js:346:12)
+2025-05-14 23:09:19 error: Error al ejecutar consulta SQL: getaddrinfo ENOTFOUND database-2.c7uwe4okm9f3.us-east-2.rds.amazonaws.com
+2025-05-14 23:09:19 error: Error al obtener artistas: getaddrinfo ENOTFOUND database-2.c7uwe4okm9f3.us-east-2.rds.amazonaws.com
+2025-05-14 23:09:19 error: Error: getaddrinfo ENOTFOUND database-2.c7uwe4okm9f3.us-east-2.rds.amazonaws.com
+2025-05-14 23:09:19 error: Error: getaddrinfo ENOTFOUND database-2.c7uwe4okm9f3.us-east-2.rds.amazonaws.com
+    at PromisePool.execute (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/mysql2/promise.js:359:22)
+    at Object.query (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/src/config/database.ts:43:31)
+    at Object.getArtistas (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/src/services/artistaService.ts:9:21)
+    at getArtistas (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/src/controllers/artistaController.ts:12:43)
+    at Layer.handle [as handle_request] (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/layer.js:95:5)
+    at next (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/route.js:149:13)
+    at Route.dispatch (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/route.js:119:3)
+    at Layer.handle [as handle_request] (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/layer.js:95:5)
+    at /Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/index.js:284:15
+    at Function.process_params (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/index.js:346:12)
+2025-05-14 23:09:19 error: Error al ejecutar consulta SQL: getaddrinfo ENOTFOUND database-2.c7uwe4okm9f3.us-east-2.rds.amazonaws.com
+2025-05-14 23:09:19 error: Error al obtener categorías: getaddrinfo ENOTFOUND database-2.c7uwe4okm9f3.us-east-2.rds.amazonaws.com
+2025-05-14 23:09:19 error: Error: getaddrinfo ENOTFOUND database-2.c7uwe4okm9f3.us-east-2.rds.amazonaws.com
+2025-05-14 23:09:19 error: Error: getaddrinfo ENOTFOUND database-2.c7uwe4okm9f3.us-east-2.rds.amazonaws.com
+    at PromisePool.execute (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/mysql2/promise.js:359:22)
+    at Object.query (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/src/config/database.ts:43:31)
+    at Object.getCategorias (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/src/services/categoriaService.ts:9:21)
+    at getCategorias (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/src/controllers/categoriaController.ts:9:47)
+    at Layer.handle [as handle_request] (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/layer.js:95:5)
+    at next (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/route.js:149:13)
+    at Route.dispatch (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/route.js:119:3)
+    at Layer.handle [as handle_request] (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/layer.js:95:5)
+    at /Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/index.js:284:15
+    at Function.process_params (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/index.js:346:12)
+2025-05-14 23:09:20 error: Error al ejecutar consulta SQL: getaddrinfo ENOTFOUND database-2.c7uwe4okm9f3.us-east-2.rds.amazonaws.com
+2025-05-14 23:09:20 error: Error al obtener categorías: getaddrinfo ENOTFOUND database-2.c7uwe4okm9f3.us-east-2.rds.amazonaws.com
+2025-05-14 23:09:20 error: Error: getaddrinfo ENOTFOUND database-2.c7uwe4okm9f3.us-east-2.rds.amazonaws.com
+2025-05-14 23:09:20 error: Error: getaddrinfo ENOTFOUND database-2.c7uwe4okm9f3.us-east-2.rds.amazonaws.com
+    at PromisePool.execute (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/mysql2/promise.js:359:22)
+    at Object.query (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/src/config/database.ts:43:31)
+    at Object.getCategorias (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/src/services/categoriaService.ts:9:21)
+    at getCategorias (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/src/controllers/categoriaController.ts:9:47)
+    at Layer.handle [as handle_request] (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/layer.js:95:5)
+    at next (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/route.js:149:13)
+    at Route.dispatch (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/route.js:119:3)
+    at Layer.handle [as handle_request] (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/layer.js:95:5)
+    at /Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/index.js:284:15
+    at Function.process_params (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/index.js:346:12)
+2025-05-14 23:09:20 error: Error al ejecutar consulta SQL: getaddrinfo ENOTFOUND database-2.c7uwe4okm9f3.us-east-2.rds.amazonaws.com
+2025-05-14 23:09:20 error: Error al obtener obras destacadas: getaddrinfo ENOTFOUND database-2.c7uwe4okm9f3.us-east-2.rds.amazonaws.com
+2025-05-14 23:09:20 error: Error: getaddrinfo ENOTFOUND database-2.c7uwe4okm9f3.us-east-2.rds.amazonaws.com
+2025-05-14 23:09:20 error: Error: getaddrinfo ENOTFOUND database-2.c7uwe4okm9f3.us-east-2.rds.amazonaws.com
+    at PromisePool.execute (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/mysql2/promise.js:359:22)
+    at Object.query (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/src/config/database.ts:43:31)
+    at Object.obtenerObrasDestacadas (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/src/services/obraService.ts:113:21)
+    at getObrasDestacadas (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/src/controllers/obraController.ts:37:37)
+    at Layer.handle [as handle_request] (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/layer.js:95:5)
+    at next (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/route.js:149:13)
+    at Route.dispatch (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/route.js:119:3)
+    at Layer.handle [as handle_request] (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/layer.js:95:5)
+    at /Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/index.js:284:15
+    at Function.process_params (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/index.js:346:12)
+2025-05-14 23:09:20 error: Error al ejecutar consulta SQL: getaddrinfo ENOTFOUND database-2.c7uwe4okm9f3.us-east-2.rds.amazonaws.com
+2025-05-14 23:09:20 error: Error al obtener artistas: getaddrinfo ENOTFOUND database-2.c7uwe4okm9f3.us-east-2.rds.amazonaws.com
+2025-05-14 23:09:20 error: Error: getaddrinfo ENOTFOUND database-2.c7uwe4okm9f3.us-east-2.rds.amazonaws.com
+2025-05-14 23:09:20 error: Error: getaddrinfo ENOTFOUND database-2.c7uwe4okm9f3.us-east-2.rds.amazonaws.com
+    at PromisePool.execute (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/mysql2/promise.js:359:22)
+    at Object.query (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/src/config/database.ts:43:31)
+    at Object.getArtistas (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/src/services/artistaService.ts:9:21)
+    at getArtistas (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/src/controllers/artistaController.ts:12:43)
+    at Layer.handle [as handle_request] (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/layer.js:95:5)
+    at next (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/route.js:149:13)
+    at Route.dispatch (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/route.js:119:3)
+    at Layer.handle [as handle_request] (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/layer.js:95:5)
+    at /Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/index.js:284:15
+    at Function.process_params (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/index.js:346:12)
+2025-05-14 23:09:23 error: Error al ejecutar consulta SQL: getaddrinfo ENOTFOUND database-2.c7uwe4okm9f3.us-east-2.rds.amazonaws.com
+2025-05-14 23:09:23 error: Error al obtener artistas: getaddrinfo ENOTFOUND database-2.c7uwe4okm9f3.us-east-2.rds.amazonaws.com
+2025-05-14 23:09:23 error: Error: getaddrinfo ENOTFOUND database-2.c7uwe4okm9f3.us-east-2.rds.amazonaws.com
+2025-05-14 23:09:23 error: Error: getaddrinfo ENOTFOUND database-2.c7uwe4okm9f3.us-east-2.rds.amazonaws.com
+    at PromisePool.execute (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/mysql2/promise.js:359:22)
+    at Object.query (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/src/config/database.ts:43:31)
+    at Object.getArtistas (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/src/services/artistaService.ts:9:21)
+    at getArtistas (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/src/controllers/artistaController.ts:12:43)
+    at Layer.handle [as handle_request] (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/layer.js:95:5)
+    at next (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/route.js:149:13)
+    at Route.dispatch (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/route.js:119:3)
+    at Layer.handle [as handle_request] (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/layer.js:95:5)
+    at /Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/index.js:284:15
+    at Function.process_params (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/index.js:346:12)
+2025-05-14 23:09:23 error: Error al ejecutar consulta SQL: getaddrinfo ENOTFOUND database-2.c7uwe4okm9f3.us-east-2.rds.amazonaws.com
+2025-05-14 23:09:23 error: Error al obtener técnicas: getaddrinfo ENOTFOUND database-2.c7uwe4okm9f3.us-east-2.rds.amazonaws.com
+2025-05-14 23:09:23 error: Error: getaddrinfo ENOTFOUND database-2.c7uwe4okm9f3.us-east-2.rds.amazonaws.com
+2025-05-14 23:09:23 error: Error: getaddrinfo ENOTFOUND database-2.c7uwe4okm9f3.us-east-2.rds.amazonaws.com
+    at PromisePool.execute (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/mysql2/promise.js:359:22)
+    at Object.query (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/src/config/database.ts:43:31)
+    at Object.getTecnicas (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/src/services/tecnicaService.ts:9:21)
+    at getTecnicas (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/src/controllers/tecnicaController.ts:9:43)
+    at Layer.handle [as handle_request] (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/layer.js:95:5)
+    at next (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/route.js:149:13)
+    at Route.dispatch (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/route.js:119:3)
+    at Layer.handle [as handle_request] (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/layer.js:95:5)
+    at /Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/index.js:284:15
+    at Function.process_params (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/index.js:346:12)
+2025-05-14 23:09:23 error: Error al ejecutar consulta SQL: getaddrinfo ENOTFOUND database-2.c7uwe4okm9f3.us-east-2.rds.amazonaws.com
+2025-05-14 23:09:23 error: Error al obtener obras: getaddrinfo ENOTFOUND database-2.c7uwe4okm9f3.us-east-2.rds.amazonaws.com
+2025-05-14 23:09:23 error: Error: getaddrinfo ENOTFOUND database-2.c7uwe4okm9f3.us-east-2.rds.amazonaws.com
+2025-05-14 23:09:23 error: Error: getaddrinfo ENOTFOUND database-2.c7uwe4okm9f3.us-east-2.rds.amazonaws.com
+    at PromisePool.execute (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/mysql2/promise.js:359:22)
+    at Object.query (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/src/config/database.ts:43:31)
+    at Object.obtenerObras (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/src/services/obraService.ts:92:21)
+    at getObras (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/src/controllers/obraController.ts:27:37)
+    at Layer.handle [as handle_request] (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/layer.js:95:5)
+    at next (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/route.js:149:13)
+    at Route.dispatch (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/route.js:119:3)
+    at Layer.handle [as handle_request] (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/layer.js:95:5)
+    at /Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/index.js:284:15
+    at Function.process_params (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/index.js:346:12)
+2025-05-14 23:09:24 error: Error al ejecutar consulta SQL: getaddrinfo ENOTFOUND database-2.c7uwe4okm9f3.us-east-2.rds.amazonaws.com
+2025-05-14 23:09:24 error: Error al obtener técnicas: getaddrinfo ENOTFOUND database-2.c7uwe4okm9f3.us-east-2.rds.amazonaws.com
+2025-05-14 23:09:24 error: Error: getaddrinfo ENOTFOUND database-2.c7uwe4okm9f3.us-east-2.rds.amazonaws.com
+2025-05-14 23:09:24 error: Error: getaddrinfo ENOTFOUND database-2.c7uwe4okm9f3.us-east-2.rds.amazonaws.com
+    at PromisePool.execute (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/mysql2/promise.js:359:22)
+    at Object.query (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/src/config/database.ts:43:31)
+    at Object.getTecnicas (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/src/services/tecnicaService.ts:9:21)
+    at getTecnicas (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/src/controllers/tecnicaController.ts:9:43)
+    at Layer.handle [as handle_request] (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/layer.js:95:5)
+    at next (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/route.js:149:13)
+    at Route.dispatch (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/route.js:119:3)
+    at Layer.handle [as handle_request] (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/layer.js:95:5)
+    at /Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/index.js:284:15
+    at Function.process_params (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/index.js:346:12)
+2025-05-14 23:09:24 error: Error al ejecutar consulta SQL: getaddrinfo ENOTFOUND database-2.c7uwe4okm9f3.us-east-2.rds.amazonaws.com
+2025-05-14 23:09:24 error: Error al obtener obras: getaddrinfo ENOTFOUND database-2.c7uwe4okm9f3.us-east-2.rds.amazonaws.com
+2025-05-14 23:09:24 error: Error: getaddrinfo ENOTFOUND database-2.c7uwe4okm9f3.us-east-2.rds.amazonaws.com
+2025-05-14 23:09:24 error: Error: getaddrinfo ENOTFOUND database-2.c7uwe4okm9f3.us-east-2.rds.amazonaws.com
+    at PromisePool.execute (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/mysql2/promise.js:359:22)
+    at Object.query (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/src/config/database.ts:43:31)
+    at Object.obtenerObras (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/src/services/obraService.ts:92:21)
+    at getObras (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/src/controllers/obraController.ts:27:37)
+    at Layer.handle [as handle_request] (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/layer.js:95:5)
+    at next (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/route.js:149:13)
+    at Route.dispatch (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/route.js:119:3)
+    at Layer.handle [as handle_request] (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/layer.js:95:5)
+    at /Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/index.js:284:15
+    at Function.process_params (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/index.js:346:12)
+2025-05-14 23:12:44 info: Conexión a la base de datos establecida correctamente
+2025-05-14 23:12:44 info: Servidor escuchando en el puerto 3000
+2025-05-14 23:12:44 info: Ambiente: development
+2025-05-14 23:12:44 info: URL del servidor: http://localhost:3000

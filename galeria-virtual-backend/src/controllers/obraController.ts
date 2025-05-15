@@ -214,16 +214,37 @@ export const actualizarObra = async (req: Request, res: Response, next: NextFunc
 };
 
 // Eliminar una obra (soft delete)
+// src/controllers/obraController.ts
+// Función eliminarObra
+
 export const eliminarObra = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const obraId = parseInt(req.params.id);
-    const resultado = await obraService.eliminarObra(obraId);
     
-    if (!resultado) {
+    // Obtener la obra antes de eliminarla para tener acceso a la URL de la imagen
+    const obra = await obraService.obtenerDetalleObra(obraId.toString());
+    
+    if (!obra) {
       return res.status(404).json({ 
         success: false, 
         message: 'Obra no encontrada' 
       });
+    }
+    
+    // Realizar el borrado lógico (soft delete) en la base de datos
+    const resultado = await obraService.eliminarObra(obraId);
+    
+    // Si la eliminación fue exitosa y tenemos una URL de imagen en S3, eliminarla también
+    if (resultado && obra.url_imagen_principal && obra.url_imagen_principal.includes('amazonaws.com')) {
+      try {
+        // Importamos el servicio S3 para eliminar la imagen
+        const { deleteFileFromS3 } = require('../services/s3Service');
+        await deleteFileFromS3(obra.url_imagen_principal);
+        logger.info(`Imagen eliminada de S3: ${obra.url_imagen_principal}`);
+      } catch (s3Error) {
+        // Si hay un error al eliminar de S3, lo registramos pero no afecta la respuesta
+        logger.error(`Error al eliminar imagen de S3: ${s3Error}`);
+      }
     }
     
     res.json({ 
@@ -231,6 +252,7 @@ export const eliminarObra = async (req: Request, res: Response, next: NextFuncti
       message: 'Obra eliminada correctamente' 
     });
   } catch (error) {
+    logger.error(`Error al eliminar obra:`, error);
     next(error);
   }
 };

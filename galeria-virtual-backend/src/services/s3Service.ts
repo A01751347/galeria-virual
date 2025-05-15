@@ -3,7 +3,7 @@ import fs from 'fs';
 import path from 'path';
 import sharp from 'sharp';
 import { s3, BUCKET } from '../config/s3';
-import { PutObjectCommand } from '@aws-sdk/client-s3';
+import { DeleteObjectCommand, PutObjectCommand } from '@aws-sdk/client-s3';
 import { logger } from '../utils/logger';
 
 /**
@@ -66,6 +66,39 @@ export const processImageAndUploadToS3 = async (
       logger.error(`Error al eliminar archivo temporal:`, e);
     }
     throw error;
+  }
+};
+
+export const deleteFileFromS3 = async (url: string): Promise<boolean> => {
+  // Verificar si la URL es de S3
+  if (!url || !url.includes('amazonaws.com')) {
+    logger.warn(`URL no válida para S3: ${url}`);
+    return false;
+  }
+  
+  try {
+    // Extraer el key de la URL
+    const s3Url = new URL(url);
+    let key = s3Url.pathname;
+    
+    // Eliminar la barra inicial si existe
+    if (key.startsWith('/')) {
+      key = key.substring(1);
+    }
+    
+    logger.info(`Eliminando archivo de S3: ${key}`);
+    
+    // Eliminar el archivo de S3
+    await s3.send(new DeleteObjectCommand({
+      Bucket: BUCKET,
+      Key: key
+    }));
+    
+    logger.info(`Archivo eliminado correctamente de S3: ${key}`);
+    return true;
+  } catch (error) {
+    logger.error(`Error al eliminar archivo de S3:`, error);
+    return false;
   }
 };
 

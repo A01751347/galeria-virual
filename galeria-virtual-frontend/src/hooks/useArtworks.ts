@@ -121,6 +121,18 @@ export function useArtworkByQR(qrCode: string) {
   );
 }
 
+export function useArtworkDelete(id: number) {
+  return useQuery(
+    ['DeleteArtwork', id],
+    () => artworkService.deleteArtwork(id),
+    {
+      enabled: !!id, // Solo ejecutar si qrCode existe
+      staleTime: 1000 * 60 * 10, // 10 minutos
+      refetchOnWindowFocus: false,
+    }
+  );
+}
+
 export default {
   useArtworks,
   useFeaturedArtworks,
@@ -128,5 +140,6 @@ export default {
   useArtworksByArtist,
   useSearchArtworks,
   useArtworkDetail,
-  useArtworkByQR
+  useArtworkByQR,
+  useArtworkDelete
 };

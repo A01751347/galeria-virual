@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { Link } from 'react-router-dom';
 import {
   PlusIcon,
@@ -8,17 +8,30 @@ import {
   TrashIcon,
 } from '@heroicons/react/24/outline';
 
-import { motion } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 import AdminLayout from '../components/layout/AdminLayout';
 import Button from '../components/common/Button';
 import Card from '../components/common/Card';
-import { useArtworks } from '../hooks/useArtworks';
+import { useArtworkDelete, useArtworks } from '../hooks/useArtworks';
 import { formatCurrency } from '../utils/formatters';
+import { logWithColor } from '../utils/debugHelper';
+import Modal from '../components/common/Modal';
+import artworkService from '../services/artworkService';
 
 const AdminArtworksPage: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
-  const [showFilters, setShowFilters] = useState(false);
-  const { data: artworks, isLoading, error } = useArtworks();
+  const [showFilters, setShowFilters] = useState(false);  
+  const { data: artworks, isLoading, error, refetch } = useArtworks();
+  
+  
+
+  // Estado para el modal de confirmación de eliminación
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [artworkToDelete, setArtworkToDelete] = useState<number | null>(null);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [deleteError, setDeleteError] = useState<string | null>(null);
+  
+                           
   
   // Filtrar obras por término de búsqueda
   const filteredArtworks = artworks?.filter(artwork => {
@@ -29,7 +42,42 @@ const AdminArtworksPage: React.FC = () => {
       artwork.artist?.last_name.toLowerCase().includes(lowerSearchTerm)
     );
   });
+
+   const confirmDelete = useCallback((id: number) => {
+    setArtworkToDelete(id);
+    setDeleteModalOpen(true);
+    setDeleteError(null);
+  }, []);
   
+  // Función para manejar la eliminación de la obra
+  const handleDeleteArtwork = useCallback(async () => {
+    if (!artworkToDelete) return;
+    
+    setIsDeleting(true);
+    setDeleteError(null);
+    
+    try {
+      logWithColor('info', `Eliminando obra con ID: ${artworkToDelete}`);
+      
+      const success = await artworkService.deleteArtwork(artworkToDelete);
+      
+      if (success) {
+        logWithColor('success', 'Obra eliminada correctamente');
+        
+        // Cerrar el modal y actualizar la lista de obras
+        setDeleteModalOpen(false);
+        refetch();
+      } else {
+        throw new Error('No se pudo eliminar la obra');
+      }
+    } catch (error) {
+      logWithColor('error', 'Error al eliminar obra:', error);
+      setDeleteError('Ocurrió un error al eliminar la obra. Por favor, inténtalo de nuevo.');
+    } finally {
+      setIsDeleting(false);
+    }
+  }, [artworkToDelete, refetch]);
+
   return (
     <AdminLayout>
       <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
@@ -230,12 +278,8 @@ const AdminArtworksPage: React.FC = () => {
                      </Link>
                      <button
                        className="text-red-600 hover:text-red-900"
-                       onClick={() => {
-                         if (window.confirm('¿Estás seguro de que deseas eliminar esta obra?')) {
-                           // Función para eliminar obra
-                           console.log('Eliminar obra', artwork.id);
-                         }
-                       }}
+                        onClick={() => confirmDelete(artwork.id)}
+                        title="Eliminar obra"
                      >
                        <TrashIcon className="w-5 h-5 inline" />
                      </button>
@@ -247,6 +291,45 @@ const AdminArtworksPage: React.FC = () => {
          </div>
        </div>
      )}
+     <AnimatePresence>
+        {deleteModalOpen && (
+          <Modal
+            isOpen={deleteModalOpen}
+            onClose={() => setDeleteModalOpen(false)}
+            title="Confirmar eliminación"
+            maxWidth="sm"
+          >
+            <div className="p-4">
+              <p className="mb-6">
+                ¿Estás seguro de que deseas eliminar esta obra? Esta acción no se puede deshacer.
+              </p>
+              
+              {deleteError && (
+                <div className="mb-4 p-3 bg-red-50 text-red-700 rounded-md">
+                  {deleteError}
+                </div>
+              )}
+              
+              <div className="flex justify-end gap-2">
+                <Button
+                  variant="outline"
+                  onClick={() => setDeleteModalOpen(false)}
+                  disabled={isDeleting}
+                >
+                  Cancelar
+                </Button>
+                <Button
+                  variant="danger"
+                  onClick={handleDeleteArtwork}
+                  isLoading={isDeleting}
+                >
+                  Eliminar
+                </Button>
+              </div>
+            </div>
+          </Modal>
+        )}
+      </AnimatePresence>
    </AdminLayout>
  );
 };

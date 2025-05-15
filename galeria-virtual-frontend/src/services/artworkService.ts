@@ -232,15 +232,15 @@ updateArtwork: async (id: number, formData: FormData): Promise<Artwork> => {
   },
 
   // Eliminar una obra (soft delete)
-  deleteArtwork: async (id: number): Promise<boolean> => {
-    try {
-      const response = await api.delete(`/obras/${id}`);
-      return response.data.success || false;
-    } catch (error) {
-      console.error(`Error al eliminar obra ${id}:`, error);
-      throw error;
-    }
+deleteArtwork: async (id: number): Promise<boolean> => {
+  try {
+    const response = await api.delete(`/obras/${id}`);
+    return response.data.success;
+  } catch (error) {
+    console.error(`Error al eliminar obra ${id}:`, error);
+    throw error;
   }
+}
 };
 
 export default artworkService;
