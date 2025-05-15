@@ -570,3 +570,98 @@
 2025-05-15 00:27:43 info: Imagen subida a S3: https://artwork-bucket-53.s3.us-east-2.amazonaws.com/uploads/obras/1747290463452-d7b93479-f487-4c52-b750-21a98782f391-1747290463476.png
 2025-05-15 00:27:43 info: Datos sanitizados antes de crear obra:
 2025-05-15 00:27:43 info: Ejecutando query directa con parámetros:
+2025-05-15 00:31:21 info: Eliminando archivo de S3: uploads/obras/1747290463452-d7b93479-f487-4c52-b750-21a98782f391-1747290463476.png
+2025-05-15 00:31:22 info: Archivo eliminado correctamente de S3: uploads/obras/1747290463452-d7b93479-f487-4c52-b750-21a98782f391-1747290463476.png
+2025-05-15 00:31:22 info: Imagen eliminada de S3: https://artwork-bucket-53.s3.us-east-2.amazonaws.com/uploads/obras/1747290463452-d7b93479-f487-4c52-b750-21a98782f391-1747290463476.png
+2025-05-15 00:31:24 info: Eliminando archivo de S3: uploads/obras/1747290380937-ae2b231b-b269-4795-b2ad-91e9cba34c80-1747290380960.png
+2025-05-15 00:31:24 info: Archivo eliminado correctamente de S3: uploads/obras/1747290380937-ae2b231b-b269-4795-b2ad-91e9cba34c80-1747290380960.png
+2025-05-15 00:31:24 info: Imagen eliminada de S3: https://artwork-bucket-53.s3.us-east-2.amazonaws.com/uploads/obras/1747290380937-ae2b231b-b269-4795-b2ad-91e9cba34c80-1747290380960.png
+2025-05-15 00:31:27 info: Eliminando archivo de S3: uploads/obras/1747290180873-f72d4f5d-3b59-4e2a-a3ce-1a234c60d054-1747290180901.png
+2025-05-15 00:31:27 info: Archivo eliminado correctamente de S3: uploads/obras/1747290180873-f72d4f5d-3b59-4e2a-a3ce-1a234c60d054-1747290180901.png
+2025-05-15 00:31:27 info: Imagen eliminada de S3: https://artwork-bucket-53.s3.us-east-2.amazonaws.com/uploads/obras/1747290180873-f72d4f5d-3b59-4e2a-a3ce-1a234c60d054-1747290180901.png
+2025-05-15 00:33:26 error: Error: Tipo de archivo no soportado. Solo se permiten JPEG, PNG, GIF y WebP.
+2025-05-15 00:33:26 error: Error: Tipo de archivo no soportado. Solo se permiten JPEG, PNG, GIF y WebP.
+    at fileFilter (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/src/middleware/upload.ts:34:8)
+    at wrappedFileFilter (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/multer/index.js:44:7)
+    at Multipart.<anonymous> (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/multer/lib/make-middleware.js:109:7)
+    at Multipart.emit (node:events:518:28)
+    at HeaderParser.cb (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/busboy/lib/types/multipart.js:358:14)
+    at HeaderParser.push (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/busboy/lib/types/multipart.js:162:20)
+    at SBMH.ssCb [as _cb] (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/busboy/lib/types/multipart.js:394:37)
+    at feed (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/streamsearch/lib/sbmh.js:248:10)
+    at SBMH.push (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/streamsearch/lib/sbmh.js:104:16)
+    at Multipart._write (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/busboy/lib/types/multipart.js:567:19)
+2025-05-15 00:34:14 info: Imagen subida a S3: https://artwork-bucket-53.s3.us-east-2.amazonaws.com/uploads/obras/1747290851913-132df94f-a500-4664-96f8-513bb31b164e-1747290851934.png
+2025-05-15 00:34:14 info: Datos sanitizados antes de crear obra:
+2025-05-15 00:34:14 info: Ejecutando query directa con parámetros:
+2025-05-15 00:35:00 info: [DEBUG] Petición de actualización para obra ID: 34
+2025-05-15 00:35:00 info: [DEBUG] Cabeceras de petición: {"host":"localhost:3000","connection":"keep-alive","content-length":"3820526","sec-ch-ua-platform":"\"macOS\"","user-agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36","accept":"application/json, text/plain, */*","sec-ch-ua":"\"Chromium\";v=\"136\", \"Google Chrome\";v=\"136\", \"Not.A/Brand\";v=\"99\"","content-type":"multipart/form-data; boundary=----WebKitFormBoundarywqxmBf5QXZrisaFv","sec-ch-ua-mobile":"?0","origin":"http://localhost:5173","sec-fetch-site":"same-site","sec-fetch-mode":"cors","sec-fetch-dest":"empty","referer":"http://localhost:5173/","accept-encoding":"gzip, deflate, br, zstd","accept-language":"en-US,en;q=0.9"}
+2025-05-15 00:35:00 info: [DEBUG] Cuerpo de petición: {"titulo":"Sigur RósJJJ","id_artista":"11","id_categoria":"1","id_tecnica":"4","precio":"25000.00","descripcion":"Descripción obra 4","disponible":"1","destacado":"0","anio_creacion":"2009","dimensiones":"150 x 150 cm","historia":"Historia Obra 4"}
+2025-05-15 00:35:00 info: [DEBUG] Usuario autenticado: undefined
+2025-05-15 00:35:00 info: [DEBUG] Archivo recibido: 1747290900866-b5bb15a6-f601-4650-9cff-6bf520ae83ec.png
+2025-05-15 00:35:00 info: [DEBUG] URL de imagen asignada: /uploads/obras/1747290900866-b5bb15a6-f601-4650-9cff-6bf520ae83ec.png
+2025-05-15 00:35:00 info: [DEBUG] Intentando actualizar obra con datos: {"titulo":"Sigur RósJJJ","id_artista":"11","id_categoria":"1","id_tecnica":"4","precio":"25000.00","descripcion":"Descripción obra 4","disponible":"1","destacado":"0","anio_creacion":"2009","dimensiones":"150 x 150 cm","historia":"Historia Obra 4","url_imagen_principal":"/uploads/obras/1747290900866-b5bb15a6-f601-4650-9cff-6bf520ae83ec.png"}
+2025-05-15 00:35:01 info: [DEBUG] Obra actualizada exitosamente: {"id":34,"titulo":"Sigur RósJJJ","id_artista":11,"id_categoria":1,"id_tecnica":4,"anio_creacion":2009,"dimensiones":"150 x 150 cm","precio":"25000.00","descripcion":"Descripción obra 4","historia":"Historia Obra 4","disponible":1,"destacado":0,"url_imagen_principal":"/uploads/obras/1747290900866-b5bb15a6-f601-4650-9cff-6bf520ae83ec.png","codigo_qr":"/uploads/qr/obra_34_1747290854618.png","visitas":3,"fecha_creacion":"2025-05-15T12:34:14.000Z","fecha_actualizacion":"2025-05-15T12:35:01.000Z","activo":1,"nombre_artista":"Manel","apellidos_artista":"Pujol Baladas","biografia_artista":" es un pintor español. Heredero de la escuela española por tradición y por relación personal con las tres destacadas figuras españolas del arte del siglo XX: Picasso, Dalí y Miró.","nombre_categoria":"Pintura","nombre_tecnica":"Pastel","total_visitas":3,"imagenes":[]}
+2025-05-15 00:41:50 debug: Ejecutando procedimiento almacenado: sp_obtener_obras_por_artista
+2025-05-15 00:41:50 debug: Parámetros sanitizados: [11,false]
+2025-05-15 00:44:31 info: Imagen subida a S3: https://artwork-bucket-53.s3.us-east-2.amazonaws.com/uploads/obras/1747291469965-ac258f3d-94bb-482c-bd6c-88bb210687b9-1747291469971.png
+2025-05-15 00:44:31 info: Datos sanitizados antes de crear obra:
+2025-05-15 00:44:31 info: Ejecutando query directa con parámetros:
+2025-05-15 01:05:57 error: Error al ejecutar consulta SQL: read ETIMEDOUT
+2025-05-15 01:05:57 error: Error al obtener técnicas: read ETIMEDOUT
+2025-05-15 01:05:57 error: Error: read ETIMEDOUT
+2025-05-15 01:05:57 error: Error: read ETIMEDOUT
+    at PromisePool.execute (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/mysql2/promise.js:359:22)
+    at Object.query (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/src/config/database.ts:43:31)
+    at Object.getTecnicas (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/src/services/tecnicaService.ts:9:21)
+    at getTecnicas (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/src/controllers/tecnicaController.ts:9:43)
+    at Layer.handle [as handle_request] (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/layer.js:95:5)
+    at next (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/route.js:149:13)
+    at Route.dispatch (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/route.js:119:3)
+    at Layer.handle [as handle_request] (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/layer.js:95:5)
+    at /Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/index.js:284:15
+    at Function.process_params (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/index.js:346:12)
+2025-05-15 01:05:57 error: Error al ejecutar consulta SQL: read ETIMEDOUT
+2025-05-15 01:05:57 error: Error al obtener categorías: read ETIMEDOUT
+2025-05-15 01:05:57 error: Error: read ETIMEDOUT
+2025-05-15 01:05:57 error: Error: read ETIMEDOUT
+    at PromisePool.execute (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/mysql2/promise.js:359:22)
+    at Object.query (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/src/config/database.ts:43:31)
+    at Object.getCategorias (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/src/services/categoriaService.ts:9:21)
+    at getCategorias (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/src/controllers/categoriaController.ts:9:47)
+    at Layer.handle [as handle_request] (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/layer.js:95:5)
+    at next (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/route.js:149:13)
+    at Route.dispatch (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/route.js:119:3)
+    at Layer.handle [as handle_request] (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/layer.js:95:5)
+    at /Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/index.js:284:15
+    at Function.process_params (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/index.js:346:12)
+2025-05-15 01:05:57 error: Error al ejecutar consulta SQL: read ETIMEDOUT
+2025-05-15 01:05:57 error: Error al obtener detalle de obra 30: read ETIMEDOUT
+2025-05-15 01:05:57 error: Error: read ETIMEDOUT
+2025-05-15 01:05:57 error: Error: read ETIMEDOUT
+    at PromisePool.execute (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/mysql2/promise.js:359:22)
+    at Object.query (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/src/config/database.ts:43:31)
+    at Object.obtenerDetalleObra (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/src/services/obraService.ts:164:30)
+    at getDetalleObra (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/src/controllers/obraController.ts:86:36)
+    at Layer.handle [as handle_request] (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/layer.js:95:5)
+    at next (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/route.js:149:13)
+    at Route.dispatch (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/route.js:119:3)
+    at Layer.handle [as handle_request] (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/layer.js:95:5)
+    at /Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/index.js:284:15
+    at param (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/index.js:365:14)
+2025-05-15 01:05:57 error: Error al ejecutar consulta SQL: read ETIMEDOUT
+2025-05-15 01:05:57 error: Error al obtener artistas: read ETIMEDOUT
+2025-05-15 01:05:57 error: Error: read ETIMEDOUT
+2025-05-15 01:05:57 error: Error: read ETIMEDOUT
+    at PromisePool.execute (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/mysql2/promise.js:359:22)
+    at Object.query (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/src/config/database.ts:43:31)
+    at Object.getArtistas (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/src/services/artistaService.ts:9:21)
+    at getArtistas (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/src/controllers/artistaController.ts:12:43)
+    at Layer.handle [as handle_request] (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/layer.js:95:5)
+    at next (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/route.js:149:13)
+    at Route.dispatch (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/route.js:119:3)
+    at Layer.handle [as handle_request] (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/layer.js:95:5)
+    at /Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/index.js:284:15
+    at Function.process_params (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/index.js:346:12)
+2025-05-15 14:35:55 debug: Ejecutando procedimiento almacenado: sp_obtener_obras_por_artista
+2025-05-15 14:35:55 debug: Parámetros sanitizados: [11,false]

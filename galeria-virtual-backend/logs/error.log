@@ -229,3 +229,71 @@
     at Layer.handle [as handle_request] (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/layer.js:95:5)
     at /Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/index.js:284:15
     at Function.process_params (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/index.js:346:12)
+2025-05-15 00:33:26 error: Error: Tipo de archivo no soportado. Solo se permiten JPEG, PNG, GIF y WebP.
+2025-05-15 00:33:26 error: Error: Tipo de archivo no soportado. Solo se permiten JPEG, PNG, GIF y WebP.
+    at fileFilter (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/src/middleware/upload.ts:34:8)
+    at wrappedFileFilter (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/multer/index.js:44:7)
+    at Multipart.<anonymous> (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/multer/lib/make-middleware.js:109:7)
+    at Multipart.emit (node:events:518:28)
+    at HeaderParser.cb (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/busboy/lib/types/multipart.js:358:14)
+    at HeaderParser.push (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/busboy/lib/types/multipart.js:162:20)
+    at SBMH.ssCb [as _cb] (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/busboy/lib/types/multipart.js:394:37)
+    at feed (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/streamsearch/lib/sbmh.js:248:10)
+    at SBMH.push (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/streamsearch/lib/sbmh.js:104:16)
+    at Multipart._write (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/busboy/lib/types/multipart.js:567:19)
+2025-05-15 01:05:57 error: Error al ejecutar consulta SQL: read ETIMEDOUT
+2025-05-15 01:05:57 error: Error al obtener técnicas: read ETIMEDOUT
+2025-05-15 01:05:57 error: Error: read ETIMEDOUT
+2025-05-15 01:05:57 error: Error: read ETIMEDOUT
+    at PromisePool.execute (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/mysql2/promise.js:359:22)
+    at Object.query (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/src/config/database.ts:43:31)
+    at Object.getTecnicas (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/src/services/tecnicaService.ts:9:21)
+    at getTecnicas (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/src/controllers/tecnicaController.ts:9:43)
+    at Layer.handle [as handle_request] (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/layer.js:95:5)
+    at next (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/route.js:149:13)
+    at Route.dispatch (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/route.js:119:3)
+    at Layer.handle [as handle_request] (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/layer.js:95:5)
+    at /Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/index.js:284:15
+    at Function.process_params (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/index.js:346:12)
+2025-05-15 01:05:57 error: Error al ejecutar consulta SQL: read ETIMEDOUT
+2025-05-15 01:05:57 error: Error al obtener categorías: read ETIMEDOUT
+2025-05-15 01:05:57 error: Error: read ETIMEDOUT
+2025-05-15 01:05:57 error: Error: read ETIMEDOUT
+    at PromisePool.execute (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/mysql2/promise.js:359:22)
+    at Object.query (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/src/config/database.ts:43:31)
+    at Object.getCategorias (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/src/services/categoriaService.ts:9:21)
+    at getCategorias (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/src/controllers/categoriaController.ts:9:47)
+    at Layer.handle [as handle_request] (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/layer.js:95:5)
+    at next (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/route.js:149:13)
+    at Route.dispatch (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/route.js:119:3)
+    at Layer.handle [as handle_request] (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/layer.js:95:5)
+    at /Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/index.js:284:15
+    at Function.process_params (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/index.js:346:12)
+2025-05-15 01:05:57 error: Error al ejecutar consulta SQL: read ETIMEDOUT
+2025-05-15 01:05:57 error: Error al obtener detalle de obra 30: read ETIMEDOUT
+2025-05-15 01:05:57 error: Error: read ETIMEDOUT
+2025-05-15 01:05:57 error: Error: read ETIMEDOUT
+    at PromisePool.execute (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/mysql2/promise.js:359:22)
+    at Object.query (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/src/config/database.ts:43:31)
+    at Object.obtenerDetalleObra (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/src/services/obraService.ts:164:30)
+    at getDetalleObra (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/src/controllers/obraController.ts:86:36)
+    at Layer.handle [as handle_request] (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/layer.js:95:5)
+    at next (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/route.js:149:13)
+    at Route.dispatch (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/route.js:119:3)
+    at Layer.handle [as handle_request] (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/layer.js:95:5)
+    at /Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/index.js:284:15
+    at param (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/index.js:365:14)
+2025-05-15 01:05:57 error: Error al ejecutar consulta SQL: read ETIMEDOUT
+2025-05-15 01:05:57 error: Error al obtener artistas: read ETIMEDOUT
+2025-05-15 01:05:57 error: Error: read ETIMEDOUT
+2025-05-15 01:05:57 error: Error: read ETIMEDOUT
+    at PromisePool.execute (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/mysql2/promise.js:359:22)
+    at Object.query (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/src/config/database.ts:43:31)
+    at Object.getArtistas (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/src/services/artistaService.ts:9:21)
+    at getArtistas (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/src/controllers/artistaController.ts:12:43)
+    at Layer.handle [as handle_request] (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/layer.js:95:5)
+    at next (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/route.js:149:13)
+    at Route.dispatch (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/route.js:119:3)
+    at Layer.handle [as handle_request] (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/layer.js:95:5)
+    at /Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/index.js:284:15
+    at Function.process_params (/Users/santiserrano/Documents/GitHub/galeria-virual/galeria-virtual-backend/node_modules/express/lib/router/index.js:346:12)
