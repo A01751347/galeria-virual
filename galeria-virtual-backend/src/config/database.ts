@@ -53,13 +53,27 @@ const procedure = async <T>(name: string, params: any[] = []): Promise<T> => {
   try {
     const placeholders = params.map(() => '?').join(',');
     const sql = `CALL ${name}(${placeholders})`;
-    const [rows] = await pool.execute(sql, params);
+    
+    // Sanitizar parámetros para convertir undefined a null
+    const sanitizedParams = params.map(param => {
+      if (param === undefined) {
+        logger.warn(`Parámetro undefined detectado en procedimiento ${name}. Convirtiendo a null.`);
+        return null;
+      }
+      return param;
+    });
+    
+    logger.debug(`Ejecutando procedimiento almacenado: ${name}`);
+    logger.debug(`Parámetros sanitizados: ${JSON.stringify(sanitizedParams)}`);
+    
+    const [rows] = await pool.execute(sql, sanitizedParams);
     return (Array.isArray(rows) && rows.length > 0 ? rows[0] : rows) as T;
   } catch (error) {
     logger.error(`Error al ejecutar procedimiento ${name}:`, error);
     throw error;
   }
 };
+
 
 // Realizar una transacción
 const transaction = async <T>(callback: (connection: mysql.PoolConnection) => Promise<T>): Promise<T> => {

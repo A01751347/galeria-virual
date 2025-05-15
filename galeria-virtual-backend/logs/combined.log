@@ -505,3 +505,68 @@
 2025-05-14 23:21:14 info: Servidor escuchando en el puerto 3000
 2025-05-14 23:21:14 info: Ambiente: development
 2025-05-14 23:21:14 info: URL del servidor: http://localhost:3000
+2025-05-14 23:50:39 info: Conexión a la base de datos establecida correctamente
+2025-05-14 23:50:39 info: Servidor escuchando en el puerto 3000
+2025-05-14 23:50:39 info: Ambiente: development
+2025-05-14 23:50:39 info: URL del servidor: http://localhost:3000
+2025-05-14 23:51:11 info: Conexión a la base de datos establecida correctamente
+2025-05-14 23:51:11 info: Servidor escuchando en el puerto 3000
+2025-05-14 23:51:11 info: Ambiente: development
+2025-05-14 23:51:11 info: URL del servidor: http://localhost:3000
+2025-05-14 23:51:16 info: Imagen subida a S3: https://artwork-bucket-53.s3.us-east-2.amazonaws.com/uploads/obras/1747288274894-93cf7a36-f95d-4081-990f-3d73d85f3773-1747288274935.png
+2025-05-14 23:53:25 info: Conexión a la base de datos establecida correctamente
+2025-05-14 23:53:25 info: Servidor escuchando en el puerto 3000
+2025-05-14 23:53:25 info: Ambiente: development
+2025-05-14 23:53:25 info: URL del servidor: http://localhost:3000
+2025-05-15 00:07:07 info: Conexión a la base de datos establecida correctamente
+2025-05-15 00:07:07 info: Servidor escuchando en el puerto 3000
+2025-05-15 00:07:07 info: Ambiente: development
+2025-05-15 00:07:07 info: URL del servidor: http://localhost:3000
+2025-05-15 00:08:43 info: Imagen subida a S3: https://artwork-bucket-53.s3.us-east-2.amazonaws.com/uploads/obras/1747289320513-599c2f28-d264-4c67-963e-3733a8af7f21-1747289320560.png
+2025-05-15 00:11:56 info: Conexión a la base de datos establecida correctamente
+2025-05-15 00:11:56 info: Servidor escuchando en el puerto 3000
+2025-05-15 00:11:56 info: Ambiente: development
+2025-05-15 00:11:56 info: URL del servidor: http://localhost:3000
+2025-05-15 00:12:31 info: Conexión a la base de datos establecida correctamente
+2025-05-15 00:12:31 info: Servidor escuchando en el puerto 3000
+2025-05-15 00:12:31 info: Ambiente: development
+2025-05-15 00:12:31 info: URL del servidor: http://localhost:3000
+2025-05-15 00:15:22 info: Conexión a la base de datos establecida correctamente
+2025-05-15 00:15:22 info: Servidor escuchando en el puerto 3000
+2025-05-15 00:15:22 info: Ambiente: development
+2025-05-15 00:15:22 info: URL del servidor: http://localhost:3000
+2025-05-15 00:16:31 info: Conexión a la base de datos establecida correctamente
+2025-05-15 00:16:31 info: Servidor escuchando en el puerto 3000
+2025-05-15 00:16:31 info: Ambiente: development
+2025-05-15 00:16:31 info: URL del servidor: http://localhost:3000
+2025-05-15 00:21:59 info: Conexión a la base de datos establecida correctamente
+2025-05-15 00:21:59 info: Servidor escuchando en el puerto 3000
+2025-05-15 00:21:59 info: Ambiente: development
+2025-05-15 00:21:59 info: URL del servidor: http://localhost:3000
+2025-05-15 00:23:01 info: Imagen subida a S3: https://artwork-bucket-53.s3.us-east-2.amazonaws.com/uploads/obras/1747290180873-f72d4f5d-3b59-4e2a-a3ce-1a234c60d054-1747290180901.png
+2025-05-15 00:23:01 info: Datos sanitizados antes de crear obra:
+2025-05-15 00:23:01 info: Parámetros recibidos en crearObra:
+2025-05-15 00:23:01 info: Parámetros sanitizados para el procedimiento:
+2025-05-15 00:23:01 debug: Ejecutando procedimiento almacenado: sp_agregar_obra
+2025-05-15 00:23:01 debug: Parámetros sanitizados: ["Nueva Obra",10,2,9,2020,"50 x 40 cm",3900,"Obra 3","Historia Obra 3","https://artwork-bucket-53.s3.us-east-2.amazonaws.com/uploads/obras/1747290180873-f72d4f5d-3b59-4e2a-a3ce-1a234c60d054-1747290180901.png",null]
+2025-05-15 00:26:18 info: Conexión a la base de datos establecida correctamente
+2025-05-15 00:26:18 info: Servidor escuchando en el puerto 3000
+2025-05-15 00:26:18 info: Ambiente: development
+2025-05-15 00:26:18 info: URL del servidor: http://localhost:3000
+2025-05-15 00:26:21 info: Imagen subida a S3: https://artwork-bucket-53.s3.us-east-2.amazonaws.com/uploads/obras/1747290380937-ae2b231b-b269-4795-b2ad-91e9cba34c80-1747290380960.png
+2025-05-15 00:26:21 info: Datos sanitizados antes de crear obra:
+2025-05-15 00:26:21 info: Parámetros recibidos en crearObra:
+2025-05-15 00:26:21 info: Parámetros sanitizados para el procedimiento:
+2025-05-15 00:26:21 debug: Ejecutando procedimiento almacenado: sp_agregar_obra
+2025-05-15 00:26:21 debug: Parámetros sanitizados: ["Nueva Obra",10,2,9,2020,"50 x 40 cm",3900,"Obra 3","Historia Obra 3","https://artwork-bucket-53.s3.us-east-2.amazonaws.com/uploads/obras/1747290380937-ae2b231b-b269-4795-b2ad-91e9cba34c80-1747290380960.png",null]
+2025-05-15 00:27:34 info: Conexión a la base de datos establecida correctamente
+2025-05-15 00:27:34 info: Servidor escuchando en el puerto 3000
+2025-05-15 00:27:34 info: Ambiente: development
+2025-05-15 00:27:34 info: URL del servidor: http://localhost:3000
+2025-05-15 00:27:40 info: Conexión a la base de datos establecida correctamente
+2025-05-15 00:27:40 info: Servidor escuchando en el puerto 3000
+2025-05-15 00:27:40 info: Ambiente: development
+2025-05-15 00:27:40 info: URL del servidor: http://localhost:3000
+2025-05-15 00:27:43 info: Imagen subida a S3: https://artwork-bucket-53.s3.us-east-2.amazonaws.com/uploads/obras/1747290463452-d7b93479-f487-4c52-b750-21a98782f391-1747290463476.png
+2025-05-15 00:27:43 info: Datos sanitizados antes de crear obra:
+2025-05-15 00:27:43 info: Ejecutando query directa con parámetros:

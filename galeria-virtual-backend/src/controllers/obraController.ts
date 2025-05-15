@@ -99,6 +99,7 @@ export const getDetalleObra = async (req: Request, res: Response, next: NextFunc
 };
 
 // Crear una nueva obra
+// En src/controllers/obraController.ts
 export const crearObra = async (req: Request, res: Response, next: NextFunction) => {
   try {
     // Validar request
@@ -112,43 +113,65 @@ export const crearObra = async (req: Request, res: Response, next: NextFunction)
     
     // Procesar imagen si fue subida
     // En obraController.ts dentro de crearObra
-// Procesar imagen si fue subida
-let urlImagenPrincipal = req.body.url_imagen_principal;
-if (req.file) {
-  try {
-    // Importar el servicio de S3 para subir la imagen
-    const { processImageAndUploadToS3 } = require('../services/s3Service');
+    // Procesar imagen si fue subida
+    let urlImagenPrincipal = req.body.url_imagen_principal || null;
+    if (req.file) {
+      try {
+        // Importar el servicio de S3 para subir la imagen
+        const { processImageAndUploadToS3 } = require('../services/s3Service');
+        
+        // Procesar la imagen y subirla a S3
+        urlImagenPrincipal = await processImageAndUploadToS3(req.file.path, 'obras');
+      } catch (error) {
+        logger.error('Error al procesar imagen de obra:', error);
+        return res.status(500).json({
+          success: false,
+          message: 'Error al procesar la imagen'
+        });
+      }
+    }
     
-    // Procesar la imagen y subirla a S3
-    urlImagenPrincipal = await processImageAndUploadToS3(req.file.path, 'obras');
-  } catch (error) {
-    logger.error('Error al procesar imagen de obra:', error);
-    return res.status(500).json({
-      success: false,
-      message: 'Error al procesar la imagen'
-    });
-  }
-}
+    // Datos validados y sanitizados
+    const obraData = {
+      titulo: req.body.titulo || '',
+      id_artista: parseInt(req.body.id_artista) || 0,
+      id_categoria: parseInt(req.body.id_categoria) || 0,
+      id_tecnica: parseInt(req.body.id_tecnica) || 0,
+      anio_creacion: req.body.anio_creacion ? parseInt(req.body.anio_creacion) : 1,
+      dimensiones: req.body.dimensiones || null,
+      precio: parseFloat(req.body.precio) || 0,
+      descripcion: req.body.descripcion || '',
+      historia: req.body.historia || null,
+      url_imagen_principal: urlImagenPrincipal,
+      disponible: req.body.disponible === 'false' ? false : true,
+      destacado: req.body.destacado === 'true' ? true : false
+    };
+    
+    logger.info('Datos sanitizados antes de crear obra:', obraData);
     
     // Crear obra en la base de datos
-    const nuevaObra = await obraService.crearObra({
-      ...req.body,
-      url_imagen_principal: urlImagenPrincipal,
-      precio: parseFloat(req.body.precio),
-      id_artista: parseInt(req.body.id_artista),
-      id_categoria: parseInt(req.body.id_categoria),
-      id_tecnica: parseInt(req.body.id_tecnica)
-    });
+    const nuevaObra = await obraService.crearObra(obraData);
     
     // Generar QR para la obra
-    const qrUrl = await generarQR(nuevaObra.codigo_qr, nuevaObra.id!);
-    
-    // Actualizar URL del QR en la base de datos
-    await obraService.actualizarQRObra(nuevaObra.id!, qrUrl);
+    let qrUrl = null;
+    try {
+      qrUrl = await generarQR(nuevaObra.codigo_qr, nuevaObra.id!);
+      
+      // Actualizar URL del QR en la base de datos
+      await obraService.actualizarQRObra(nuevaObra.id!, qrUrl);
+    } catch (qrError) {
+      logger.error('Error al generar QR (no afecta a la creación de la obra):', qrError);
+      // No interrumpir el flujo por un error en el QR
+    }
     
     res.status(201).json({ 
       success: true, 
-      data: { ...nuevaObra, qr_url: qrUrl } 
+      data: { 
+        id: nuevaObra.id,
+        titulo: nuevaObra.titulo,
+        url_imagen_principal: nuevaObra.url_imagen_principal,
+        qr_url: qrUrl 
+      } 
     });
   } catch (error) {
     logger.error('Error al crear obra:', error);

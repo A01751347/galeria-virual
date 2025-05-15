@@ -25,6 +25,11 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, '../public')));
 
 // —————> Aquí exponemos la carpeta de subidas de Multer
+
+
+app.use(express.json({ limit: '50mb' }));
+app.use(express.urlencoded({ extended: true, limit: '50mb' }));
+
 app.use(
   '/uploads',
   express.static(path.join(__dirname, '../uploads'))

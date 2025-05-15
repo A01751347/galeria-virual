@@ -207,30 +207,60 @@ export const obtenerDetalleObra = async (identificador: string, esCodigoQr: bool
 };
 
 // Crear una nueva obra
+// En src/services/obraService.ts
+// En src/services/obraService.ts
 export const crearObra = async (obra: Partial<Obra>): Promise<Obra> => {
   try {
-    const resultado = await db.procedure<any>('sp_agregar_obra', [
-      obra.titulo,
-      obra.id_artista,
-      obra.id_categoria,
-      obra.id_tecnica,
-      obra.anio_creacion || null,
-      obra.dimensiones || null,
-      obra.precio,
-      obra.descripcion,
-      obra.historia || null,
-      obra.url_imagen_principal,
-      null // OUT parámetro
-    ]);
+    // Generar código QR aleatorio
+    const codigoQR = 'OBR' + 
+      String(Math.floor(Math.random() * 9999)).padStart(4, '0') +
+      Math.random().toString(36).substring(2, 5).toUpperCase();
     
-    // El procedimiento devuelve el ID de la obra creada
-    const obraId = resultado.p_id_obra;
+    // Consulta SQL directa en lugar de procedimiento almacenado
+    const query = `
+      INSERT INTO obras (
+        titulo,
+        id_artista,
+        id_categoria,
+        id_tecnica,
+        anio_creacion,
+        dimensiones,
+        precio,
+        descripcion,
+        historia,
+        url_imagen_principal,
+        codigo_qr,
+        disponible,
+        destacado
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, TRUE, FALSE)
+    `;
+    
+    // Parámetros directos
+    const params = [
+      obra.titulo || '',                              // titulo
+      obra.id_artista || 0,                           // id_artista
+      obra.id_categoria || 0,                         // id_categoria
+      obra.id_tecnica || 0,                           // id_tecnica
+      obra.anio_creacion === undefined ? null : obra.anio_creacion,  // anio_creacion
+      obra.dimensiones || null,                       // dimensiones
+      obra.precio || 0,                               // precio
+      obra.descripcion || '',                         // descripcion
+      obra.historia || null,                          // historia
+      obra.url_imagen_principal || '',                // url_imagen_principal
+      codigoQR                                        // codigo_qr
+    ];
+    
+    logger.info('Ejecutando query directa con parámetros:', params);
+    
+    // Ejecutar la consulta
+    const result = await db.query<any>(query, params);
+    
+    // Obtener el ID de la obra insertada
+    const obraId = (result as any).insertId;
     
     // Obtener la obra completa
-    const query = `
-      SELECT * FROM obras WHERE id = ?
-    `;
-    const obras = await db.query<Obra[]>(query, [obraId]);
+    const selectQuery = `SELECT * FROM obras WHERE id = ?`;
+    const obras = await db.query<Obra[]>(selectQuery, [obraId]);
     
     if (obras.length === 0) {
       throw new Error('Error al recuperar la obra creada');
@@ -238,7 +268,10 @@ export const crearObra = async (obra: Partial<Obra>): Promise<Obra> => {
     
     return obras[0];
   } catch (error) {
-    logger.error('Error al crear obra:', error);
+    logger.error('Error al crear obra (detallado):', error);
+    if (error instanceof Error) {
+      logger.error('Stack trace:', error.stack);
+    }
     throw error;
   }
 };
