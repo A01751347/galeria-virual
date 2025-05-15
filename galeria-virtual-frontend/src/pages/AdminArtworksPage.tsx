@@ -229,14 +229,18 @@ const AdminArtworksPage: React.FC = () => {
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="flex items-center">
                         <div className="w-10 h-10 rounded overflow-hidden mr-3">
-                          <img
-                            src={artwork.main_image_url}
-                            alt={artwork.title}
-                            className="w-full h-full object-cover"
-                            // onError={(e) => {
-                            //   (e.target as HTMLImageElement).src = 'https://via.placeholder.com/40';
-                            // }}
-                          />
+                          <div className="w-10 h-10 rounded overflow-hidden mr-3 bg-gray-200 flex items-center justify-center">
+  <img
+    src={artwork.main_image_url}
+    alt={artwork.title}
+    className="w-full h-full object-cover"
+    onError={(e) => {
+      const target = e.target as HTMLImageElement;
+      target.style.display = 'none'; // Oculta la imagen si falla
+    }}
+  />
+</div>
+
                         </div>
                         <div>
                           <div className="font-medium text-gray-900">{artwork.title}</div>

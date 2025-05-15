@@ -223,13 +223,15 @@ const DashboardAdmin: React.FC = () => {
                   <div key={artwork.id} className="flex items-center">
                     <div className="w-12 h-12 bg-neutral-light rounded overflow-hidden mr-4">
                       <img
-                        src={artwork.main_image_url}
-                        alt={artwork.title}
-                        className="w-full h-full object-cover"
-                        onError={(e) => {
-                          (e.target as HTMLImageElement).src = 'https://via.placeholder.com/48';
-                        }}
-                      />
+    src={artwork.main_image_url}
+    alt={artwork.title}
+    className="w-full h-full object-cover"
+    onError={(e) => {
+      const target = e.target as HTMLImageElement;
+      target.style.display = 'none'; // Oculta la imagen si falla
+    }}
+  />
+                      
                     </div>
                     <div className="flex-1">
                       <h4 className="font-medium">{artwork.title}</h4>

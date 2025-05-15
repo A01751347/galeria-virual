@@ -501,3 +501,7 @@
 2025-05-14 23:12:44 info: Servidor escuchando en el puerto 3000
 2025-05-14 23:12:44 info: Ambiente: development
 2025-05-14 23:12:44 info: URL del servidor: http://localhost:3000
+2025-05-14 23:21:14 info: Conexión a la base de datos establecida correctamente
+2025-05-14 23:21:14 info: Servidor escuchando en el puerto 3000
+2025-05-14 23:21:14 info: Ambiente: development
+2025-05-14 23:21:14 info: URL del servidor: http://localhost:3000

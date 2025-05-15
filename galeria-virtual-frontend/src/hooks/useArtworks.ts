@@ -5,22 +5,19 @@ import { useEffect } from 'react';
 
 // Hook para obtener todas las obras con filtros opcionales
 export function useArtworks(filters?: ArtworkFilters): ArtworkQuery {
-  // Usar objetos directamente como dependencias para los query keys
+  // React Query ya detecta cambios en 'filters' y hace refetch automáticamente
   const { data, isLoading, error, refetch } = useQuery(
-    ['artworks', filters], // React Query detectará cambios en el objeto filters
+    ['artworks', filters], 
     () => artworkService.getArtworks(filters),
     {
       keepPreviousData: true,
       staleTime: 1000 * 60 * 5, // 5 minutos
-      retry: 2,
+      retry: 1, // Reducir a 1 intento para evitar demasiadas solicitudes fallidas
       refetchOnWindowFocus: false,
     }
   );
   
-  useEffect(() => {
-    // Forzar refetch cuando cambien los filtros
-    refetch();
-  }, [filters, refetch]);
+  // Elimina el useEffect que estaba causando el bucle de llamadas
   
   return { data, isLoading, error, refetch };
 }

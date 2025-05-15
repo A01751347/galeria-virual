@@ -56,32 +56,36 @@ const getRealisticArtworkImages = () => {
 
 const artworkService = {
   // Obtener todas las obras con filtros opcionales
-  getArtworks: async (filters?: ArtworkFilters): Promise<Artwork[]> => {
-    try {
-      // Adaptar filtros al formato de la API
-      const apiParams = adaptFiltersToAPI(filters);
-      
-      // Eliminar valores undefined para evitar parámetros vacíos
-      const cleanParams = Object.fromEntries(
-        Object.entries(apiParams).filter(([_, v]) => v !== undefined)
-      );
-      
-      // Log para depuración
+getArtworks: async (filters?: ArtworkFilters): Promise<Artwork[]> => {
+  try {
+    // Adaptar filtros al formato de la API
+    const apiParams = adaptFiltersToAPI(filters);
+    
+    // Eliminar valores undefined para evitar parámetros vacíos
+    const cleanParams = Object.fromEntries(
+      Object.entries(apiParams).filter(([_, v]) => v !== undefined)
+    );
+    
+    // Log una sola vez, no imprimir esto en producción
+    if (process.env.NODE_ENV === 'development') {
       console.log('Enviando solicitud con parámetros:', cleanParams);
-      
-      const response = await api.get('/obras', { params: cleanParams });
-      
-      if (!response.data || !response.data.data) {
-        console.error('Respuesta inesperada de la API:', response);
-        return [];
-      }
-      
-      return response.data.data.map(adaptArtwork);
-    } catch (error) {
-      console.error('Error al obtener obras:', error);
-      throw error;
     }
-  },
+    
+    const response = await api.get('/obras', { params: cleanParams });
+    
+    if (!response.data || !response.data.data) {
+      console.error('Respuesta inesperada de la API:', response);
+      return [];
+    }
+    
+    return response.data.data.map(adaptArtwork);
+  } catch (error) {
+    // Capturar el error pero no lanzarlo - solo log
+    console.error('Error al obtener obras:', error);
+    // Devolver array vacío en vez de lanzar error para evitar más llamadas de retry
+    return [];
+  }
+},
 
   // Obtener obras destacadas
   getFeaturedArtworks: async (): Promise<Artwork[]> => {
